@@ -9,7 +9,8 @@ const HITCHCOCK_NEAR_DISTANCE : Double = 3.4
 const HITCHCOCK_FAR_DISTANCE : Double = 8.0
 const HITCHCOCK_BASE_FOCAL_MM : Double = 18.0
 const EXPOSURE_FRAME_DT : Double = 1.0 / 30.0
-const EXPOSURE_SHUTTER_DENOMINATOR : Double = 6.0
+const EXPOSURE_SHUTTER_DENOMINATOR : Double = 30.0
+const EXPOSURE_ACCUMULATION_SAMPLES : Int = 5
 
 fn has_arg(args : Array[String], name : String) -> Bool {
   args.iter().any(fn(arg) { arg == name })
@@ -232,9 +233,14 @@ fn exposure_mesh_frame(
   )
   let current = mesh_luma(mesh, angle_x, angle_y, angle_z)
   let accumulated = @frontend.LumaBuffer::new(@tui.DEFAULT_WIDTH, @tui.DEFAULT_HEIGHT)
-  let weight = 1.0 / exposure.samples.to_double()
-  for i in 0..<exposure.samples {
-    let steps_back = exposure.samples - 1 - i
+  let sample_count = if exposure.samples > EXPOSURE_ACCUMULATION_SAMPLES {
+    exposure.samples
+  } else {
+    EXPOSURE_ACCUMULATION_SAMPLES
+  }
+  let weight = 1.0 / sample_count.to_double()
+  for i in 0..<sample_count {
+    let steps_back = sample_count - 1 - i
     let sample = mesh_luma(
       mesh,
       angle_x - ANGLE_STEP_X * steps_back.to_double(),
@@ -256,9 +262,14 @@ fn exposure_hitchcock_frame(frame : Int, use_flow : Bool) -> String {
   )
   let current = hitchcock_luma(frame)
   let accumulated = @frontend.LumaBuffer::new(@tui.DEFAULT_WIDTH, @tui.DEFAULT_HEIGHT)
-  let weight = 1.0 / exposure.samples.to_double()
-  for i in 0..<exposure.samples {
-    let steps_back = exposure.samples - 1 - i
+  let sample_count = if exposure.samples > EXPOSURE_ACCUMULATION_SAMPLES {
+    exposure.samples
+  } else {
+    EXPOSURE_ACCUMULATION_SAMPLES
+  }
+  let weight = 1.0 / sample_count.to_double()
+  for i in 0..<sample_count {
+    let steps_back = sample_count - 1 - i
     let sample_frame = if frame < steps_back { 0 } else { frame - steps_back }
     add_exposure_sample(accumulated, hitchcock_luma(sample_frame), current, weight, use_flow)
   }

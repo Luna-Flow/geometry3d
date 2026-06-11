@@ -35,11 +35,12 @@ test "render view can be built from scientific camera" {
   assert_true(render_view.projection.scale > 20.0)
 }
 
-test "exposure settings derive sample count from shutter" {
+test "exposure settings clamp shutter to frame duration" {
   let shutter = ShutterSpeed::reciprocal(30.0)
   let exposure = ExposureSettings::auto(shutter, 1.0 / 60.0)
   assert_true((shutter.seconds - 1.0 / 30.0).abs() < @core.DEPTH_EPSILON)
-  assert_eq(exposure.samples, 2)
+  assert_true((exposure.shutter.seconds - exposure.frame_dt).abs() < @core.DEPTH_EPSILON)
+  assert_eq(exposure.samples, 1)
 }
 
 test "draw list converts to luma buffer" {
