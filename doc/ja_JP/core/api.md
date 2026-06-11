@@ -29,7 +29,7 @@ struct Transform3 { matrix : @la.Matrix[Double] }
 
 ## Transform
 
-- `rotation_x/y/z(angle)`: 3x3 rotation matrix。
+- `rotation_x/y/z(angle)`: 4x4 rotation matrix。
 - `rotation_matrix(angle_x, angle_y, angle_z)`: `Z * Y * X` の合成。
 - `Transform3::rotation(...)`: rotation transform。
 - `Transform3::apply_vertex(vertex)`: matrix-vector multiplication。

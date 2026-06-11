@@ -1,6 +1,6 @@
 # 文档规范
 
-本文档应描述**当前分支真实存在的实现**。当前基线是 **v0.1.0**。
+本文档应描述**当前分支真实存在的实现**。当前基线是 **v0.2.0**。
 
 ## 文档类型
 
@@ -19,7 +19,15 @@ doc/
       api.md
       tutorial.md
       design.md
-    renderer/
+    view/
+      api.md
+      tutorial.md
+      design.md
+    frontend/
+      api.md
+      tutorial.md
+      design.md
+    backend-tui/
       api.md
       tutorial.md
       design.md
@@ -35,5 +43,5 @@ doc/
 - 不记录尚未实现的 engine 功能，例如 scene graph、material、texture、
   physics、BVH 或 asset loader。
 - geometry core 文档不得混入 terminal、ANSI、TUI 背景等细节。
-- terminal y-scale、背景 pattern、字符光栅化等内容只放在 `renderer` 或 `demo`。
+- terminal y-scale、背景 pattern、字符光栅化等内容只放在 `backend-tui` 或 `demo`。
 - 跨层行为变化时，同步更新 API、tutorial 和 design 文档。

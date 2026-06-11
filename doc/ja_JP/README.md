@@ -1,13 +1,12 @@
 # Luna-Flow/geometry3d
 
-このドキュメントは、現在のリポジトリ基準 **v0.1.0** を説明します。
+このドキュメントは、現在のリポジトリ基準 **v0.2.0** を説明します。
 
 ## リポジトリの位置づけ
 
-`geometry3d` は `Luna-Flow/linear-algebra` 上に構築された、小さな
-MoonBit 3D geometry layer と TUI renderer demo です。mesh、transform、
-projection、renderer の最小パイプラインを示すためのもので、完全な 3D
-engine ではありません。
+`geometry3d` は `Luna-Flow/linear-algebra` 上に構築された小さな MoonBit
+3D geometry foundation です。core geometry、camera/view、frontend draw-list、
+renderer backend を分離します。
 
 ## ドキュメント構成
 
@@ -17,12 +16,17 @@ engine ではありません。
 
 ## サブシステム概要
 
-- **`core`**: `Mesh`、quad face、vector helper、normal、visibility、transform。
-- **`renderer`**: TUI frame buffer、background pattern、Z-buffer、lighting、rasterization。
+- **`core`**: `Mesh`、quad face、vector helper、normal、visibility、4x4 TRS transform。
+- **`view`**: camera、`look_at`、viewport、perspective / orthographic projection。
+- **`frontend`**: `Scene`、`RenderView`、backend-neutral `DrawList`。
+- **`backend-tui`**: TUI frame buffer、background pattern、Z-buffer、terminal y-scale、rasterization。
 - **`demo`**: cube と sphere の terminal demo entry point。
 
 ## ドキュメント入口
 
 - API Reference: [core](./core/api.md)
-- API Reference: [renderer](./renderer/api.md)
+- API Reference: [view](./view/api.md)
+- API Reference: [frontend](./frontend/api.md)
+- API Reference: [backend-tui](./backend-tui/api.md)
 - API Reference: [demo](./demo/api.md)
+- Migration: [v0.1 to v0.2](./migration_v0_2.md)

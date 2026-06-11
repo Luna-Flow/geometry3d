@@ -39,8 +39,14 @@ struct Transform3 { matrix : @la.Matrix[Double] }
 
 ## Transform Helpers
 
-- `rotation_x(angle)`, `rotation_y(angle)`, `rotation_z(angle)`: 3x3 rotation matrices.
+- `Transform3::identity()`: identity 4x4 transform.
+- `Transform3::translation(x, y, z)`: point translation.
+- `Transform3::scale(x, y, z)`: non-uniform scale.
+- `rotation_x(angle)`, `rotation_y(angle)`, `rotation_z(angle)`: 4x4 rotation matrices.
 - `rotation_matrix(angle_x, angle_y, angle_z)`: combined `Z * Y * X` rotation.
-- `Transform3::rotation(angle_x, angle_y, angle_z)`: transform wrapper for rotation.
+- `Transform3::rotation(angle_x, angle_y, angle_z)`: 4x4 rotation transform.
+- `Transform3::compose(next)`: applies `self` then `next`.
+- `Transform3::apply_point(point)`: applies the full homogeneous transform.
+- `Transform3::apply_direction(direction)`: ignores translation by using `w = 0`.
 - `Transform3::apply_vertex(vertex)`: applies the transform matrix to one vertex.
 - `Transform3::apply_mesh(mesh)`: transforms vertices and preserves face topology.

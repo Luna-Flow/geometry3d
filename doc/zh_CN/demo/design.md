@@ -10,6 +10,7 @@
 
 - Cube：旋转，尺寸 `1.0`。
 - Sphere：静止，半径 `2.4`，`18` rings，`36` segments。
+- Hitchcock：中心 cube，加背景圆柱、圆锥、三棱锥及其旋转变体。
 - Renderer：`80x32`，dotted background，projection scale `24.0`，terminal y-scale `0.5`。
 
 ## 非目标

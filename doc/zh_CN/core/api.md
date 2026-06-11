@@ -28,7 +28,7 @@ struct Transform3 { matrix : @la.Matrix[Double] }
 
 ## Transform
 
-- `rotation_x/y/z(angle)`：3x3 旋转矩阵。
+- `rotation_x/y/z(angle)`：4x4 旋转矩阵。
 - `rotation_matrix(angle_x, angle_y, angle_z)`：组合 `Z * Y * X`。
 - `Transform3::rotation(...)`：旋转 transform。
 - `Transform3::apply_vertex(vertex)`：矩阵乘向量。

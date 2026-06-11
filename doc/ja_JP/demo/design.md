@@ -10,6 +10,7 @@
 
 - Cube: rotating、size `1.0`。
 - Sphere: static、radius `2.4`、`18` rings、`36` segments。
+- Hitchcock: central cube と background cylinder、cone、triangular pyramid、その回転変体。
 - Renderer: `80x32`、dotted background、projection scale `24.0`、terminal y-scale `0.5`。
 
 ## Non-Goals

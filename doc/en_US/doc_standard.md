@@ -1,7 +1,7 @@
 # Documentation Standard
 
 This repository's documentation should describe the **current implementation on
-the branch**. The active baseline is **v0.1.0**.
+the branch**. The active baseline is **v0.2.0**.
 
 ## Document Types
 
@@ -20,7 +20,15 @@ doc/
       api.md
       tutorial.md
       design.md
-    renderer/
+    view/
+      api.md
+      tutorial.md
+      design.md
+    frontend/
+      api.md
+      tutorial.md
+      design.md
+    backend-tui/
       api.md
       tutorial.md
       design.md
@@ -37,5 +45,5 @@ doc/
   textures, physics, BVH, or asset loaders unless they are implemented.
 - Keep geometry core documentation free of terminal, ANSI, and TUI concerns.
 - Document renderer details, including terminal y-scale correction and background
-  patterns, only under `renderer` or `demo`.
+  patterns, only under `backend-tui` or `demo`.
 - Update API, tutorial, and design pages together when behavior crosses subsystem boundaries.

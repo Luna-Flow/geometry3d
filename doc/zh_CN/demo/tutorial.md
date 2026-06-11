@@ -3,7 +3,7 @@
 ## 旋转 Cube
 
 ```sh
-moon run . --target native
+moon run src/demo --target native
 ```
 
 默认 demo 渲染旋转 cube，包含 dotted background、Z-buffer、backface culling、
@@ -12,16 +12,26 @@ flat lighting 和 terminal y-scale correction。
 ## 静止 Sphere
 
 ```sh
-moon run . --target native -- --sphere
+moon run src/demo --target native -- --sphere
 ```
 
 sphere demo 使用较高细分的 UV sphere，并保持静止，方便观察字符明暗变化。
 
+## Hitchcock Zoom 场景
+
+```sh
+moon run src/demo --target native -- --hitchcock
+```
+
+该场景让中心 cube 在视觉上保持稳定，同时联动 camera distance 和 projection scale。
+圆柱、圆锥、三棱锥及其旋转变体位于 cube 后方，用来凸显 dolly zoom 的空间压缩效果。
+
 ## Smoke Test
 
 ```sh
-moon run . --target native -- --once
-moon run . --target native -- --sphere --once
+moon run src/demo --target native -- --once
+moon run src/demo --target native -- --sphere --once
+moon run src/demo --target native -- --hitchcock --once
 ```
 
 脚本化验证时使用 `--once`，避免进入无限动画循环。
