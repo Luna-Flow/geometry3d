@@ -1,4 +1,4 @@
-name = "kcndev/geometry3d"
+name = "KCN-judu/geometry3d"
 
 version = "0.1.0"
 

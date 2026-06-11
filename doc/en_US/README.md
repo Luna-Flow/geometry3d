@@ -1,4 +1,4 @@
-# kcndev/geometry3d
+# KCN-judu/geometry3d
 
 This documentation tracks the current repository baseline for **v0.1.0**.
 
