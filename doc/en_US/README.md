@@ -1,6 +1,6 @@
 # Luna-Flow/geometry3d
 
-This documentation tracks the current repository baseline for **v0.2.0**.
+This documentation tracks the current repository baseline for **v0.3.0**.
 
 ## Repository Positioning
 
