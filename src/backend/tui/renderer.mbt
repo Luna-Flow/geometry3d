@@ -21,6 +21,16 @@ pub fn TuiRenderConfig::default() -> TuiRenderConfig {
   }
 }
 
+pub fn TuiRenderConfig::sized(width : Int, height : Int) -> TuiRenderConfig {
+  {
+    width: if width > 0 { width } else { DEFAULT_WIDTH },
+    height: if height > 0 { height } else { DEFAULT_HEIGHT },
+    terminal_y_scale: DEFAULT_TERMINAL_Y_SCALE,
+    shade_ramp: DEFAULT_SHADE_RAMP,
+    background_pattern: dotted_background,
+  }
+}
+
 pub fn render_draw_list(
   draw_list : @frontend.DrawList,
   config : TuiRenderConfig,

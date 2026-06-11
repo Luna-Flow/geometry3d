@@ -24,7 +24,8 @@ The frontend package turns geometry and view state into backend-neutral draw com
 - `Scene::add_object(object)`.
 - `RenderView::perspective(camera, projection)`.
 - `RenderView::scientific(camera, viewport)`.
-- `build_draw_list(scene, render_view)`.
+- `build_draw_list(scene, render_view)`: transforms and culls geometry, builds a
+  directional-light shadow map, and emits lit projected triangles.
 - `ShutterSpeed::seconds(seconds)` / `ShutterSpeed::reciprocal(denominator)`.
 - `ExposureSettings::auto(shutter, frame_dt)`.
 - `draw_list_to_luma(draw_list, width, height)`.

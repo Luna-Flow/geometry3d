@@ -41,6 +41,23 @@ test "z buffer prefers nearer triangle" {
   assert_true(buffer.depths[index] < 5.0)
 }
 
+test "z buffer uses perspective correct depth for sloped triangle" {
+  let buffer = FrameBuffer::new(10, 10, blank_background)
+  let front_a = @view.ProjectedVertex::new(1.0, 1.0, 4.0)
+  let front_b = @view.ProjectedVertex::new(7.0, 1.0, 4.0)
+  let front_c = @view.ProjectedVertex::new(4.0, 7.0, 4.0)
+  let sloped_a = @view.ProjectedVertex::new(1.0, 1.0, 1.0)
+  let sloped_b = @view.ProjectedVertex::new(7.0, 1.0, 10.0)
+  let sloped_c = @view.ProjectedVertex::new(4.0, 7.0, 10.0)
+
+  draw_triangle_z(buffer, front_a, front_b, front_c, '.')
+  draw_triangle_z(buffer, sloped_a, sloped_b, sloped_c, '#')
+
+  let index = buffer.index(4, 3)
+  assert_eq(buffer.cells[index], '#')
+  assert_true(buffer.depths[index] < 4.0)
+}
+
 test "render draw list produces foreground pixels" {
   let draw_list = @frontend.DrawList::new()
   draw_list.push_triangle(@frontend.DrawTriangle::new(

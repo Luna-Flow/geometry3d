@@ -10,8 +10,10 @@
 
 - Cube: rotating, radius/half-size `1.0`.
 - Sphere: static, radius `2.4`, `18` rings, `36` segments.
+- Torus: rotating, major radius `2.1`, minor radius `0.72`, outward face winding.
 - Hitchcock: central cube plus background cylinder, cone, triangular pyramid, and rotated variants.
-- Renderer: `80x32`, dotted background, projection scale `24.0`, terminal y-scale `0.5`.
+- Renderer: terminal-derived viewport with `80x32` fallback, dotted background,
+  scientific-camera projection, and terminal y-scale `0.5`.
 
 ## Non-Goals
 

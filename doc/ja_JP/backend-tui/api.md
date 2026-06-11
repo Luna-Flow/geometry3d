@@ -13,6 +13,7 @@ TUI backend は `@frontend.DrawList` を消費し、character frame を出力し
 ## API
 
 - `FrameBuffer::new`
+- `TuiRenderConfig::sized(width, height)`: explicit viewport size と default TUI styling。
 - `FrameBuffer::set_pixel_if_closer`
 - `apply_terminal_y_scale`
 - `draw_triangle_z`

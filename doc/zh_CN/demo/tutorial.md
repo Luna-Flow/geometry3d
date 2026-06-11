@@ -17,6 +17,14 @@ moon run src/demo --target native -- --sphere
 
 sphere demo 使用较高细分的 UV sphere，并保持静止，方便观察字符明暗变化。
 
+## 旋转 Torus
+
+```sh
+just torus
+```
+
+torus 的面绕序朝外，因此背面剔除会显示外表面而不是内壁。`just` 会自动传入检测到的终端尺寸。
+
 ## Hitchcock Zoom 场景
 
 ```sh
@@ -35,3 +43,5 @@ moon run src/demo --target native -- --hitchcock --once
 ```
 
 脚本化验证时使用 `--once`，避免进入无限动画循环。
+
+使用 `just record`、`just export-image` 和 `just show-image` 执行默认序列与静态图流程，产物写入已忽略的 `target/`。

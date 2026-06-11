@@ -9,3 +9,4 @@ let projected = projection.project_point(camera_point)
 ```
 
 需要不随 depth 缩放时，使用 `OrthographicProjection`。
+rasterizer 应将 triangle 的重心权重传给 `interpolate_perspective_depth`，而不是线性插值透视深度。

@@ -13,3 +13,5 @@ let projected = projection.project_point(camera_point)
 ```
 
 Use `OrthographicProjection` when depth should not affect projected size.
+Rasterizers should pass triangle barycentric weights to
+`interpolate_perspective_depth` instead of linearly interpolating perspective depth.

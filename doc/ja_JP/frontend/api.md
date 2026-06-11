@@ -24,7 +24,7 @@ frontend package は geometry と view state を backend-neutral draw commands �
 - `Scene::add_object`
 - `RenderView::perspective`
 - `RenderView::scientific`
-- `build_draw_list`
+- `build_draw_list`: transform、culling、directional-light shadow map、triangle lighting を実行します。
 - `ShutterSpeed::seconds` / `ShutterSpeed::reciprocal`
 - `ExposureSettings::auto`
 - `draw_list_to_luma`

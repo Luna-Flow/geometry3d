@@ -18,6 +18,28 @@ pub fn ProjectedVertex::new(x : Double, y : Double, depth : Double) -> Projected
   { x, y, depth }
 }
 
+pub fn interpolate_perspective_depth(
+  p0 : ProjectedVertex,
+  p1 : ProjectedVertex,
+  p2 : ProjectedVertex,
+  b0 : Double,
+  b1 : Double,
+  b2 : Double,
+) -> Double {
+  if p0.depth <= @core.DEPTH_EPSILON ||
+    p1.depth <= @core.DEPTH_EPSILON ||
+    p2.depth <= @core.DEPTH_EPSILON {
+    b0 * p0.depth + b1 * p1.depth + b2 * p2.depth
+  } else {
+    let inv_depth = b0 / p0.depth + b1 / p1.depth + b2 / p2.depth
+    if inv_depth.abs() <= @core.DEPTH_EPSILON {
+      b0 * p0.depth + b1 * p1.depth + b2 * p2.depth
+    } else {
+      1.0 / inv_depth
+    }
+  }
+}
+
 pub fn PerspectiveProjection::new(
   viewport : Viewport,
   scale : Double,

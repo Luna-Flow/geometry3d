@@ -12,11 +12,11 @@
 DrawList
   -> terminal y-scale adjustment
   -> shade ramp
-  -> triangle rasterization
+  -> triangle rasterization with perspective-correct depth
   -> FrameBuffer
   -> String
 ```
 
 ## Limitations
 
-No clipping, textures, smooth normals, anti-aliasing, or perspective-correct interpolation.
+No clipping, textures, smooth normals, or anti-aliasing.

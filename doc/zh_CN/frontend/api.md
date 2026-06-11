@@ -24,7 +24,7 @@ frontend package 将 geometry 和 view 状态转换为 backend-neutral draw comm
 - `Scene::add_object`
 - `RenderView::perspective`
 - `RenderView::scientific`
-- `build_draw_list`
+- `build_draw_list`：执行 transform、culling、方向光 shadow map 和 triangle lighting。
 - `ShutterSpeed::seconds` / `ShutterSpeed::reciprocal`
 - `ExposureSettings::auto`
 - `draw_list_to_luma`

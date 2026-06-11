@@ -1,5 +1,7 @@
 import {
+  "Luna-Flow/arithmetic" @arith,
   "Luna-Flow/geometry3d/core" @core,
   "Luna-Flow/geometry3d/view" @view,
+  "Luna-Flow/luna-generic" @lg,
   "Luna-Flow/linear-algebra/mutable" @la,
 }

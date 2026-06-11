@@ -29,3 +29,4 @@ view package 负责 camera 和 projection 数学，不处理终端 y-scale。
 - `ScientificCamera::to_perspective_projection`
 - `PerspectiveProjection::project_point`
 - `OrthographicProjection::project_point`
+- `interpolate_perspective_depth`：基于重心权重执行倒数深度插值，并在无效深度时安全回退到线性插值。

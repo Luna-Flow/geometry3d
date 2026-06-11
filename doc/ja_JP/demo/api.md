@@ -4,7 +4,7 @@ demo は package entry point と terminal runner です。
 
 ## Functions
 
-- `demo_mesh(args)`: `--sphere` があれば sphere、なければ cube を返します。
+- `demo_mesh(args)`: args から sphere、torus、cube を選択します。
 - `demo_should_rotate(args)`: cube は default で回転し、sphere は default で静止します。
 - `hitchcock_scene()`: central cube と background cylinder、cone、triangular pyramid geometry。
 - `hitchcock_render_view(frame)`: camera dolly と scientific focal-length compensation。
@@ -16,8 +16,8 @@ demo は package entry point と terminal runner です。
 - `render_demo_sequence(args, timeline)`: playable TUI sequence を offline render します。
 - `play_sequence(sequence, frame_limit)`: sequence fps に従って character frames を再生します。
 - `render_once(mesh, angle_x, angle_y, angle_z)`: terminal を clear して 1 frame を出力します。
-- `run_animation(mesh, rotate, frame_limit, exposure, use_flow)`: frame loop を実行します。
-- `main`: `--sphere`、`--hitchcock`、`--camera-auto`、`--long-exposure`、`--flow-exposure`、`--export-image`、`--show-image`、`--record`、`--play`、`--duration`、`--fps`、`--once` を処理します。
+- `run_animation(mesh, rotate, frame_limit, exposure, use_flow, render_view)`: frame loop を実行します。
+- `main`: `--sphere`、`--torus`、`--hitchcock`、`--camera-auto`、`--long-exposure`、`--flow-exposure`、`--export-image`、`--show-image`、`--record`、`--play`、`--duration`、`--fps`、`--once` を処理します。
 
 ## CLI
 
@@ -26,6 +26,7 @@ moon run src/demo --target native
 moon run src/demo --target native -- --once
 moon run src/demo --target native -- --sphere
 moon run src/demo --target native -- --sphere --once
+moon run src/demo --target native -- --torus
 moon run src/demo --target native -- --hitchcock
 moon run src/demo --target native -- --hitchcock --once
 moon run src/demo --target native -- --camera-auto --once

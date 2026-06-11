@@ -28,6 +28,12 @@ test "flow exposure mesh frame renders foreground characters" {
   assert_true(foreground > 0)
 }
 
+test "torus frame renders foreground characters" {
+  let frame = mesh_frame(@core.torus_mesh(2.1, 0.72, 28, 16), 0.2, 0.3, 0.0)
+  let foreground = frame.iter().filter(fn(ch) { ch != '.' && ch != '\n' }).count()
+  assert_true(foreground > 0)
+}
+
 test "long exposure mesh frame differs from normal dynamic frame" {
   let mesh = @core.cube_mesh(1.0)
   let normal = mesh_frame(mesh, 0.2, 0.3, 0.0)

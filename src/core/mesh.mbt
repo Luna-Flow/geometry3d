@@ -173,6 +173,51 @@ pub fn triangular_pyramid_mesh(radius : Double, height : Double) -> Mesh {
   }
 }
 
+fn torus_vertex_index(major_segment : Int, minor_segment : Int, minor_segments : Int) -> Int {
+  major_segment * minor_segments + minor_segment
+}
+
+pub fn torus_mesh(
+  major_radius : Double,
+  minor_radius : Double,
+  major_segments : Int,
+  minor_segments : Int,
+) -> Mesh {
+  let safe_major_radius = if major_radius <= 0.0 { 1.0 } else { major_radius }
+  let safe_minor_radius = if minor_radius <= 0.0 { 0.25 } else { minor_radius }
+  let safe_major_segments = if major_segments < 3 { 3 } else { major_segments }
+  let safe_minor_segments = if minor_segments < 3 { 3 } else { minor_segments }
+  let vertices : Array[@la.Vector[Double]] = []
+  let faces : Array[QuadFace] = []
+
+  for major in 0..<safe_major_segments {
+    let u = 2.0 * @math.PI * major.to_double() / safe_major_segments.to_double()
+    let cos_u = @math.cos(u)
+    let sin_u = @math.sin(u)
+    for minor in 0..<safe_minor_segments {
+      let v = 2.0 * @math.PI * minor.to_double() / safe_minor_segments.to_double()
+      let ring = safe_major_radius + safe_minor_radius * @math.cos(v)
+      let y = safe_minor_radius * @math.sin(v)
+      vertices.push(vec3(ring * cos_u, y, ring * sin_u))
+    }
+  }
+
+  for major in 0..<safe_major_segments {
+    let next_major = (major + 1) % safe_major_segments
+    for minor in 0..<safe_minor_segments {
+      let next_minor = (minor + 1) % safe_minor_segments
+      faces.push({
+        a: torus_vertex_index(major, minor, safe_minor_segments),
+        b: torus_vertex_index(major, next_minor, safe_minor_segments),
+        c: torus_vertex_index(next_major, next_minor, safe_minor_segments),
+        d: torus_vertex_index(next_major, minor, safe_minor_segments),
+      })
+    }
+  }
+
+  { vertices, faces }
+}
+
 pub fn face_vertices(mesh : Mesh, face : QuadFace) -> Array[@la.Vector[Double]] {
   [
     mesh.vertices[face.a],

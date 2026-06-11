@@ -23,12 +23,14 @@ Luna-Flow/linear-algebra
 - `Luna-Flow/geometry3d/core`: meshes, quad faces, vector helpers, face normals,
   backface visibility, and 4x4 TRS transforms.
 - `Luna-Flow/geometry3d/view`: camera, scientific sensor/lens model, viewport,
-  perspective and orthographic projection.
+  perspective and orthographic projection, plus perspective-correct depth interpolation.
 - `Luna-Flow/geometry3d/frontend`: `Scene`, `RenderView`, and backend-neutral
-  `DrawList`, `LumaBuffer`, exposure settings, and demo-grade optical flow.
+  `DrawList`, directional-light shadow mapping, `LumaBuffer`, exposure settings,
+  and demo-grade optical flow.
 - `Luna-Flow/geometry3d/backend/tui`: character frame buffer, Z-buffer, shade
-  ramp, background patterns, terminal y-axis correction, and triangle rasterization.
-- `Luna-Flow/geometry3d/demo`: ANSI terminal showcase for cube and sphere scenes.
+  ramp, background patterns, terminal y-axis correction, and perspective-correct
+  triangle rasterization.
+- `Luna-Flow/geometry3d/demo`: ANSI terminal showcase for cube, torus, and Hitchcock scenes.
 
 The core and frontend packages do not know about terminal characters, ANSI
 output, backgrounds, or terminal aspect ratio correction.
@@ -66,41 +68,34 @@ provided for tests or alternate renderers.
 ## Run
 
 ```sh
-moon run src/demo --target native
+just torus
 ```
 
-The demo renders an animated 80x32 rotating cube with dotted background,
-Z-buffering, backface culling, simple face lighting, and terminal y-scale
-correction.
-
-To render a higher-subdivision static sphere demo instead:
-
-```sh
-moon run src/demo --target native -- --sphere
-```
+The default `just` entry points auto-detect terminal dimensions with `stty`
+and `tput`, then pass `LINES` and `COLUMNS` to the demo runner. `just torus`
+renders a rotating torus with dotted background, Z-buffering, backface culling,
+directional lighting and shadows, and terminal y-scale correction.
 
 To render a multi-object Hitchcock/dolly zoom scene:
 
 ```sh
-moon run src/demo --target native -- --hitchcock
+just hitchcock
 ```
 
 The default and Hitchcock demos now derive perspective scale from
-`ScientificCamera` sensor/lens parameters. Long-exposure smoke demos are also
-available:
+`ScientificCamera` sensor/lens parameters.
+
+You can still invoke the raw demo entry directly when needed:
 
 ```sh
-moon run src/demo --target native -- --camera-auto --once
-moon run src/demo --target native -- --long-exposure --once
-moon run src/demo --target native -- --hitchcock --flow-exposure --once
+moon run src/demo --target native -- --torus
+moon run src/demo --target native -- --hitchcock
 ```
 
 To record a playable TUI sequence and play it back:
 
 ```sh
-mkdir -p target
-moon run src/demo --target native -- --record target/demo.tui3d --duration 3 --fps 30
-moon run src/demo --target native -- --play target/demo.tui3d
+just record
 ```
 
 The `.tui3d` sequence is a simple text format containing width, height, fps,
@@ -110,24 +105,12 @@ file IO and playback live only in the demo runner.
 To export a static TUI image and show it later:
 
 ```sh
-mkdir -p target
-moon run src/demo --target native -- --export-image target/demo.tuiimg
-moon run src/demo --target native -- --show-image target/demo.tuiimg
+just export-image
+just show-image
 ```
 
 The `.tuiimg` format is the single-frame counterpart to `.tui3d`: width, height,
 and one rendered character frame.
-
-For a one-frame smoke test:
-
-```sh
-moon run src/demo --target native -- --once
-moon run src/demo --target native -- --sphere --once
-moon run src/demo --target native -- --hitchcock --once
-moon run src/demo --target native -- --hitchcock --flow-exposure --once
-moon run src/demo --target native -- --play target/demo.tui3d --once
-moon run src/demo --target native -- --show-image target/demo.tuiimg
-```
 
 ## Test
 
@@ -141,7 +124,8 @@ backend-neutral draw lists, scientific camera scale/FOV, shutter sample counts,
 luma buffers, optical-flow accumulation, terminal y-scale, background patterns,
 timeline sampling, TUI sequence/image encode/decode, frame buffer
 initialization, Z-buffer behavior, and foreground rendering without relying on
-full character-art snapshots.
+full character-art snapshots. Torus tests also enforce outward face winding so
+backface culling cannot regress to displaying the inner wall.
 
 `run_test.sh` mirrors the publish workflow and runs the test suite across
 `wasm-gc`, `js`, `native`, and `wasm` targets.

@@ -3,7 +3,8 @@
 ## Responsibilities
 
 - Own scene-level composition without owning a concrete renderer.
-- Apply object transforms, camera transforms, projection, culling, and lighting.
+- Apply object transforms, camera transforms, projection, culling, directional
+  lighting, and scene-wide shadow visibility.
 - Emit compact projected triangle commands.
 
 ## Backend Boundary
@@ -13,4 +14,5 @@ for future SVG, Canvas, image, or diagnostic backends.
 
 ## Non-Goals
 
-No material system, scene graph hierarchy, textures, asset loading, physics, or BVH.
+The internal shadow map is fixed-resolution and face-sampled; there is no material
+system, scene graph hierarchy, textures, asset loading, physics, or BVH.

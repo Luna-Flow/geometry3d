@@ -2,6 +2,7 @@ import {
   "moonbitlang/core/env" @env,
   "moonbitlang/core/math" @math,
   "moonbitlang/x/fs" @fs,
+  "moonbitlang/x/sys" @sys,
   "Luna-Flow/geometry3d/core" @core,
   "Luna-Flow/geometry3d/view" @view,
   "Luna-Flow/geometry3d/frontend" @frontend,

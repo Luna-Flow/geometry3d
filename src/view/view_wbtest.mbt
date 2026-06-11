@@ -24,6 +24,19 @@ test "orthographic and perspective projections differ with depth" {
   assert_true((p.x - o.x).abs() > 1.0)
 }
 
+test "perspective depth interpolation differs from linear depth on sloped triangle" {
+  let p0 = ProjectedVertex::new(1.0, 1.0, 1.0)
+  let p1 = ProjectedVertex::new(7.0, 1.0, 10.0)
+  let p2 = ProjectedVertex::new(4.0, 7.0, 10.0)
+  let b0 = 0.20833333333333334
+  let b1 = 0.375
+  let b2 = 0.4166666666666667
+  let linear = b0 * p0.depth + b1 * p1.depth + b2 * p2.depth
+  let corrected = interpolate_perspective_depth(p0, p1, p2, b0, b1, b2)
+  assert_true(linear > 8.0)
+  assert_true(corrected < 4.0)
+}
+
 test "sensor presets and custom dimensions are positive" {
   let apsc = SensorSpec::apsc()
   let full = SensorSpec::full_frame()

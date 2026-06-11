@@ -20,7 +20,7 @@ frontend draw-list generation, and concrete renderer backends.
 - **`view`**: camera, `look_at`, viewport, perspective projection, and orthographic projection.
 - **`frontend`**: `Scene`, `RenderView`, and backend-neutral `DrawList`.
 - **`backend-tui`**: TUI frame buffer, background patterns, Z-buffer, terminal y-scale, and rasterization.
-- **`demo`**: terminal entry point for cube and sphere demos.
+- **`demo`**: terminal entry point for torus and Hitchcock demos, plus TUI export/playback helpers.
 
 ## Documentation Entry Points
 

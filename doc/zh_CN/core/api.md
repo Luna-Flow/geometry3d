@@ -15,6 +15,7 @@ struct Transform3 { matrix : @la.Matrix[Double] }
 
 - `cube_mesh(size)`：创建以原点为中心的 cube。
 - `sphere_mesh(radius, rings, segments)`：创建 quad 拓扑的低多边形 UV sphere，极点使用退化 quad。
+- `torus_mesh(major_radius, minor_radius, major_segments, minor_segments)`：创建面绕序朝外、可正确执行背面剔除的 torus。
 - `face_vertices(mesh, face)`：取出 face 引用的四个顶点。
 - `triangulate_quad(face)`：将 quad 拆成两个 triangle。
 
@@ -31,5 +32,6 @@ struct Transform3 { matrix : @la.Matrix[Double] }
 - `rotation_x/y/z(angle)`：4x4 旋转矩阵。
 - `rotation_matrix(angle_x, angle_y, angle_z)`：组合 `Z * Y * X`。
 - `Transform3::rotation(...)`：旋转 transform。
+- `Transform3::identity/translation/scale/compose`：恒等、平移、缩放和组合 transform。
 - `Transform3::apply_vertex(vertex)`：矩阵乘向量。
 - `Transform3::apply_mesh(mesh)`：变换顶点并保留 face 拓扑。

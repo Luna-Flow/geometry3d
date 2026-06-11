@@ -20,7 +20,7 @@ renderer backend を分離します。
 - **`view`**: camera、`look_at`、viewport、perspective / orthographic projection。
 - **`frontend`**: `Scene`、`RenderView`、backend-neutral `DrawList`。
 - **`backend-tui`**: TUI frame buffer、background pattern、Z-buffer、terminal y-scale、rasterization。
-- **`demo`**: cube と sphere の terminal demo entry point。
+- **`demo`**: torus と Hitchcock の terminal demo entry point、および TUI export/playback helper。
 
 ## ドキュメント入口
 

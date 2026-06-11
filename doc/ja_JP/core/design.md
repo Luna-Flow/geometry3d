@@ -11,15 +11,15 @@
 - core は `Char`、ANSI、terminal size、background pattern に依存しません。
 - mesh factory は原点中心の vertex set を返します。
 - quad face が現在の canonical topology で、triangulation は raster backend helper です。
+- closed primitive は outward vertex winding を使い、normal-based culling を正しく保ちます。
 
 ## Limitations
 
-- 現在は rotation transform のみです。
 - scene graph、material、texture、clipping、camera orientation、asset loading、physics、BVH はありません。
 - sphere cap は degenerate quad で表現し、quad pipeline を単純に保ちます。
 
 ## Extension Points
 
-- `Transform3` に translation/scaling を慎重に追加できます。
+- `Transform3` の拡張では point と direction の semantics を維持します。
 - `Mesh` topology contract を保ちながら mesh factory を追加できます。
 - core を変更せずに非 TUI backend を追加できます。

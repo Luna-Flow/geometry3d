@@ -29,3 +29,4 @@ view package は camera と projection math を扱います。terminal y-scale �
 - `ScientificCamera::to_perspective_projection`
 - `PerspectiveProjection::project_point`
 - `OrthographicProjection::project_point`
+- `interpolate_perspective_depth`: barycentric weights から reciprocal-depth interpolation を行い、無効 depth では linear fallback を使います。

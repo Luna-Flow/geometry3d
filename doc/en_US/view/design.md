@@ -4,6 +4,7 @@
 
 - Convert world-space points and directions into camera space.
 - Project camera-space points into viewport coordinates.
+- Provide backend-neutral perspective-correct depth interpolation.
 - Keep terminal and backend concerns outside the view package.
 
 ## Conventions

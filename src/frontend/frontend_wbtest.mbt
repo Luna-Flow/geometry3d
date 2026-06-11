@@ -58,6 +58,52 @@ test "draw list converts to luma buffer" {
   assert_true(lit > 0)
 }
 
+test "luma buffer uses perspective correct depth for sloped triangle" {
+  let buffer = LumaBuffer::new(10, 10)
+  buffer.draw_triangle(DrawTriangle::new(
+    @view.ProjectedVertex::new(1.0, 1.0, 4.0),
+    @view.ProjectedVertex::new(7.0, 1.0, 4.0),
+    @view.ProjectedVertex::new(4.0, 7.0, 4.0),
+    0.2,
+  ))
+  buffer.draw_triangle(DrawTriangle::new(
+    @view.ProjectedVertex::new(1.0, 1.0, 1.0),
+    @view.ProjectedVertex::new(7.0, 1.0, 10.0),
+    @view.ProjectedVertex::new(4.0, 7.0, 10.0),
+    0.9,
+  ))
+
+  assert_true(buffer.get(4, 3) > 0.8)
+  assert_true(buffer.depth_at(4, 3) < 4.0)
+}
+
+test "shadow map path keeps occluded scene renderable" {
+  let viewport = @view.Viewport::new(40, 20)
+  let camera = @view.Camera3::default(4.5)
+  let projection = @view.PerspectiveProjection::new(viewport, 18.0)
+  let render_view = RenderView::perspective(camera, projection)
+  let light = Light::directional(@core.vec3(0.0, 0.0, -1.0))
+  let receiver_transform = @core.Transform3::scale(2.0, 2.0, 0.05).compose(
+    @core.Transform3::translation(0.0, 0.0, 3.0),
+  )
+  let occluder_transform = @core.Transform3::scale(1.5, 1.5, 0.05).compose(
+    @core.Transform3::translation(0.0, 0.0, 2.0),
+  )
+
+  let receiver_scene = Scene::single(@core.cube_mesh(1.0), receiver_transform, light)
+  let receiver_only = build_draw_list(receiver_scene, render_view)
+  assert_true(receiver_only.triangles[0].intensity > 0.9)
+
+  let shadowed_scene = Scene::new(light)
+  shadowed_scene.add_object(SceneObject::new(@core.cube_mesh(1.0), receiver_transform))
+  shadowed_scene.add_object(SceneObject::new(@core.cube_mesh(1.0), occluder_transform))
+  let shadowed = build_draw_list(shadowed_scene, render_view)
+  let shadowed_buffer = draw_list_to_luma(shadowed, 40, 20)
+  let lit = shadowed_buffer.values.iter().filter(fn(value) { value > 0.0 }).count()
+  assert_true(shadowed.triangles.length() > receiver_only.triangles.length())
+  assert_true(lit > 0)
+}
+
 test "optical flow detects translated luma patch" {
   let previous = LumaBuffer::new(9, 9)
   let current = LumaBuffer::new(9, 9)

@@ -19,7 +19,7 @@ geometry 基础库。它分离 core geometry、camera/view、frontend draw-list 
 - **`view`**：camera、`look_at`、viewport、perspective 和 orthographic projection。
 - **`frontend`**：`Scene`、`RenderView`、backend-neutral `DrawList`。
 - **`backend-tui`**：TUI frame buffer、背景 pattern、Z-buffer、terminal y-scale、光栅化。
-- **`demo`**：cube 与 sphere 终端 demo 入口。
+- **`demo`**：torus 与 Hitchcock 终端 demo 入口，以及 TUI 导出/回放辅助命令。
 
 ## 文档入口
 

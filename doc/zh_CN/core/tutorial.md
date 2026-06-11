@@ -5,7 +5,10 @@
 ```moonbit
 let cube = cube_mesh(1.0)
 let sphere = sphere_mesh(2.4, 18, 36)
+let torus = torus_mesh(2.1, 0.72, 28, 16)
 ```
+
+`Transform3` 也支持 translation、非均匀 scale 和 compose。
 
 两者都使用 `@la.Vector[Double]` 顶点和 `QuadFace` 拓扑。
 

@@ -4,6 +4,7 @@
 
 - 将 world-space point/direction 转换到 camera space。
 - 将 camera-space point 投影到 viewport 坐标。
+- 提供 backend-neutral 的 perspective-correct depth interpolation。
 - 不包含 terminal、ANSI 或 backend 细节。
 
 ## 约定

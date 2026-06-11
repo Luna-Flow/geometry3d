@@ -4,13 +4,15 @@ const ANGLE_STEP_Y : Double = 0.035
 const ANGLE_STEP_Z : Double = 0.02
 const DEFAULT_CAMERA_DISTANCE : Double = 4.5
 const DEFAULT_FOCAL_LENGTH_MM : Double = 18.0
+const TORUS_CAMERA_DISTANCE : Double = 6.8
+const TORUS_FOCAL_LENGTH_MM : Double = 18.0
 const HITCHCOCK_BASE_DISTANCE : Double = 4.5
 const HITCHCOCK_NEAR_DISTANCE : Double = 3.4
 const HITCHCOCK_FAR_DISTANCE : Double = 8.0
 const HITCHCOCK_BASE_FOCAL_MM : Double = 18.0
 const EXPOSURE_FRAME_DT : Double = 1.0 / 30.0
 const EXPOSURE_SHUTTER_DENOMINATOR : Double = 30.0
-const EXPOSURE_ACCUMULATION_SAMPLES : Int = 5
+const EXPOSURE_ACCUMULATION_SAMPLES : Int = 12
 
 fn has_arg(args : Array[String], name : String) -> Bool {
   args.iter().any(fn(arg) { arg == name })
@@ -64,6 +66,27 @@ fn parse_positive_int(text : String, fallback : Int) -> Int {
   if seen_digit && value > 0 { value } else { fallback }
 }
 
+fn env_positive_int(envs : Map[String, String], key : String, fallback : Int) -> Int {
+  match envs.get(key) {
+    Some(value) => parse_positive_int(value, fallback)
+    None => fallback
+  }
+}
+
+fn auto_viewport() -> @view.Viewport {
+  let envs = @sys.get_env_vars()
+  let width = env_positive_int(envs, "COLUMNS", @tui.DEFAULT_WIDTH)
+  let raw_height = env_positive_int(envs, "LINES", @tui.DEFAULT_HEIGHT + 1)
+  // Leave one row for the shell prompt to avoid scroll churn.
+  let height = if raw_height > 1 { raw_height - 1 } else { @tui.DEFAULT_HEIGHT }
+  @view.Viewport::new(width, height)
+}
+
+fn auto_render_config() -> @tui.TuiRenderConfig {
+  let viewport = auto_viewport()
+  @tui.TuiRenderConfig::sized(viewport.width, viewport.height)
+}
+
 fn timeline_from_args(args : Array[String]) -> @frontend.Timeline {
   let duration = match arg_value(args, "--duration") {
     Some(value) => parse_positive_int(value, 3).to_double()
@@ -79,6 +102,8 @@ fn timeline_from_args(args : Array[String]) -> @frontend.Timeline {
 fn demo_mesh(args : Array[String]) -> @core.Mesh {
   if has_arg(args, "--sphere") {
     @core.sphere_mesh(2.4, 18, 36)
+  } else if has_arg(args, "--torus") {
+    @core.torus_mesh(2.1, 0.72, 28, 16)
   } else {
     @core.cube_mesh(1.0)
   }
@@ -88,16 +113,28 @@ fn demo_should_rotate(args : Array[String]) -> Bool {
   !has_arg(args, "--sphere")
 }
 
-fn demo_render_view() -> @frontend.RenderView {
-  let viewport = @view.Viewport::new(@tui.DEFAULT_WIDTH, @tui.DEFAULT_HEIGHT)
-  let camera = @view.Camera3::default(DEFAULT_CAMERA_DISTANCE)
+fn default_render_view(distance : Double, focal_length_mm : Double) -> @frontend.RenderView {
+  let viewport = auto_viewport()
+  let camera = @view.Camera3::default(distance)
   let scientific = @view.ScientificCamera::new(
     camera,
     @view.SensorSpec::full_frame(),
-    @view.LensSpec::new(DEFAULT_FOCAL_LENGTH_MM),
+    @view.LensSpec::new(focal_length_mm),
     @view.WorldUnit::unitless(),
   )
   @frontend.RenderView::scientific(scientific, viewport)
+}
+
+fn demo_render_view() -> @frontend.RenderView {
+  default_render_view(DEFAULT_CAMERA_DISTANCE, DEFAULT_FOCAL_LENGTH_MM)
+}
+
+fn torus_render_view() -> @frontend.RenderView {
+  default_render_view(TORUS_CAMERA_DISTANCE, TORUS_FOCAL_LENGTH_MM)
+}
+
+fn demo_render_view_for_args(args : Array[String]) -> @frontend.RenderView {
+  if has_arg(args, "--torus") { torus_render_view() } else { demo_render_view() }
 }
 
 fn scaled_translated(
@@ -126,7 +163,7 @@ fn hitchcock_focal_length_mm(distance : Double) -> Double {
 
 fn hitchcock_render_view(frame : Int) -> @frontend.RenderView {
   let distance = hitchcock_distance(frame)
-  let viewport = @view.Viewport::new(@tui.DEFAULT_WIDTH, @tui.DEFAULT_HEIGHT)
+  let viewport = auto_viewport()
   let camera = @view.Camera3::default(distance)
   let scientific = @view.ScientificCamera::new(
     camera,
@@ -182,27 +219,47 @@ fn hitchcock_scene() -> @frontend.Scene {
 }
 
 fn mesh_frame(mesh : @core.Mesh, angle_x : Double, angle_y : Double, angle_z : Double) -> String {
+  mesh_frame_with_view(mesh, angle_x, angle_y, angle_z, demo_render_view())
+}
+
+fn mesh_frame_with_view(
+  mesh : @core.Mesh,
+  angle_x : Double,
+  angle_y : Double,
+  angle_z : Double,
+  render_view : @frontend.RenderView,
+) -> String {
   let transform = @core.Transform3::rotation(angle_x, angle_y, angle_z)
   let scene = @frontend.Scene::single(mesh, transform, @frontend.Light::default())
-  let draw_list = @frontend.build_draw_list(scene, demo_render_view())
-  @tui.render_frame(draw_list, @tui.TuiRenderConfig::default())
+  let draw_list = @frontend.build_draw_list(scene, render_view)
+  @tui.render_frame(draw_list, auto_render_config())
 }
 
 fn mesh_luma(mesh : @core.Mesh, angle_x : Double, angle_y : Double, angle_z : Double) -> @frontend.LumaBuffer {
+  mesh_luma_with_view(mesh, angle_x, angle_y, angle_z, demo_render_view())
+}
+
+fn mesh_luma_with_view(
+  mesh : @core.Mesh,
+  angle_x : Double,
+  angle_y : Double,
+  angle_z : Double,
+  render_view : @frontend.RenderView,
+) -> @frontend.LumaBuffer {
   let transform = @core.Transform3::rotation(angle_x, angle_y, angle_z)
   let scene = @frontend.Scene::single(mesh, transform, @frontend.Light::default())
-  let draw_list = @frontend.build_draw_list(scene, demo_render_view())
-  @tui.draw_list_to_tui_luma(draw_list, @tui.TuiRenderConfig::default())
+  let draw_list = @frontend.build_draw_list(scene, render_view)
+  @tui.draw_list_to_tui_luma(draw_list, auto_render_config())
 }
 
 fn hitchcock_frame(frame : Int) -> String {
   let draw_list = @frontend.build_draw_list(hitchcock_scene(), hitchcock_render_view(frame))
-  @tui.render_frame(draw_list, @tui.TuiRenderConfig::default())
+  @tui.render_frame(draw_list, auto_render_config())
 }
 
 fn hitchcock_luma(frame : Int) -> @frontend.LumaBuffer {
   let draw_list = @frontend.build_draw_list(hitchcock_scene(), hitchcock_render_view(frame))
-  @tui.draw_list_to_tui_luma(draw_list, @tui.TuiRenderConfig::default())
+  @tui.draw_list_to_tui_luma(draw_list, auto_render_config())
 }
 
 fn add_exposure_sample(
@@ -227,12 +284,24 @@ fn exposure_mesh_frame(
   angle_z : Double,
   use_flow : Bool,
 ) -> String {
+  exposure_mesh_frame_with_view(mesh, angle_x, angle_y, angle_z, use_flow, demo_render_view())
+}
+
+fn exposure_mesh_frame_with_view(
+  mesh : @core.Mesh,
+  angle_x : Double,
+  angle_y : Double,
+  angle_z : Double,
+  use_flow : Bool,
+  render_view : @frontend.RenderView,
+) -> String {
+  let viewport = auto_viewport()
   let exposure = @frontend.ExposureSettings::auto(
     @frontend.ShutterSpeed::reciprocal(EXPOSURE_SHUTTER_DENOMINATOR),
     EXPOSURE_FRAME_DT,
   )
-  let current = mesh_luma(mesh, angle_x, angle_y, angle_z)
-  let accumulated = @frontend.LumaBuffer::new(@tui.DEFAULT_WIDTH, @tui.DEFAULT_HEIGHT)
+  let current = mesh_luma_with_view(mesh, angle_x, angle_y, angle_z, render_view)
+  let accumulated = @frontend.LumaBuffer::new(viewport.width, viewport.height)
   let sample_count = if exposure.samples > EXPOSURE_ACCUMULATION_SAMPLES {
     exposure.samples
   } else {
@@ -241,27 +310,29 @@ fn exposure_mesh_frame(
   let weight = 1.0 / sample_count.to_double()
   for i in 0..<sample_count {
     let steps_back = sample_count - 1 - i
-    let sample = mesh_luma(
+    let sample = mesh_luma_with_view(
       mesh,
       angle_x - ANGLE_STEP_X * steps_back.to_double(),
       angle_y - ANGLE_STEP_Y * steps_back.to_double(),
       angle_z - ANGLE_STEP_Z * steps_back.to_double(),
+      render_view,
     )
     add_exposure_sample(accumulated, sample, current, weight, use_flow)
   }
   @tui.render_luma_frame(
     accumulated,
-    @tui.TuiRenderConfig::default(),
+    auto_render_config(),
   )
 }
 
 fn exposure_hitchcock_frame(frame : Int, use_flow : Bool) -> String {
+  let viewport = auto_viewport()
   let exposure = @frontend.ExposureSettings::auto(
     @frontend.ShutterSpeed::reciprocal(EXPOSURE_SHUTTER_DENOMINATOR),
     EXPOSURE_FRAME_DT,
   )
   let current = hitchcock_luma(frame)
-  let accumulated = @frontend.LumaBuffer::new(@tui.DEFAULT_WIDTH, @tui.DEFAULT_HEIGHT)
+  let accumulated = @frontend.LumaBuffer::new(viewport.width, viewport.height)
   let sample_count = if exposure.samples > EXPOSURE_ACCUMULATION_SAMPLES {
     exposure.samples
   } else {
@@ -275,15 +346,23 @@ fn exposure_hitchcock_frame(frame : Int, use_flow : Bool) -> String {
   }
   @tui.render_luma_frame(
     accumulated,
-    @tui.TuiRenderConfig::default(),
+    auto_render_config(),
   )
 }
 
 fn timeline_mesh_frame(mesh : @core.Mesh, sample : @frontend.TimelineSample) -> String {
+  timeline_mesh_frame_with_view(mesh, sample, demo_render_view())
+}
+
+fn timeline_mesh_frame_with_view(
+  mesh : @core.Mesh,
+  sample : @frontend.TimelineSample,
+  render_view : @frontend.RenderView,
+) -> String {
   let angle_x = sample.time_seconds * 1.5
   let angle_y = sample.time_seconds * 1.05
   let angle_z = sample.time_seconds * 0.6
-  mesh_frame(mesh, angle_x, angle_y, angle_z)
+  mesh_frame_with_view(mesh, angle_x, angle_y, angle_z, render_view)
 }
 
 fn timeline_exposure_mesh_frame(
@@ -291,18 +370,28 @@ fn timeline_exposure_mesh_frame(
   sample : @frontend.TimelineSample,
   use_flow : Bool,
 ) -> String {
+  timeline_exposure_mesh_frame_with_view(mesh, sample, use_flow, demo_render_view())
+}
+
+fn timeline_exposure_mesh_frame_with_view(
+  mesh : @core.Mesh,
+  sample : @frontend.TimelineSample,
+  use_flow : Bool,
+  render_view : @frontend.RenderView,
+) -> String {
   let angle_x = sample.time_seconds * 1.5
   let angle_y = sample.time_seconds * 1.05
   let angle_z = sample.time_seconds * 0.6
-  exposure_mesh_frame(mesh, angle_x, angle_y, angle_z, use_flow)
+  exposure_mesh_frame_with_view(mesh, angle_x, angle_y, angle_z, use_flow, render_view)
 }
 
 fn render_demo_sequence(args : Array[String], timeline : @frontend.Timeline) -> @tui.TuiSequence {
-  let config = @tui.TuiRenderConfig::default()
+  let config = auto_render_config()
   let sequence = @tui.TuiSequence::new(config.width, config.height, timeline.fps)
   let exposure = has_arg(args, "--long-exposure") || has_arg(args, "--flow-exposure")
   let use_flow = has_arg(args, "--flow-exposure")
   let mesh = demo_mesh(args)
+  let render_view = demo_render_view_for_args(args)
   for frame_index in 0..<timeline.frame_count() {
     let sample = timeline.sample(frame_index)
     if has_arg(args, "--hitchcock") {
@@ -312,18 +401,19 @@ fn render_demo_sequence(args : Array[String], timeline : @frontend.Timeline) -> 
         sequence.push_frame(hitchcock_frame(frame_index))
       }
     } else if exposure {
-      sequence.push_frame(timeline_exposure_mesh_frame(mesh, sample, use_flow))
+      sequence.push_frame(timeline_exposure_mesh_frame_with_view(mesh, sample, use_flow, render_view))
     } else {
-      sequence.push_frame(timeline_mesh_frame(mesh, sample))
+      sequence.push_frame(timeline_mesh_frame_with_view(mesh, sample, render_view))
     }
   }
   sequence
 }
 
 fn render_demo_image(args : Array[String]) -> @tui.TuiImage {
-  let config = @tui.TuiRenderConfig::default()
+  let config = auto_render_config()
   let exposure = has_arg(args, "--long-exposure") || has_arg(args, "--flow-exposure")
   let use_flow = has_arg(args, "--flow-exposure")
+  let render_view = demo_render_view_for_args(args)
   let content = if has_arg(args, "--hitchcock") {
     if exposure {
       exposure_hitchcock_frame(1, use_flow)
@@ -331,9 +421,9 @@ fn render_demo_image(args : Array[String]) -> @tui.TuiImage {
       hitchcock_frame(0)
     }
   } else if exposure {
-    exposure_mesh_frame(demo_mesh(args), 0.2, 0.3, 0.0, use_flow)
+    exposure_mesh_frame_with_view(demo_mesh(args), 0.2, 0.3, 0.0, use_flow, render_view)
   } else {
-    mesh_frame(demo_mesh(args), 0.2, 0.3, 0.0)
+    mesh_frame_with_view(demo_mesh(args), 0.2, 0.3, 0.0, render_view)
   }
   @tui.TuiImage::new(config.width, config.height, content)
 }
@@ -404,6 +494,16 @@ fn render_once(mesh : @core.Mesh, angle_x : Double, angle_y : Double, angle_z : 
   println("\u{1b}[2J\u{1b}[H\{frame}")
 }
 
+fn render_once_with_view(
+  mesh : @core.Mesh,
+  angle_x : Double,
+  angle_y : Double,
+  angle_z : Double,
+  render_view : @frontend.RenderView,
+) -> Unit {
+  println("\u{1b}[2J\u{1b}[H\{mesh_frame_with_view(mesh, angle_x, angle_y, angle_z, render_view)}")
+}
+
 fn render_exposure_once(
   mesh : @core.Mesh,
   angle_x : Double,
@@ -414,6 +514,19 @@ fn render_exposure_once(
   println("\u{1b}[2J\u{1b}[H\{exposure_mesh_frame(mesh, angle_x, angle_y, angle_z, use_flow)}")
 }
 
+fn render_exposure_once_with_view(
+  mesh : @core.Mesh,
+  angle_x : Double,
+  angle_y : Double,
+  angle_z : Double,
+  use_flow : Bool,
+  render_view : @frontend.RenderView,
+) -> Unit {
+  println(
+    "\u{1b}[2J\u{1b}[H\{exposure_mesh_frame_with_view(mesh, angle_x, angle_y, angle_z, use_flow, render_view)}",
+  )
+}
+
 fn render_hitchcock_once(frame : Int) -> Unit {
   println("\u{1b}[2J\u{1b}[H\{hitchcock_frame(frame)}")
 }
@@ -422,7 +535,14 @@ fn render_hitchcock_exposure_once(frame : Int, use_flow : Bool) -> Unit {
   println("\u{1b}[2J\u{1b}[H\{exposure_hitchcock_frame(frame, use_flow)}")
 }
 
-fn run_animation(mesh : @core.Mesh, rotate : Bool, frame_limit : Int?, exposure : Bool, use_flow : Bool) -> Unit {
+fn run_animation(
+  mesh : @core.Mesh,
+  rotate : Bool,
+  frame_limit : Int?,
+  exposure : Bool,
+  use_flow : Bool,
+  render_view : @frontend.RenderView,
+) -> Unit {
   let mut angle_x = 0.0
   let mut angle_y = 0.0
   let mut angle_z = 0.0
@@ -435,9 +555,9 @@ fn run_animation(mesh : @core.Mesh, rotate : Bool, frame_limit : Int?, exposure 
     }
     last_tick = now
     if exposure {
-      render_exposure_once(mesh, angle_x, angle_y, angle_z, use_flow)
+      render_exposure_once_with_view(mesh, angle_x, angle_y, angle_z, use_flow, render_view)
     } else {
-      render_once(mesh, angle_x, angle_y, angle_z)
+      render_once_with_view(mesh, angle_x, angle_y, angle_z, render_view)
     }
     if rotate {
       angle_x += ANGLE_STEP_X
@@ -479,6 +599,7 @@ fn main {
   let frame_limit = if has_arg(args, "--once") { Some(1) } else { None }
   let exposure = has_arg(args, "--long-exposure") || has_arg(args, "--flow-exposure")
   let use_flow = has_arg(args, "--flow-exposure")
+  let render_view = demo_render_view_for_args(args)
   match arg_value(args, "--show-image") {
     Some(path) => show_image_file(path)
     None =>
@@ -491,7 +612,15 @@ fn main {
               match arg_value(args, "--record") {
                 Some(path) => record_sequence(args, path)
                 None if has_arg(args, "--hitchcock") => run_hitchcock(frame_limit, exposure, use_flow)
-                None => run_animation(demo_mesh(args), demo_should_rotate(args), frame_limit, exposure, use_flow)
+                None =>
+                  run_animation(
+                    demo_mesh(args),
+                    demo_should_rotate(args),
+                    frame_limit,
+                    exposure,
+                    use_flow,
+                    render_view,
+                  )
               }
           }
       }

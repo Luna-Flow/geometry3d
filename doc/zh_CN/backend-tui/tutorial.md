@@ -7,6 +7,8 @@ let frame = @tui.render_frame(draw_list, config)
 println(frame)
 ```
 
+viewport 来自当前终端尺寸时，使用 `TuiRenderConfig::sized(width, height)`。
+
 替换背景：
 
 ```moonbit

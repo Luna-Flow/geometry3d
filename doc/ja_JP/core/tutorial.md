@@ -5,7 +5,10 @@
 ```moonbit
 let cube = cube_mesh(1.0)
 let sphere = sphere_mesh(2.4, 18, 36)
+let torus = torus_mesh(2.1, 0.72, 28, 16)
 ```
+
+`Transform3` は translation、non-uniform scale、compose も提供します。
 
 どちらも `@la.Vector[Double]` vertices と `QuadFace` topology を使います。
 

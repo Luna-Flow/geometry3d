@@ -11,15 +11,15 @@
 - core 不依赖 `Char`、ANSI、终端尺寸或背景 pattern。
 - mesh factory 返回以原点为中心的顶点集合。
 - quad face 是当前 canonical topology，triangulation 只是 raster backend helper。
+- 封闭 primitive 的顶点绕序必须朝外，保证 normal 与背面剔除一致。
 
 ## 限制
 
-- 当前只实现旋转变换。
 - 没有 scene graph、material、texture、clipping、camera orientation、asset loading、physics 或 BVH。
 - sphere 极点使用退化 quad，以保持当前 quad pipeline 简单。
 
 ## 扩展点
 
-- 可以谨慎扩展 `Transform3` 支持 translation/scaling。
+- 扩展 `Transform3` 时应保持 point 与 direction 的不同语义。
 - 可以新增 mesh factory，但应保持 `Mesh` 拓扑契约。
 - 可以新增非 TUI backend，而不修改 core。

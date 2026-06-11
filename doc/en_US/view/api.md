@@ -39,3 +39,5 @@ not apply terminal y-scale correction.
 - `PerspectiveProjection::project_point(point)`: perspective screen projection.
 - `OrthographicProjection::project_point(point)`: orthographic screen projection.
 - `project_perspective_vertices` / `project_orthographic_vertices`: batch helpers.
+- `interpolate_perspective_depth(p0, p1, p2, b0, b1, b2)`: reciprocal-depth
+  interpolation for perspective triangle rasterization, with a safe linear fallback.

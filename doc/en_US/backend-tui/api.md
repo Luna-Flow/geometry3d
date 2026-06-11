@@ -13,6 +13,7 @@ The TUI backend consumes `@frontend.DrawList` and emits character frames.
 ## Functions
 
 - `FrameBuffer::new(width, height, background_pattern)`.
+- `TuiRenderConfig::sized(width, height)`: default styling at an explicit viewport size.
 - `FrameBuffer::set_pixel_if_closer(x, y, depth, pixel)`.
 - `apply_terminal_y_scale(point, height, terminal_y_scale)`.
 - `draw_triangle_z(buffer, p0, p1, p2, pixel)`.

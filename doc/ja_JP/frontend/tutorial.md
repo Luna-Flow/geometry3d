@@ -14,3 +14,4 @@ let draw_list = @frontend.build_draw_list(scene, render_view)
 ```
 
 backend は `draw_list` を消費し、rasterize または serialize の方法を決めます。
+`build_draw_list` は各 triangle intensity を出力する前に scene の directional-light shadow map を適用します。

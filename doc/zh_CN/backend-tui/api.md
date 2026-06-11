@@ -13,6 +13,7 @@ TUI backend 消费 `@frontend.DrawList` 并输出字符帧。
 ## API
 
 - `FrameBuffer::new`
+- `TuiRenderConfig::sized(width, height)`：使用指定 viewport 尺寸和默认 TUI 样式。
 - `FrameBuffer::set_pixel_if_closer`
 - `apply_terminal_y_scale`
 - `draw_triangle_z`

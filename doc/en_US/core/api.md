@@ -17,6 +17,8 @@ struct Transform3 { matrix : @la.Matrix[Double] }
 - `cube_mesh(size : Double) -> Mesh`: creates a cube centered at the origin.
 - `sphere_mesh(radius : Double, rings : Int, segments : Int) -> Mesh`: creates a
   low-poly UV sphere represented as quad faces, with degenerate quads at the caps.
+- `torus_mesh(major_radius, minor_radius, major_segments, minor_segments) -> Mesh`:
+  creates an outward-wound quad torus suitable for backface culling.
 - `face_vertices(mesh : Mesh, face : QuadFace) -> Array[@la.Vector[Double]]`:
   returns the four vertices referenced by a face.
 - `triangulate_quad(face : QuadFace) -> Array[TriangleFace]`: splits a quad into

@@ -7,6 +7,8 @@ let frame = @tui.render_frame(draw_list, config)
 println(frame)
 ```
 
+Use `TuiRenderConfig::sized(width, height)` when dimensions come from the current terminal.
+
 To change the background:
 
 ```moonbit

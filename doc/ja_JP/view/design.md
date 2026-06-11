@@ -4,6 +4,7 @@
 
 - world-space point/direction を camera space に変換します。
 - camera-space point を viewport coordinates に投影します。
+- backend-neutral な perspective-correct depth interpolation を提供します。
 - terminal、ANSI、backend の詳細を含めません。
 
 ## Conventions

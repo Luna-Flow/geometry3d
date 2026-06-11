@@ -4,8 +4,7 @@ The demo is the package entry point and terminal runner.
 
 ## Functions
 
-- `demo_mesh(args : Array[String]) -> Mesh`: returns a sphere when `--sphere`
-  is present, otherwise a cube.
+- `demo_mesh(args : Array[String]) -> Mesh`: selects sphere, torus, or cube geometry.
 - `demo_should_rotate(args : Array[String]) -> Bool`: cube rotates by default;
   sphere is static by default.
 - `hitchcock_scene()`: central cube plus background cylinder, cone, and triangular pyramid geometry.
@@ -20,8 +19,8 @@ The demo is the package entry point and terminal runner.
 - `play_sequence(sequence, frame_limit) -> Unit`: plays frames using the sequence fps.
 - `render_once(mesh, angle_x, angle_y, angle_z) -> Unit`: clears the terminal
   and prints one frame.
-- `run_animation(mesh, rotate, frame_limit, exposure, use_flow) -> Unit`: runs the frame loop.
-- `main`: parses `--sphere`, `--hitchcock`, `--camera-auto`, `--long-exposure`,
+- `run_animation(mesh, rotate, frame_limit, exposure, use_flow, render_view) -> Unit`: runs the frame loop.
+- `main`: parses `--sphere`, `--torus`, `--hitchcock`, `--camera-auto`, `--long-exposure`,
   `--flow-exposure`, `--export-image`, `--show-image`, `--record`, `--play`,
   `--duration`, `--fps`, and `--once`.
 
@@ -32,6 +31,7 @@ moon run src/demo --target native
 moon run src/demo --target native -- --once
 moon run src/demo --target native -- --sphere
 moon run src/demo --target native -- --sphere --once
+moon run src/demo --target native -- --torus
 moon run src/demo --target native -- --hitchcock
 moon run src/demo --target native -- --hitchcock --once
 moon run src/demo --target native -- --camera-auto --once

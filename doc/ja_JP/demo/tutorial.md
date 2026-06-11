@@ -17,6 +17,14 @@ moon run src/demo --target native -- --sphere
 
 sphere demo は高めの subdivision の UV sphere を使い、lighting を見やすくするため静止します。
 
+## Rotating Torus
+
+```sh
+just torus
+```
+
+torus は outward face winding を使うため、backface culling は inner wall ではなく exterior を表示します。`just` は detected terminal dimensions も渡します。
+
 ## Hitchcock Zoom Scene
 
 ```sh
@@ -36,3 +44,5 @@ moon run src/demo --target native -- --hitchcock --once
 ```
 
 script や local check では `--once` を使うと infinite animation loop を避けられます。
+
+default sequence と static-image workflow には `just record`、`just export-image`、`just show-image` を使います。output は ignored `target/` に置かれます。

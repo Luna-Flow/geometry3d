@@ -21,6 +21,12 @@ test "primitive mesh factories expose stable topology" {
   let pyramid = triangular_pyramid_mesh(1.0, 2.0)
   assert_eq(pyramid.vertices.length(), 4)
   assert_eq(pyramid.faces.length(), 4)
+
+  let torus = torus_mesh(2.0, 0.6, 18, 10)
+  assert_eq(torus.vertices.length(), 180)
+  assert_eq(torus.faces.length(), 180)
+  let outer_normal = face_normal(torus.vertices, torus.faces[0])
+  assert_true(outer_normal[0] > 0.0)
 }
 
 test "identity transform preserves point" {

@@ -9,3 +9,4 @@ let projected = projection.project_point(camera_point)
 ```
 
 depth による size change が不要な場合は `OrthographicProjection` を使います。
+rasterizer は perspective depth を線形補間せず、triangle の barycentric weights を `interpolate_perspective_depth` に渡します。

@@ -108,10 +108,10 @@ pub fn LumaBuffer::draw_triangle(self : LumaBuffer, triangle : DrawTriangle) -> 
       }
       if inside {
         let inv_area = 1.0 / area
-        let depth =
-          (w0 * inv_area) * p0.depth +
-          (w1 * inv_area) * p1.depth +
-          (w2 * inv_area) * p2.depth
+        let b0 = w0 * inv_area
+        let b1 = w1 * inv_area
+        let b2 = w2 * inv_area
+        let depth = @view.interpolate_perspective_depth(p0, p1, p2, b0, b1, b2)
         self.set_if_closer(x, y, depth, triangle.intensity)
       }
     }
