@@ -1,4 +1,4 @@
-name = "KCN-judu/geometry3d"
+name = "Luna-Flow/geometry3d"
 
 version = "0.1.0"
 
