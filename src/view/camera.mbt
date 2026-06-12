@@ -1,9 +1,11 @@
+///|
 pub struct Camera3 {
   eye : @la.Vector[Double]
   target : @la.Vector[Double]
   up : @la.Vector[Double]
 }
 
+///|
 pub fn Camera3::look_at(
   eye : @la.Vector[Double],
   target : @la.Vector[Double],
@@ -12,6 +14,7 @@ pub fn Camera3::look_at(
   { eye, target, up }
 }
 
+///|
 pub fn Camera3::default(distance : Double) -> Camera3 {
   Camera3::look_at(
     @core.vec3(0.0, 0.0, -distance),
@@ -20,18 +23,22 @@ pub fn Camera3::default(distance : Double) -> Camera3 {
   )
 }
 
+///|
 pub fn Camera3::forward(self : Camera3) -> @la.Vector[Double] {
   @core.normalize_vec(@core.sub_vec(self.target, self.eye))
 }
 
+///|
 pub fn Camera3::right(self : Camera3) -> @la.Vector[Double] {
   @core.normalize_vec(@core.cross_vec(self.up, self.forward()))
 }
 
+///|
 pub fn Camera3::true_up(self : Camera3) -> @la.Vector[Double] {
   @core.normalize_vec(@core.cross_vec(self.forward(), self.right()))
 }
 
+///|
 pub fn Camera3::view_transform(self : Camera3) -> @core.Transform3 {
   let right = self.right()
   let up = self.true_up()
@@ -46,6 +53,7 @@ pub fn Camera3::view_transform(self : Camera3) -> @core.Transform3 {
   )
 }
 
+///|
 pub fn Camera3::world_to_camera_point(
   self : Camera3,
   point : @la.Vector[Double],
@@ -53,6 +61,7 @@ pub fn Camera3::world_to_camera_point(
   self.view_transform().apply_point(point)
 }
 
+///|
 pub fn Camera3::world_to_camera_direction(
   self : Camera3,
   direction : @la.Vector[Double],

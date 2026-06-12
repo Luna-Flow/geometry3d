@@ -1,3 +1,4 @@
+///|
 test "cube and sphere mesh factories expose stable topology" {
   let cube = cube_mesh(1.0)
   assert_eq(cube.vertices.length(), 8)
@@ -9,6 +10,7 @@ test "cube and sphere mesh factories expose stable topology" {
   assert_eq(sphere.faces.length(), 72)
 }
 
+///|
 test "primitive mesh factories expose stable topology" {
   let cylinder = cylinder_mesh(1.0, 2.0, 12)
   assert_eq(cylinder.vertices.length(), 26)
@@ -29,6 +31,7 @@ test "primitive mesh factories expose stable topology" {
   assert_true(outer_normal[0] > 0.0)
 }
 
+///|
 test "identity transform preserves point" {
   let point = vec3(1.0, -2.0, 3.0)
   let out = Transform3::identity().apply_point(point)
@@ -37,6 +40,7 @@ test "identity transform preserves point" {
   assert_eq(out[2], 3.0)
 }
 
+///|
 test "translation affects points but not directions" {
   let transform = Transform3::translation(2.0, 3.0, 4.0)
   let point = transform.apply_point(vec3(1.0, 1.0, 1.0))
@@ -49,6 +53,7 @@ test "translation affects points but not directions" {
   assert_eq(direction[2], 1.0)
 }
 
+///|
 test "scale transform preserves mesh topology" {
   let mesh = cube_mesh(1.0)
   let scaled = Transform3::scale(2.0, 3.0, 4.0).apply_mesh(mesh)
@@ -58,6 +63,7 @@ test "scale transform preserves mesh topology" {
   assert_eq(scaled.vertices[2][1], 3.0)
 }
 
+///|
 test "compose applies self then next" {
   let transform = Transform3::translation(1.0, 0.0, 0.0).compose(
     Transform3::scale(2.0, 2.0, 2.0),
@@ -68,6 +74,7 @@ test "compose applies self then next" {
   assert_eq(point[2], 2.0)
 }
 
+///|
 test "face normal and visibility remain stable" {
   let mesh = cube_mesh(1.0)
   let front = mesh.faces[0]

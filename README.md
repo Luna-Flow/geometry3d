@@ -2,7 +2,7 @@
 
 [![img](https://img.shields.io/badge/Maintainer-KCN--judu-violet)](https://github.com/KCN-judu) [![img](https://img.shields.io/badge/License-Apache%202.0-blue)](https://github.com/Luna-Flow/geometry3d/blob/main/LICENSE) ![img](https://img.shields.io/badge/State-active-success)
 
-## v0.3.0 - Terminal Rendering Pipeline
+## v0.4.0 - TUI and Canvas Rendering Pipelines
 
 `geometry3d` is a small MoonBit 3D geometry foundation built on
 `Luna-Flow/linear-algebra`. It is intentionally not a full 3D engine: the goal
@@ -15,6 +15,7 @@ Luna-Flow/linear-algebra
   -> geometry3d view
   -> geometry3d frontend
   -> backend/tui
+  -> backend/canvas
   -> demo
 ```
 
@@ -30,6 +31,8 @@ Luna-Flow/linear-algebra
 - `Luna-Flow/geometry3d/backend/tui`: character frame buffer, Z-buffer, shade
   ramp, background patterns, terminal y-axis correction, and perspective-correct
   triangle rasterization.
+- `Luna-Flow/geometry3d/backend/canvas`: browser Canvas 2D rendering backed by
+  the frontend software Z-buffer, quantized RGB shading, and merged scanline runs.
 - `Luna-Flow/geometry3d/demo`: ANSI terminal showcase for cube, torus, and Hitchcock scenes.
 
 The core and frontend packages do not know about terminal characters, ANSI
@@ -51,6 +54,7 @@ Subsystem entry points:
 - View: [API](./doc/en_US/view/api.md), [Tutorial](./doc/en_US/view/tutorial.md), [Design](./doc/en_US/view/design.md)
 - Frontend: [API](./doc/en_US/frontend/api.md), [Tutorial](./doc/en_US/frontend/tutorial.md), [Design](./doc/en_US/frontend/design.md)
 - Backend TUI: [API](./doc/en_US/backend-tui/api.md), [Tutorial](./doc/en_US/backend-tui/tutorial.md), [Design](./doc/en_US/backend-tui/design.md)
+- Backend Canvas: [API](./doc/en_US/backend-canvas/api.md), [Tutorial](./doc/en_US/backend-canvas/tutorial.md), [Design](./doc/en_US/backend-canvas/design.md)
 - Demo: [API](./doc/en_US/demo/api.md), [Tutorial](./doc/en_US/demo/tutorial.md), [Design](./doc/en_US/demo/design.md)
 
 ## Background Patterns
@@ -92,6 +96,17 @@ moon run src/demo --target native -- --torus
 moon run src/demo --target native -- --hitchcock
 ```
 
+To build and serve the browser Canvas demos:
+
+```sh
+just canvas-serve
+```
+
+Then open `http://localhost:8080`. The Canvas backend is JS-only and uses
+`moonbit-community/rabbita/dom`, the maintained successor to the DOM package
+used by MoonBit's official browser examples. Use the page selector to switch
+between the rotating torus and the scientific-camera Dolly zoom scene.
+
 To record a playable TUI sequence and play it back:
 
 ```sh
@@ -101,6 +116,10 @@ just record
 The `.tui3d` sequence is a simple text format containing width, height, fps,
 and rendered character frames. Timeline sampling lives in the frontend package;
 file IO and playback live only in the demo runner.
+
+Any `.tui3d` sequence can be converted to H.264 MP4 or ProRes MOV with the
+generic video export tool. See [tools/README.md](./tools/README.md) for recording,
+conversion, aspect-ratio, dependency, and Dolly demo examples.
 
 To export a static TUI image and show it later:
 
@@ -124,7 +143,8 @@ backend-neutral draw lists, scientific camera scale/FOV, shutter sample counts,
 luma buffers, optical-flow accumulation, terminal y-scale, background patterns,
 timeline sampling, TUI sequence/image encode/decode, frame buffer
 initialization, Z-buffer behavior, and foreground rendering without relying on
-full character-art snapshots. Torus tests also enforce outward face winding so
+full character-art snapshots. Canvas tests cover color quantization, scanline
+merging, zero-luma foregrounds, and depth ordering. Torus tests also enforce outward face winding so
 backface culling cannot regress to displaying the inner wall.
 
 `run_test.sh` mirrors the publish workflow and runs the test suite across

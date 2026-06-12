@@ -1,3 +1,4 @@
+///|
 pub fn apply_terminal_y_scale(
   point : @view.ProjectedVertex,
   height : Int,
@@ -11,6 +12,7 @@ pub fn apply_terminal_y_scale(
   )
 }
 
+///|
 pub fn clamp01(value : Double) -> Double {
   if value < 0.0 {
     0.0
@@ -21,6 +23,7 @@ pub fn clamp01(value : Double) -> Double {
   }
 }
 
+///|
 pub fn shade_char(shade_ramp : String, intensity : Double) -> Char {
   let clamped = clamp01(intensity)
   let last_index = shade_ramp.length() - 1
@@ -28,6 +31,7 @@ pub fn shade_char(shade_ramp : String, intensity : Double) -> Char {
   shade_ramp[index].unsafe_to_char()
 }
 
+///|
 pub fn edge_function(
   ax : Double,
   ay : Double,
@@ -39,6 +43,7 @@ pub fn edge_function(
   (px - ax) * (by - ay) - (py - ay) * (bx - ax)
 }
 
+///|
 pub fn draw_triangle_z(
   buffer : FrameBuffer,
   p0 : @view.ProjectedVertex,

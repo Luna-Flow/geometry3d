@@ -1,18 +1,34 @@
+///|
 pub struct RenderView {
   camera : @view.Camera3
   projection : @view.PerspectiveProjection
 }
 
-using @arith { trait Sqrt }
-using @lg { trait Num }
+///|
+using @arith {trait Sqrt}
 
+///|
+using @lg {trait Num}
+
+///|
 const SHADOW_MAP_SIZE : Int = 128
+
+///|
 const SHADOW_PADDING_RATIO : Double = 0.05
+
+///|
 const SHADOW_MIN_PADDING : Double = 0.25
+
+///|
 const SHADOW_BIAS_RATIO : Double = 0.005
+
+///|
 const SHADOW_MIN_BIAS : Double = 1.0e-4
+
+///|
 const SHADOW_AMBIENT_VISIBILITY : Double = 0.35
 
+///|
 priv struct ShadowMap {
   light_camera : @view.Camera3
   min_x : Double
@@ -25,6 +41,7 @@ priv struct ShadowMap {
   bias : Double
 }
 
+///|
 fn shadow_edge_function(
   ax : Double,
   ay : Double,
@@ -36,15 +53,22 @@ fn shadow_edge_function(
   (px - ax) * (by - ay) - (py - ay) * (bx - ax)
 }
 
+///|
 fn shadow_index(shadow_map : ShadowMap, x : Int, y : Int) -> Int {
   y * shadow_map.width + x
 }
 
+///|
 fn shadow_padding(span : Double) -> Double {
   let scaled = span * SHADOW_PADDING_RATIO
-  if scaled > SHADOW_MIN_PADDING { scaled } else { SHADOW_MIN_PADDING }
+  if scaled > SHADOW_MIN_PADDING {
+    scaled
+  } else {
+    SHADOW_MIN_PADDING
+  }
 }
 
+///|
 fn choose_light_up(light_direction : @la.Vector[Double]) -> @la.Vector[Double] {
   let world_up = @core.vec3(0.0, 1.0, 0.0)
   let alignment = light_direction.dot(world_up)
@@ -56,7 +80,10 @@ fn choose_light_up(light_direction : @la.Vector[Double]) -> @la.Vector[Double] {
   }
 }
 
-fn scene_center_and_radius(world_meshes : Array[@core.Mesh]) -> (@la.Vector[Double], Double) {
+///|
+fn scene_center_and_radius(
+  world_meshes : Array[@core.Mesh],
+) -> (@la.Vector[Double], Double) {
   let mut min_x = 1.0e30
   let mut min_y = 1.0e30
   let mut min_z = 1.0e30
@@ -68,12 +95,24 @@ fn scene_center_and_radius(world_meshes : Array[@core.Mesh]) -> (@la.Vector[Doub
   for mesh in world_meshes {
     for vertex in mesh.vertices {
       has_vertex = true
-      if vertex[0] < min_x { min_x = vertex[0] }
-      if vertex[1] < min_y { min_y = vertex[1] }
-      if vertex[2] < min_z { min_z = vertex[2] }
-      if vertex[0] > max_x { max_x = vertex[0] }
-      if vertex[1] > max_y { max_y = vertex[1] }
-      if vertex[2] > max_z { max_z = vertex[2] }
+      if vertex[0] < min_x {
+        min_x = vertex[0]
+      }
+      if vertex[1] < min_y {
+        min_y = vertex[1]
+      }
+      if vertex[2] < min_z {
+        min_z = vertex[2]
+      }
+      if vertex[0] > max_x {
+        max_x = vertex[0]
+      }
+      if vertex[1] > max_y {
+        max_y = vertex[1]
+      }
+      if vertex[2] > max_z {
+        max_z = vertex[2]
+      }
     }
   }
 
@@ -99,6 +138,7 @@ fn scene_center_and_radius(world_meshes : Array[@core.Mesh]) -> (@la.Vector[Doub
   (center, radius)
 }
 
+///|
 fn make_light_camera(
   world_meshes : Array[@core.Mesh],
   light_direction : @la.Vector[Double],
@@ -108,6 +148,7 @@ fn make_light_camera(
   @view.Camera3::look_at(eye, center, choose_light_up(light_direction))
 }
 
+///|
 fn light_space_bounds(
   world_meshes : Array[@core.Mesh],
   light_camera : @view.Camera3,
@@ -124,12 +165,24 @@ fn light_space_bounds(
     for vertex in mesh.vertices {
       has_vertex = true
       let point = light_camera.world_to_camera_point(vertex)
-      if point[0] < min_x { min_x = point[0] }
-      if point[1] < min_y { min_y = point[1] }
-      if point[2] < min_z { min_z = point[2] }
-      if point[0] > max_x { max_x = point[0] }
-      if point[1] > max_y { max_y = point[1] }
-      if point[2] > max_z { max_z = point[2] }
+      if point[0] < min_x {
+        min_x = point[0]
+      }
+      if point[1] < min_y {
+        min_y = point[1]
+      }
+      if point[2] < min_z {
+        min_z = point[2]
+      }
+      if point[0] > max_x {
+        max_x = point[0]
+      }
+      if point[1] > max_y {
+        max_y = point[1]
+      }
+      if point[2] > max_z {
+        max_z = point[2]
+      }
     }
   }
 
@@ -145,10 +198,15 @@ fn light_space_bounds(
     max_x + pad_x,
     min_y - pad_y,
     max_y + pad_y,
-    if depth_span > @core.DEPTH_EPSILON { depth_span } else { 1.0 },
+    if depth_span > @core.DEPTH_EPSILON {
+      depth_span
+    } else {
+      1.0
+    },
   )
 }
 
+///|
 fn project_shadow_x(shadow_map : ShadowMap, x : Double) -> Double {
   let span = shadow_map.max_x - shadow_map.min_x
   if span.abs() <= @core.DEPTH_EPSILON {
@@ -158,6 +216,7 @@ fn project_shadow_x(shadow_map : ShadowMap, x : Double) -> Double {
   }
 }
 
+///|
 fn project_shadow_y(shadow_map : ShadowMap, y : Double) -> Double {
   let span = shadow_map.max_y - shadow_map.min_y
   if span.abs() <= @core.DEPTH_EPSILON {
@@ -167,6 +226,7 @@ fn project_shadow_y(shadow_map : ShadowMap, y : Double) -> Double {
   }
 }
 
+///|
 fn rasterize_shadow_triangle(
   shadow_map : ShadowMap,
   p0 : @view.ProjectedVertex,
@@ -193,12 +253,15 @@ fn rasterize_shadow_triangle(
       } else {
         w0 <= 0.0 && w1 <= 0.0 && w2 <= 0.0
       }
-      if inside && x >= 0 && x < shadow_map.width && y >= 0 && y < shadow_map.height {
+      if inside &&
+        x >= 0 &&
+        x < shadow_map.width &&
+        y >= 0 &&
+        y < shadow_map.height {
         let inv_area = 1.0 / area
-        let depth =
-          (w0 * inv_area) * p0.depth +
-          (w1 * inv_area) * p1.depth +
-          (w2 * inv_area) * p2.depth
+        let depth = w0 * inv_area * p0.depth +
+          w1 * inv_area * p1.depth +
+          w2 * inv_area * p2.depth
         let index = shadow_index(shadow_map, x, y)
         if depth + @core.DEPTH_EPSILON < shadow_map.depths[index] {
           shadow_map.depths[index] = depth
@@ -208,9 +271,15 @@ fn rasterize_shadow_triangle(
   }
 }
 
-fn build_shadow_map(world_meshes : Array[@core.Mesh], light : Light) -> ShadowMap {
+///|
+fn build_shadow_map(
+  world_meshes : Array[@core.Mesh],
+  light : Light,
+) -> ShadowMap {
   let light_camera = make_light_camera(world_meshes, light.direction)
-  let (min_x, max_x, min_y, max_y, depth_span) = light_space_bounds(world_meshes, light_camera)
+  let (min_x, max_x, min_y, max_y, depth_span) = light_space_bounds(
+    world_meshes, light_camera,
+  )
   let shadow_map = {
     light_camera,
     min_x,
@@ -251,12 +320,14 @@ fn build_shadow_map(world_meshes : Array[@core.Mesh], light : Light) -> ShadowMa
   shadow_map
 }
 
+///|
 fn sample_shadow_visibility(
   shadow_map : ShadowMap,
   world_point : @la.Vector[Double],
   light_direction : @la.Vector[Double],
 ) -> Double {
-  let sample_point = world_point + light_direction.right_scale(shadow_map.bias * 2.0)
+  let sample_point = world_point +
+    light_direction.right_scale(shadow_map.bias * 2.0)
   let light_point = shadow_map.light_camera.world_to_camera_point(sample_point)
   let px = project_shadow_x(shadow_map, light_point[0]).round().to_int()
   let py = project_shadow_y(shadow_map, light_point[1]).round().to_int()
@@ -273,6 +344,7 @@ fn sample_shadow_visibility(
   }
 }
 
+///|
 fn face_shadow_visibility(
   shadow_map : ShadowMap,
   vertices : Array[@la.Vector[Double]],
@@ -296,6 +368,7 @@ fn face_shadow_visibility(
   total / (samples.length() + 1).to_double()
 }
 
+///|
 pub fn RenderView::perspective(
   camera : @view.Camera3,
   projection : @view.PerspectiveProjection,
@@ -303,6 +376,7 @@ pub fn RenderView::perspective(
   { camera, projection }
 }
 
+///|
 pub fn RenderView::scientific(
   camera : @view.ScientificCamera,
   viewport : @view.Viewport,
@@ -313,23 +387,33 @@ pub fn RenderView::scientific(
   }
 }
 
+///|
 pub fn build_draw_list(scene : Scene, render_view : RenderView) -> DrawList {
   let draw_list = DrawList::new()
   let camera_position = @core.vec3(0.0, 0.0, 0.0)
-  let world_meshes = scene.objects.map(fn(object) { object.transform.apply_mesh(object.mesh) })
+  let world_meshes = scene.objects.map(fn(object) {
+    object.transform.apply_mesh(object.mesh)
+  })
   let shadow_map = build_shadow_map(world_meshes, scene.light)
-  let camera_light = render_view.camera.world_to_camera_direction(scene.light.direction)
+  let camera_light = render_view.camera.world_to_camera_direction(
+    scene.light.direction,
+  )
   let light_direction = @core.normalize_vec(camera_light)
 
   for world_mesh in world_meshes {
     let camera_vertices = world_mesh.vertices.map(fn(vertex) {
       render_view.camera.world_to_camera_point(vertex)
     })
-    let projected = @view.project_perspective_vertices(camera_vertices, render_view.projection)
+    let projected = @view.project_perspective_vertices(
+      camera_vertices,
+      render_view.projection,
+    )
 
     for face in world_mesh.faces {
       if @core.face_is_visible(camera_vertices, face, camera_position) {
-        let base_intensity = @core.face_intensity(camera_vertices, face, light_direction)
+        let base_intensity = @core.face_intensity(
+          camera_vertices, face, light_direction,
+        )
         let shadow_visibility = if base_intensity <= 0.0 {
           0.0
         } else {
@@ -339,16 +423,19 @@ pub fn build_draw_list(scene : Scene, render_view : RenderView) -> DrawList {
             face,
             scene.light.direction,
           )
-          SHADOW_AMBIENT_VISIBILITY + (1.0 - SHADOW_AMBIENT_VISIBILITY) * occlusion
+          SHADOW_AMBIENT_VISIBILITY +
+          (1.0 - SHADOW_AMBIENT_VISIBILITY) * occlusion
         }
         let intensity = base_intensity * shadow_visibility
         for triangle in @core.triangulate_quad(face) {
-          draw_list.push_triangle(DrawTriangle::new(
-            projected[triangle.a],
-            projected[triangle.b],
-            projected[triangle.c],
-            intensity,
-          ))
+          draw_list.push_triangle(
+            DrawTriangle::new(
+              projected[triangle.a],
+              projected[triangle.b],
+              projected[triangle.c],
+              intensity,
+            ),
+          )
         }
       }
     }

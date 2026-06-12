@@ -17,7 +17,7 @@ demo は package entry point と terminal runner です。
 - `play_sequence(sequence, frame_limit)`: sequence fps に従って character frames を再生します。
 - `render_once(mesh, angle_x, angle_y, angle_z)`: terminal を clear して 1 frame を出力します。
 - `run_animation(mesh, rotate, frame_limit, exposure, use_flow, render_view)`: frame loop を実行します。
-- `main`: `--sphere`、`--torus`、`--hitchcock`、`--camera-auto`、`--long-exposure`、`--flow-exposure`、`--export-image`、`--show-image`、`--record`、`--play`、`--duration`、`--fps`、`--once` を処理します。
+- `main`: `--sphere`、`--torus`、`--hitchcock`、`--dolly`、`--camera-auto`、`--long-exposure`、`--flow-exposure`、`--export-image`、`--show-image`、`--record`、`--record-stdout`、`--play`、`--duration`、`--fps`、`--once` を処理します。
 
 ## CLI
 
@@ -28,13 +28,21 @@ moon run src/demo --target native -- --sphere
 moon run src/demo --target native -- --sphere --once
 moon run src/demo --target native -- --torus
 moon run src/demo --target native -- --hitchcock
+moon run src/demo --target native -- --dolly
 moon run src/demo --target native -- --hitchcock --once
 moon run src/demo --target native -- --camera-auto --once
 moon run src/demo --target native -- --long-exposure --once
 moon run src/demo --target native -- --hitchcock --flow-exposure --once
 mkdir -p target
 moon run src/demo --target native -- --record target/demo.tui3d --duration 3 --fps 30
+COLUMNS=240 LINES=91 moon run src/demo --target native -- \
+  --dolly --record-stdout --duration 12 --fps 24 > target/dolly.tui3d
+python3 tools/tui3d_to_video.py target/dolly.tui3d target/dolly.mp4
 moon run src/demo --target native -- --play target/demo.tui3d
 moon run src/demo --target native -- --export-image target/demo.tuiimg
 moon run src/demo --target native -- --show-image target/demo.tuiimg
 ```
+
+大きな recording には `--record-stdout` を使用します。frame を逐次出力するため、
+sequence 全体を memory 上で構築しません。video conversion の詳細は
+[`tools/README.md`](../../../tools/README.md) を参照してください。

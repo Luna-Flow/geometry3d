@@ -1,3 +1,4 @@
+///|
 pub struct LumaBuffer {
   width : Int
   height : Int
@@ -5,8 +6,10 @@ pub struct LumaBuffer {
   depths : Array[Double]
 }
 
+///|
 pub const LUMA_FAR_DEPTH : Double = 1.0e30
 
+///|
 pub fn LumaBuffer::new(width : Int, height : Int) -> LumaBuffer {
   {
     width,
@@ -16,10 +19,12 @@ pub fn LumaBuffer::new(width : Int, height : Int) -> LumaBuffer {
   }
 }
 
+///|
 pub fn LumaBuffer::index(self : LumaBuffer, x : Int, y : Int) -> Int {
   y * self.width + x
 }
 
+///|
 pub fn LumaBuffer::get(self : LumaBuffer, x : Int, y : Int) -> Double {
   if x < 0 || x >= self.width || y < 0 || y >= self.height {
     0.0
@@ -28,6 +33,7 @@ pub fn LumaBuffer::get(self : LumaBuffer, x : Int, y : Int) -> Double {
   }
 }
 
+///|
 pub fn LumaBuffer::set_if_closer(
   self : LumaBuffer,
   x : Int,
@@ -45,6 +51,7 @@ pub fn LumaBuffer::set_if_closer(
   }
 }
 
+///|
 pub fn LumaBuffer::depth_at(self : LumaBuffer, x : Int, y : Int) -> Double {
   if x < 0 || x >= self.width || y < 0 || y >= self.height {
     LUMA_FAR_DEPTH
@@ -53,6 +60,7 @@ pub fn LumaBuffer::depth_at(self : LumaBuffer, x : Int, y : Int) -> Double {
   }
 }
 
+///|
 pub fn LumaBuffer::add_weighted_sample(
   self : LumaBuffer,
   sample : LumaBuffer,
@@ -71,6 +79,7 @@ pub fn LumaBuffer::add_weighted_sample(
   }
 }
 
+///|
 fn luma_edge_function(
   ax : Double,
   ay : Double,
@@ -82,7 +91,11 @@ fn luma_edge_function(
   (px - ax) * (by - ay) - (py - ay) * (bx - ax)
 }
 
-pub fn LumaBuffer::draw_triangle(self : LumaBuffer, triangle : DrawTriangle) -> Unit {
+///|
+pub fn LumaBuffer::draw_triangle(
+  self : LumaBuffer,
+  triangle : DrawTriangle,
+) -> Unit {
   let p0 = triangle.p0
   let p1 = triangle.p1
   let p2 = triangle.p2
@@ -118,7 +131,12 @@ pub fn LumaBuffer::draw_triangle(self : LumaBuffer, triangle : DrawTriangle) -> 
   }
 }
 
-pub fn draw_list_to_luma(draw_list : DrawList, width : Int, height : Int) -> LumaBuffer {
+///|
+pub fn draw_list_to_luma(
+  draw_list : DrawList,
+  width : Int,
+  height : Int,
+) -> LumaBuffer {
   let buffer = LumaBuffer::new(width, height)
   for triangle in draw_list.triangles {
     buffer.draw_triangle(triangle)

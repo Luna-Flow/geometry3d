@@ -1,10 +1,15 @@
+///|
 const TUI_SEQUENCE_MAGIC : String = "GEOMETRY3D_TUI_SEQUENCE v1"
+
+///|
 const TUI_FRAME_MARKER : String = "---frame---"
 
+///|
 pub struct TuiFrame {
   content : String
 }
 
+///|
 pub struct TuiSequence {
   width : Int
   height : Int
@@ -12,28 +17,45 @@ pub struct TuiSequence {
   frames : Array[TuiFrame]
 }
 
+///|
 pub fn TuiFrame::new(content : String) -> TuiFrame {
-  { content: content }
+  { content, }
 }
 
+///|
 pub fn TuiSequence::new(width : Int, height : Int, fps : Int) -> TuiSequence {
   {
-    width: if width < 1 { 1 } else { width },
-    height: if height < 1 { 1 } else { height },
-    fps: if fps < 1 { 1 } else { fps },
+    width: if width < 1 {
+      1
+    } else {
+      width
+    },
+    height: if height < 1 {
+      1
+    } else {
+      height
+    },
+    fps: if fps < 1 {
+      1
+    } else {
+      fps
+    },
     frames: [],
   }
 }
 
+///|
 pub fn TuiSequence::push_frame(self : TuiSequence, content : String) -> Unit {
   self.frames.push(TuiFrame::new(content))
 }
 
+///|
 fn write_line(builder : StringBuilder, line : String) -> Unit {
   builder.write_string(line)
   builder.write_char('\n')
 }
 
+///|
 pub fn encode_tui_sequence(sequence : TuiSequence) -> String {
   let builder = StringBuilder::new()
   write_line(builder, TUI_SEQUENCE_MAGIC)
@@ -44,13 +66,15 @@ pub fn encode_tui_sequence(sequence : TuiSequence) -> String {
   for frame in sequence.frames {
     write_line(builder, TUI_FRAME_MARKER)
     builder.write_string(frame.content)
-    if frame.content.length() == 0 || frame.content[frame.content.length() - 1].unsafe_to_char() != '\n' {
+    if frame.content.length() == 0 ||
+      frame.content[frame.content.length() - 1].unsafe_to_char() != '\n' {
       builder.write_char('\n')
     }
   }
   builder.to_string()
 }
 
+///|
 fn split_lines(text : String) -> Array[String] {
   let lines : Array[String] = []
   let mut current = StringBuilder::new()
@@ -68,6 +92,7 @@ fn split_lines(text : String) -> Array[String] {
   lines
 }
 
+///|
 fn digit_value(ch : Char) -> Int {
   if ch == '0' {
     0
@@ -94,6 +119,7 @@ fn digit_value(ch : Char) -> Int {
   }
 }
 
+///|
 fn parse_int_after_equals(line : String, fallback : Int) -> Int {
   let mut seen_equals = false
   let mut value = 0
@@ -109,9 +135,14 @@ fn parse_int_after_equals(line : String, fallback : Int) -> Int {
       seen_equals = true
     }
   }
-  if seen_digit { value } else { fallback }
+  if seen_digit {
+    value
+  } else {
+    fallback
+  }
 }
 
+///|
 pub fn decode_tui_sequence(text : String) -> TuiSequence {
   let lines = split_lines(text)
   if lines.length() < 5 || lines[0] != TUI_SEQUENCE_MAGIC {

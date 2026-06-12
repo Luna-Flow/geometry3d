@@ -1,12 +1,12 @@
 import {
-  "moonbitlang/core/env" @env,
-  "moonbitlang/core/math" @math,
-  "moonbitlang/x/fs" @fs,
-  "moonbitlang/x/sys" @sys,
-  "Luna-Flow/geometry3d/core" @core,
-  "Luna-Flow/geometry3d/view" @view,
-  "Luna-Flow/geometry3d/frontend" @frontend,
-  "Luna-Flow/geometry3d/backend/tui" @tui,
+  "moonbitlang/core/env",
+  "moonbitlang/core/math",
+  "moonbitlang/x/fs",
+  "moonbitlang/x/sys",
+  "Luna-Flow/geometry3d/core",
+  "Luna-Flow/geometry3d/view",
+  "Luna-Flow/geometry3d/frontend",
+  "Luna-Flow/geometry3d/backend/tui",
 }
 
 options(

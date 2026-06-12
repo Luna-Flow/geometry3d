@@ -8,7 +8,7 @@
 
 ## 边界
 
-`DrawList` 是 frontend 与 backend 的稳定边界。当前 TUI backend 消费它，未来 SVG、
-Canvas、image backend 也可以消费同一结构。
+`DrawList` 是 frontend 与 backend 的稳定边界。当前 TUI 与 Canvas backend 都消费
+这一结构，未来 image 或 diagnostic backend 也可以复用它。
 
 当前内部 shadow map 使用固定分辨率和 face sampling；仍没有 material system、texture、physics 或 BVH。

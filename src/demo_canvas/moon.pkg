@@ -1,0 +1,15 @@
+import {
+  "moonbitlang/core/math",
+  "Luna-Flow/geometry3d/core",
+  "Luna-Flow/geometry3d/view",
+  "Luna-Flow/geometry3d/frontend",
+  "Luna-Flow/geometry3d/backend/canvas",
+  "moonbit-community/rabbita/dom",
+}
+
+supported_targets = "js"
+
+options(
+  "is-main": true,
+  targets: { "main.mbt": [ "js" ], "demo_canvas_wbtest.mbt": [ "js" ] },
+)

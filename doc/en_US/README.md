@@ -1,6 +1,6 @@
 # Luna-Flow/geometry3d
 
-This documentation tracks the current repository baseline for **v0.3.0**.
+This documentation tracks the current repository baseline for **v0.4.0**.
 
 ## Repository Positioning
 
@@ -20,7 +20,8 @@ frontend draw-list generation, and concrete renderer backends.
 - **`view`**: camera, `look_at`, viewport, perspective projection, and orthographic projection.
 - **`frontend`**: `Scene`, `RenderView`, and backend-neutral `DrawList`.
 - **`backend-tui`**: TUI frame buffer, background patterns, Z-buffer, terminal y-scale, and rasterization.
-- **`demo`**: terminal entry point for torus and Hitchcock demos, plus TUI export/playback helpers.
+- **`backend-canvas`**: browser Canvas 2D output using the frontend software Z-buffer.
+- **`demo`**: terminal demos and TUI export/playback helpers; `demo_canvas` provides Torus and Dolly browser demos.
 
 ## Documentation Entry Points
 
@@ -28,5 +29,6 @@ frontend draw-list generation, and concrete renderer backends.
 - API Reference: [view](./view/api.md)
 - API Reference: [frontend](./frontend/api.md)
 - API Reference: [backend-tui](./backend-tui/api.md)
+- Backend Canvas: [API](./backend-canvas/api.md), [Tutorial](./backend-canvas/tutorial.md), [Design](./backend-canvas/design.md)
 - API Reference: [demo](./demo/api.md)
 - Migration: [v0.1 to v0.2](./migration_v0_2.md)

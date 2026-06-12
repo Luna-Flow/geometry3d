@@ -1,5 +1,7 @@
+///|
 pub const FAR_DEPTH : Double = 1.0e30
 
+///|
 pub struct FrameBuffer {
   width : Int
   height : Int
@@ -7,6 +9,7 @@ pub struct FrameBuffer {
   depths : Array[Double]
 }
 
+///|
 pub fn FrameBuffer::new(
   width : Int,
   height : Int,
@@ -27,10 +30,12 @@ pub fn FrameBuffer::new(
   buffer
 }
 
+///|
 pub fn FrameBuffer::index(self : FrameBuffer, x : Int, y : Int) -> Int {
   y * self.width + x
 }
 
+///|
 pub fn FrameBuffer::set_pixel_if_closer(
   self : FrameBuffer,
   x : Int,
@@ -48,6 +53,7 @@ pub fn FrameBuffer::set_pixel_if_closer(
   }
 }
 
+///|
 pub fn FrameBuffer::to_string(self : FrameBuffer) -> String {
   let builder = StringBuilder::new()
   for y in 0..<self.height {

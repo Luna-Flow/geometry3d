@@ -1,3 +1,4 @@
+///|
 test "background patterns generate expected chars" {
   for y in 0..<4 {
     for x in 0..<4 {
@@ -7,14 +8,19 @@ test "background patterns generate expected chars" {
   }
 }
 
+///|
 test "frame buffer initializes from pattern" {
   let dotted = FrameBuffer::new(8, 8, dotted_background)
   let dotted_count = dotted.cells.iter().filter(fn(ch) { ch == '.' }).count()
-  let untouched_depths = dotted.depths.iter().filter(fn(depth) { depth == FAR_DEPTH }).count()
+  let untouched_depths = dotted.depths
+    .iter()
+    .filter(fn(depth) { depth == FAR_DEPTH })
+    .count()
   assert_eq(dotted_count, dotted.cells.length())
   assert_eq(untouched_depths, dotted.depths.length())
 }
 
+///|
 test "terminal y scale is backend local" {
   let point = @view.ProjectedVertex::new(10.0, 8.0, 4.5)
   let scaled = apply_terminal_y_scale(point, 20, 0.5)
@@ -23,6 +29,7 @@ test "terminal y scale is backend local" {
   assert_eq(scaled.depth, 4.5)
 }
 
+///|
 test "z buffer prefers nearer triangle" {
   let buffer = FrameBuffer::new(8, 8, blank_background)
   let far_a = @view.ProjectedVertex::new(1.0, 1.0, 5.0)
@@ -41,6 +48,7 @@ test "z buffer prefers nearer triangle" {
   assert_true(buffer.depths[index] < 5.0)
 }
 
+///|
 test "z buffer uses perspective correct depth for sloped triangle" {
   let buffer = FrameBuffer::new(10, 10, blank_background)
   let front_a = @view.ProjectedVertex::new(1.0, 1.0, 4.0)
@@ -58,14 +66,17 @@ test "z buffer uses perspective correct depth for sloped triangle" {
   assert_true(buffer.depths[index] < 4.0)
 }
 
+///|
 test "render draw list produces foreground pixels" {
   let draw_list = @frontend.DrawList::new()
-  draw_list.push_triangle(@frontend.DrawTriangle::new(
-    @view.ProjectedVertex::new(4.0, 4.0, 4.0),
-    @view.ProjectedVertex::new(16.0, 4.0, 4.0),
-    @view.ProjectedVertex::new(10.0, 14.0, 4.0),
-    0.9,
-  ))
+  draw_list.push_triangle(
+    @frontend.DrawTriangle::new(
+      @view.ProjectedVertex::new(4.0, 4.0, 4.0),
+      @view.ProjectedVertex::new(16.0, 4.0, 4.0),
+      @view.ProjectedVertex::new(10.0, 14.0, 4.0),
+      0.9,
+    ),
+  )
   let config = {
     width: 20,
     height: 16,
@@ -74,18 +85,24 @@ test "render draw list produces foreground pixels" {
     background_pattern: dotted_background,
   }
   let buffer = render_draw_list(draw_list, config)
-  let foreground = buffer.depths.iter().filter(fn(depth) { depth < FAR_DEPTH }).count()
+  let foreground = buffer.depths
+    .iter()
+    .filter(fn(depth) { depth < FAR_DEPTH })
+    .count()
   assert_true(foreground > 0)
 }
 
+///|
 test "tui luma conversion applies terminal y scale" {
   let draw_list = @frontend.DrawList::new()
-  draw_list.push_triangle(@frontend.DrawTriangle::new(
-    @view.ProjectedVertex::new(4.0, 2.0, 4.0),
-    @view.ProjectedVertex::new(16.0, 2.0, 4.0),
-    @view.ProjectedVertex::new(10.0, 14.0, 4.0),
-    0.9,
-  ))
+  draw_list.push_triangle(
+    @frontend.DrawTriangle::new(
+      @view.ProjectedVertex::new(4.0, 2.0, 4.0),
+      @view.ProjectedVertex::new(16.0, 2.0, 4.0),
+      @view.ProjectedVertex::new(10.0, 14.0, 4.0),
+      0.9,
+    ),
+  )
   let raw = @frontend.draw_list_to_luma(draw_list, 20, 16)
   let config = {
     width: 20,
@@ -99,6 +116,7 @@ test "tui luma conversion applies terminal y scale" {
   assert_eq(corrected.get(10, 12), 0.0)
 }
 
+///|
 test "tui sequence encode decode roundtrips metadata and frames" {
   let sequence = TuiSequence::new(4, 2, 12)
   sequence.push_frame("abcd\nefgh\n")
@@ -112,6 +130,7 @@ test "tui sequence encode decode roundtrips metadata and frames" {
   assert_eq(decoded.frames[1].content, "1234\n5678\n")
 }
 
+///|
 test "tui image encode decode roundtrips static frame" {
   let image = TuiImage::new(4, 2, "abcd\nefgh\n")
   let decoded = decode_tui_image(encode_tui_image(image))

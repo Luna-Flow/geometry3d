@@ -17,7 +17,7 @@ demo 是包入口和终端 runner。
 - `play_sequence(sequence, frame_limit)`：按序列 fps 播放字符帧。
 - `render_once(mesh, angle_x, angle_y, angle_z)`：清屏并输出一帧。
 - `run_animation(mesh, rotate, frame_limit, exposure, use_flow, render_view)`：运行帧循环。
-- `main`：解析 `--sphere`、`--torus`、`--hitchcock`、`--camera-auto`、`--long-exposure`、`--flow-exposure`、`--export-image`、`--show-image`、`--record`、`--play`、`--duration`、`--fps` 和 `--once`。
+- `main`：解析 `--sphere`、`--torus`、`--hitchcock`、`--dolly`、`--camera-auto`、`--long-exposure`、`--flow-exposure`、`--export-image`、`--show-image`、`--record`、`--record-stdout`、`--play`、`--duration`、`--fps` 和 `--once`。
 
 ## CLI
 
@@ -28,13 +28,20 @@ moon run src/demo --target native -- --sphere
 moon run src/demo --target native -- --sphere --once
 moon run src/demo --target native -- --torus
 moon run src/demo --target native -- --hitchcock
+moon run src/demo --target native -- --dolly
 moon run src/demo --target native -- --hitchcock --once
 moon run src/demo --target native -- --camera-auto --once
 moon run src/demo --target native -- --long-exposure --once
 moon run src/demo --target native -- --hitchcock --flow-exposure --once
 mkdir -p target
 moon run src/demo --target native -- --record target/demo.tui3d --duration 3 --fps 30
+COLUMNS=240 LINES=91 moon run src/demo --target native -- \
+  --dolly --record-stdout --duration 12 --fps 24 > target/dolly.tui3d
+python3 tools/tui3d_to_video.py target/dolly.tui3d target/dolly.mp4
 moon run src/demo --target native -- --play target/demo.tui3d
 moon run src/demo --target native -- --export-image target/demo.tuiimg
 moon run src/demo --target native -- --show-image target/demo.tuiimg
 ```
+
+大型录制建议使用 `--record-stdout`。它会逐帧写出，避免在内存中构建完整序列。
+视频转换的依赖、宽高比和参数说明见 [`tools/README.md`](../../../tools/README.md)。

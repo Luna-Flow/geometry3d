@@ -8,7 +8,7 @@
 
 ## Boundary
 
-`DrawList` が frontend と backend の安定した境界です。現在は TUI backend が消費し、
-将来 SVG、Canvas、image backend も同じ構造を消費できます。
+`DrawList` が frontend と backend の安定した境界です。現在の TUI backend と
+Canvas backend がこの構造を消費し、将来の image / diagnostic backend も再利用できます。
 
 internal shadow map は fixed resolution と face sampling を使います。material system、texture、physics、BVH はありません。

@@ -1,6 +1,6 @@
 import {
-  "moonbitlang/core/math" @math,
-  "Luna-Flow/geometry3d/core" @core,
+  "moonbitlang/core/math",
+  "Luna-Flow/geometry3d/core",
   "Luna-Flow/luna-generic",
   "Luna-Flow/linear-algebra/mutable" @la,
 }

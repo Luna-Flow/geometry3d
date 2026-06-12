@@ -1,0 +1,15 @@
+import {
+  "Luna-Flow/geometry3d/frontend",
+  "moonbit-community/rabbita/dom",
+  "moonbit-community/rabbita/js",
+}
+
+import {
+  "Luna-Flow/geometry3d/view",
+} for "wbtest"
+
+supported_targets = "js"
+
+options(
+  targets: { "renderer.mbt": [ "js" ], "canvas_wbtest.mbt": [ "js" ] },
+)

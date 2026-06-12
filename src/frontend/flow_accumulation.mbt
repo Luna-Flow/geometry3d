@@ -1,26 +1,32 @@
+///|
 pub struct FlowVector {
   dx : Int
   dy : Int
 }
 
+///|
 pub struct FlowField {
   width : Int
   height : Int
   vectors : Array[FlowVector]
 }
 
+///|
 pub fn FlowVector::new(dx : Int, dy : Int) -> FlowVector {
   { dx, dy }
 }
 
+///|
 pub fn FlowField::new(width : Int, height : Int) -> FlowField {
   { width, height, vectors: Array::make(width * height, FlowVector::new(0, 0)) }
 }
 
+///|
 pub fn FlowField::index(self : FlowField, x : Int, y : Int) -> Int {
   y * self.width + x
 }
 
+///|
 pub fn FlowField::get(self : FlowField, x : Int, y : Int) -> FlowVector {
   if x < 0 || x >= self.width || y < 0 || y >= self.height {
     FlowVector::new(0, 0)
@@ -29,13 +35,20 @@ pub fn FlowField::get(self : FlowField, x : Int, y : Int) -> FlowVector {
   }
 }
 
-pub fn FlowField::set(self : FlowField, x : Int, y : Int, flow : FlowVector) -> Unit {
+///|
+pub fn FlowField::set(
+  self : FlowField,
+  x : Int,
+  y : Int,
+  flow : FlowVector,
+) -> Unit {
   if x < 0 || x >= self.width || y < 0 || y >= self.height {
     return
   }
   self.vectors[self.index(x, y)] = flow
 }
 
+///|
 fn patch_error(
   previous : LumaBuffer,
   current : LumaBuffer,
@@ -57,6 +70,7 @@ fn patch_error(
   error
 }
 
+///|
 pub fn estimate_optical_flow(
   previous : LumaBuffer,
   current : LumaBuffer,
@@ -87,6 +101,7 @@ pub fn estimate_optical_flow(
   flow
 }
 
+///|
 pub fn accumulate_with_flow(
   previous : LumaBuffer,
   current : LumaBuffer,
@@ -106,6 +121,7 @@ pub fn accumulate_with_flow(
   out
 }
 
+///|
 pub fn align_with_flow(
   previous : LumaBuffer,
   current : LumaBuffer,
@@ -125,11 +141,16 @@ pub fn align_with_flow(
   out
 }
 
+///|
 pub fn average_luma(a : LumaBuffer, b : LumaBuffer) -> LumaBuffer {
   let out = LumaBuffer::new(a.width, a.height)
   for i in 0..<out.values.length() {
     out.values[i] = (a.values[i] + b.values[i]) * 0.5
-    out.depths[i] = if a.depths[i] < b.depths[i] { a.depths[i] } else { b.depths[i] }
+    out.depths[i] = if a.depths[i] < b.depths[i] {
+      a.depths[i]
+    } else {
+      b.depths[i]
+    }
   }
   out
 }

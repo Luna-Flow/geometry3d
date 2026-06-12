@@ -1,3 +1,4 @@
+///|
 test "scene builds backend-neutral draw list" {
   let viewport = @view.Viewport::new(40, 20)
   let camera = @view.Camera3::default(4.5)
@@ -13,16 +14,22 @@ test "scene builds backend-neutral draw list" {
   assert_true(draw_list.triangles[0].intensity >= 0.0)
 }
 
+///|
 test "scene can combine multiple objects" {
   let scene = Scene::new(Light::default())
-  scene.add_object(SceneObject::new(@core.cube_mesh(1.0), @core.Transform3::identity()))
-  scene.add_object(SceneObject::new(
-    @core.sphere_mesh(1.0, 4, 8),
-    @core.Transform3::translation(1.5, 0.0, 0.0),
-  ))
+  scene.add_object(
+    SceneObject::new(@core.cube_mesh(1.0), @core.Transform3::identity()),
+  )
+  scene.add_object(
+    SceneObject::new(
+      @core.sphere_mesh(1.0, 4, 8),
+      @core.Transform3::translation(1.5, 0.0, 0.0),
+    ),
+  )
   assert_eq(scene.objects.length(), 2)
 }
 
+///|
 test "render view can be built from scientific camera" {
   let viewport = @view.Viewport::new(40, 20)
   let scientific = @view.ScientificCamera::new(
@@ -35,14 +42,18 @@ test "render view can be built from scientific camera" {
   assert_true(render_view.projection.scale > 20.0)
 }
 
+///|
 test "exposure settings clamp shutter to frame duration" {
   let shutter = ShutterSpeed::reciprocal(30.0)
   let exposure = ExposureSettings::auto(shutter, 1.0 / 60.0)
   assert_true((shutter.seconds - 1.0 / 30.0).abs() < @core.DEPTH_EPSILON)
-  assert_true((exposure.shutter.seconds - exposure.frame_dt).abs() < @core.DEPTH_EPSILON)
+  assert_true(
+    (exposure.shutter.seconds - exposure.frame_dt).abs() < @core.DEPTH_EPSILON,
+  )
   assert_eq(exposure.samples, 1)
 }
 
+///|
 test "draw list converts to luma buffer" {
   let viewport = @view.Viewport::new(40, 20)
   let camera = @view.Camera3::default(4.5)
@@ -58,25 +69,31 @@ test "draw list converts to luma buffer" {
   assert_true(lit > 0)
 }
 
+///|
 test "luma buffer uses perspective correct depth for sloped triangle" {
   let buffer = LumaBuffer::new(10, 10)
-  buffer.draw_triangle(DrawTriangle::new(
-    @view.ProjectedVertex::new(1.0, 1.0, 4.0),
-    @view.ProjectedVertex::new(7.0, 1.0, 4.0),
-    @view.ProjectedVertex::new(4.0, 7.0, 4.0),
-    0.2,
-  ))
-  buffer.draw_triangle(DrawTriangle::new(
-    @view.ProjectedVertex::new(1.0, 1.0, 1.0),
-    @view.ProjectedVertex::new(7.0, 1.0, 10.0),
-    @view.ProjectedVertex::new(4.0, 7.0, 10.0),
-    0.9,
-  ))
+  buffer.draw_triangle(
+    DrawTriangle::new(
+      @view.ProjectedVertex::new(1.0, 1.0, 4.0),
+      @view.ProjectedVertex::new(7.0, 1.0, 4.0),
+      @view.ProjectedVertex::new(4.0, 7.0, 4.0),
+      0.2,
+    ),
+  )
+  buffer.draw_triangle(
+    DrawTriangle::new(
+      @view.ProjectedVertex::new(1.0, 1.0, 1.0),
+      @view.ProjectedVertex::new(7.0, 1.0, 10.0),
+      @view.ProjectedVertex::new(4.0, 7.0, 10.0),
+      0.9,
+    ),
+  )
 
   assert_true(buffer.get(4, 3) > 0.8)
   assert_true(buffer.depth_at(4, 3) < 4.0)
 }
 
+///|
 test "shadow map path keeps occluded scene renderable" {
   let viewport = @view.Viewport::new(40, 20)
   let camera = @view.Camera3::default(4.5)
@@ -90,20 +107,32 @@ test "shadow map path keeps occluded scene renderable" {
     @core.Transform3::translation(0.0, 0.0, 2.0),
   )
 
-  let receiver_scene = Scene::single(@core.cube_mesh(1.0), receiver_transform, light)
+  let receiver_scene = Scene::single(
+    @core.cube_mesh(1.0),
+    receiver_transform,
+    light,
+  )
   let receiver_only = build_draw_list(receiver_scene, render_view)
   assert_true(receiver_only.triangles[0].intensity > 0.9)
 
   let shadowed_scene = Scene::new(light)
-  shadowed_scene.add_object(SceneObject::new(@core.cube_mesh(1.0), receiver_transform))
-  shadowed_scene.add_object(SceneObject::new(@core.cube_mesh(1.0), occluder_transform))
+  shadowed_scene.add_object(
+    SceneObject::new(@core.cube_mesh(1.0), receiver_transform),
+  )
+  shadowed_scene.add_object(
+    SceneObject::new(@core.cube_mesh(1.0), occluder_transform),
+  )
   let shadowed = build_draw_list(shadowed_scene, render_view)
   let shadowed_buffer = draw_list_to_luma(shadowed, 40, 20)
-  let lit = shadowed_buffer.values.iter().filter(fn(value) { value > 0.0 }).count()
+  let lit = shadowed_buffer.values
+    .iter()
+    .filter(fn(value) { value > 0.0 })
+    .count()
   assert_true(shadowed.triangles.length() > receiver_only.triangles.length())
   assert_true(lit > 0)
 }
 
+///|
 test "optical flow detects translated luma patch" {
   let previous = LumaBuffer::new(9, 9)
   let current = LumaBuffer::new(9, 9)
@@ -115,6 +144,7 @@ test "optical flow detects translated luma patch" {
   assert_eq(vector.dy, 0)
 }
 
+///|
 test "flow accumulation preserves static luma" {
   let previous = LumaBuffer::new(4, 4)
   let current = LumaBuffer::new(4, 4)
@@ -125,6 +155,7 @@ test "flow accumulation preserves static luma" {
   assert_true((out.get(1, 1) - 0.8).abs() < @core.DEPTH_EPSILON)
 }
 
+///|
 test "timeline derives frame count and samples" {
   let timeline = Timeline::new(2.0, 30)
   let sample = timeline.sample(15)
@@ -133,6 +164,7 @@ test "timeline derives frame count and samples" {
   assert_true((sample.progress - 0.25).abs() < @core.DEPTH_EPSILON)
 }
 
+///|
 test "scalar track linearly interpolates keyframes" {
   let track = ScalarTrack::new([
     ScalarKeyframe::new(0.0, 10.0),

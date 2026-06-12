@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>geometry3d Canvas backend</title>
+    <style>
+      :root { color-scheme: dark; font-family: ui-monospace, monospace; }
+      body { min-height: 100vh; margin: 0; display: grid; place-items: center; background: #050914; }
+      main { display: grid; gap: 1rem; justify-items: center; }
+      header { width: min(90vw, 960px); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+      h1 { margin: 0; font-size: 1rem; font-weight: 500; color: #bcefff; letter-spacing: 0.08em; }
+      label { display: flex; align-items: center; gap: 0.65rem; color: #7aa5b8; font-size: 0.78rem; letter-spacing: 0.08em; }
+      select { border: 1px solid #28516a; border-radius: 0; padding: 0.45rem 2rem 0.45rem 0.65rem; color: #d9f7ff; background: #091522; font: inherit; }
+      canvas { width: min(90vw, 960px); height: auto; border: 1px solid #19364a; box-shadow: 0 24px 80px #000a; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>GEOMETRY3D / CANVAS Z-BUFFER</h1>
+        <label>
+          DEMO
+          <select id="demo-select">
+            <option value="torus">Torus</option>
+            <option value="dolly">Dolly zoom</option>
+          </select>
+        </label>
+      </header>
+      <canvas id="geometry3d-canvas" width="640" height="480"></canvas>
+    </main>
+    <script type="module" src="./demo.js"></script>
+  </body>
+</html>

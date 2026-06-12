@@ -9,8 +9,8 @@
 
 ## Backend Boundary
 
-Frontend output is a `DrawList`. This is the stable boundary for TUI today and
-for future SVG, Canvas, image, or diagnostic backends.
+Frontend output is a `DrawList`. This is the stable boundary consumed by the
+current TUI and Canvas backends, and by future image or diagnostic backends.
 
 ## Non-Goals
 

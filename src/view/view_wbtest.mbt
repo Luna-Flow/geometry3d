@@ -1,3 +1,4 @@
+///|
 test "look_at maps target in front of camera" {
   let camera = Camera3::default(4.5)
   let target = camera.world_to_camera_point(@core.vec3(0.0, 0.0, 0.0))
@@ -6,6 +7,7 @@ test "look_at maps target in front of camera" {
   assert_true((target[2] - 4.5).abs() < @core.DEPTH_EPSILON)
 }
 
+///|
 test "perspective projection emits expected depth" {
   let projection = PerspectiveProjection::new(Viewport::new(80, 32), 24.0)
   let point = projection.project_point(@core.vec3(0.0, 1.0, 4.5))
@@ -14,6 +16,7 @@ test "perspective projection emits expected depth" {
   assert_true((point.y - expected_y).abs() < @core.DEPTH_EPSILON)
 }
 
+///|
 test "orthographic and perspective projections differ with depth" {
   let viewport = Viewport::new(80, 32)
   let perspective = PerspectiveProjection::new(viewport, 24.0)
@@ -24,6 +27,7 @@ test "orthographic and perspective projections differ with depth" {
   assert_true((p.x - o.x).abs() > 1.0)
 }
 
+///|
 test "perspective depth interpolation differs from linear depth on sloped triangle" {
   let p0 = ProjectedVertex::new(1.0, 1.0, 1.0)
   let p1 = ProjectedVertex::new(7.0, 1.0, 10.0)
@@ -37,6 +41,7 @@ test "perspective depth interpolation differs from linear depth on sloped triang
   assert_true(corrected < 4.0)
 }
 
+///|
 test "sensor presets and custom dimensions are positive" {
   let apsc = SensorSpec::apsc()
   let full = SensorSpec::full_frame()
@@ -50,6 +55,7 @@ test "sensor presets and custom dimensions are positive" {
   assert_eq(custom.height_mm, 1.0)
 }
 
+///|
 test "50mm full frame field of view is plausible" {
   let sensor = SensorSpec::full_frame()
   let lens = LensSpec::new(50.0)
@@ -59,6 +65,7 @@ test "50mm full frame field of view is plausible" {
   assert_true(v_fov > 0.45 && v_fov < 0.50)
 }
 
+///|
 test "scientific camera derives perspective scale" {
   let viewport = Viewport::new(80, 32)
   let scientific = ScientificCamera::auto(viewport)
@@ -66,6 +73,7 @@ test "scientific camera derives perspective scale" {
   assert_true(projection.scale > 60.0)
 }
 
+///|
 test "world unit converts focal length into world units" {
   let camera = ScientificCamera::new(
     Camera3::default(4.5),
@@ -73,5 +81,7 @@ test "world unit converts focal length into world units" {
     LensSpec::new(50.0),
     WorldUnit::new(0.01),
   )
-  assert_true((camera.focal_length_world_units() - 5.0).abs() < @core.DEPTH_EPSILON)
+  assert_true(
+    (camera.focal_length_world_units() - 5.0).abs() < @core.DEPTH_EPSILON,
+  )
 }

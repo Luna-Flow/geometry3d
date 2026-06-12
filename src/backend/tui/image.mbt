@@ -1,25 +1,40 @@
+///|
 const TUI_IMAGE_MAGIC : String = "GEOMETRY3D_TUI_IMAGE v1"
+
+///|
 const TUI_IMAGE_MARKER : String = "---image---"
 
+///|
 pub struct TuiImage {
   width : Int
   height : Int
   content : String
 }
 
+///|
 pub fn TuiImage::new(width : Int, height : Int, content : String) -> TuiImage {
   {
-    width: if width < 1 { 1 } else { width },
-    height: if height < 1 { 1 } else { height },
+    width: if width < 1 {
+      1
+    } else {
+      width
+    },
+    height: if height < 1 {
+      1
+    } else {
+      height
+    },
     content,
   }
 }
 
+///|
 fn image_write_line(builder : StringBuilder, line : String) -> Unit {
   builder.write_string(line)
   builder.write_char('\n')
 }
 
+///|
 pub fn encode_tui_image(image : TuiImage) -> String {
   let builder = StringBuilder::new()
   image_write_line(builder, TUI_IMAGE_MAGIC)
@@ -27,12 +42,14 @@ pub fn encode_tui_image(image : TuiImage) -> String {
   image_write_line(builder, "height=\{image.height}")
   image_write_line(builder, TUI_IMAGE_MARKER)
   builder.write_string(image.content)
-  if image.content.length() == 0 || image.content[image.content.length() - 1].unsafe_to_char() != '\n' {
+  if image.content.length() == 0 ||
+    image.content[image.content.length() - 1].unsafe_to_char() != '\n' {
     builder.write_char('\n')
   }
   builder.to_string()
 }
 
+///|
 fn image_split_lines(text : String) -> Array[String] {
   let lines : Array[String] = []
   let mut current = StringBuilder::new()
@@ -50,6 +67,7 @@ fn image_split_lines(text : String) -> Array[String] {
   lines
 }
 
+///|
 fn image_digit_value(ch : Char) -> Int {
   if ch == '0' {
     0
@@ -76,6 +94,7 @@ fn image_digit_value(ch : Char) -> Int {
   }
 }
 
+///|
 fn image_parse_int_after_equals(line : String, fallback : Int) -> Int {
   let mut seen_equals = false
   let mut value = 0
@@ -91,9 +110,14 @@ fn image_parse_int_after_equals(line : String, fallback : Int) -> Int {
       seen_equals = true
     }
   }
-  if seen_digit { value } else { fallback }
+  if seen_digit {
+    value
+  } else {
+    fallback
+  }
 }
 
+///|
 pub fn decode_tui_image(text : String) -> TuiImage {
   let lines = image_split_lines(text)
   if lines.length() < 4 || lines[0] != TUI_IMAGE_MAGIC {

@@ -3,6 +3,7 @@ moon test --target wasm-gc
 moon test --target js
 moon test --target native
 moon test --target wasm
+moon build src/demo_canvas --target js
 moon run src/demo --target native -- --sphere --once
 moon run src/demo --target native -- --hitchcock --once
 moon run src/demo --target native -- --camera-auto --once

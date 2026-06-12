@@ -1,3 +1,4 @@
+///|
 pub struct QuadFace {
   a : Int
   b : Int
@@ -5,17 +6,20 @@ pub struct QuadFace {
   d : Int
 }
 
+///|
 pub struct TriangleFace {
   a : Int
   b : Int
   c : Int
 }
 
+///|
 pub struct Mesh {
   vertices : Array[@la.Vector[Double]]
   faces : Array[QuadFace]
 }
 
+///|
 pub fn cube_mesh(size : Double) -> Mesh {
   let s = size
   {
@@ -40,10 +44,12 @@ pub fn cube_mesh(size : Double) -> Mesh {
   }
 }
 
+///|
 fn sphere_ring_index(ring : Int, segment : Int, segments : Int) -> Int {
   1 + (ring - 1) * segments + segment % segments
 }
 
+///|
 pub fn sphere_mesh(radius : Double, rings : Int, segments : Int) -> Mesh {
   let safe_rings = if rings < 3 { 3 } else { rings }
   let safe_segments = if segments < 3 { 3 } else { segments }
@@ -52,12 +58,18 @@ pub fn sphere_mesh(radius : Double, rings : Int, segments : Int) -> Mesh {
 
   vertices.push(vec3(0.0, radius, 0.0))
   for ring in 1..<safe_rings {
-    let phi = @math.PI / 2.0 - @math.PI * ring.to_double() / safe_rings.to_double()
+    let phi = @math.PI / 2.0 -
+      @math.PI * ring.to_double() / safe_rings.to_double()
     let y = radius * @math.sin(phi)
     let ring_radius = radius * @math.cos(phi)
     for segment in 0..<safe_segments {
-      let theta = 2.0 * @math.PI * segment.to_double() / safe_segments.to_double()
-      vertices.push(vec3(ring_radius * @math.cos(theta), y, ring_radius * @math.sin(theta)))
+      let theta = 2.0 *
+        @math.PI *
+        segment.to_double() /
+        safe_segments.to_double()
+      vertices.push(
+        vec3(ring_radius * @math.cos(theta), y, ring_radius * @math.sin(theta)),
+      )
     }
   }
   let bottom = vertices.length()
@@ -98,6 +110,7 @@ pub fn sphere_mesh(radius : Double, rings : Int, segments : Int) -> Mesh {
   { vertices, faces }
 }
 
+///|
 pub fn cylinder_mesh(radius : Double, height : Double, segments : Int) -> Mesh {
   let safe_segments = if segments < 3 { 3 } else { segments }
   let half_h = height * 0.5
@@ -130,6 +143,7 @@ pub fn cylinder_mesh(radius : Double, height : Double, segments : Int) -> Mesh {
   { vertices, faces }
 }
 
+///|
 pub fn cone_mesh(radius : Double, height : Double, segments : Int) -> Mesh {
   let safe_segments = if segments < 3 { 3 } else { segments }
   let half_h = height * 0.5
@@ -138,7 +152,9 @@ pub fn cone_mesh(radius : Double, height : Double, segments : Int) -> Mesh {
 
   for segment in 0..<safe_segments {
     let theta = 2.0 * @math.PI * segment.to_double() / safe_segments.to_double()
-    vertices.push(vec3(radius * @math.cos(theta), -half_h, radius * @math.sin(theta)))
+    vertices.push(
+      vec3(radius * @math.cos(theta), -half_h, radius * @math.sin(theta)),
+    )
   }
   let apex = vertices.length()
   vertices.push(vec3(0.0, half_h, 0.0))
@@ -154,12 +170,15 @@ pub fn cone_mesh(radius : Double, height : Double, segments : Int) -> Mesh {
   { vertices, faces }
 }
 
+///|
 pub fn triangular_pyramid_mesh(radius : Double, height : Double) -> Mesh {
   let half_h = height * 0.5
   let vertices : Array[@la.Vector[Double]] = []
   for i in 0..<3 {
     let theta = 2.0 * @math.PI * i.to_double() / 3.0 + @math.PI / 6.0
-    vertices.push(vec3(radius * @math.cos(theta), -half_h, radius * @math.sin(theta)))
+    vertices.push(
+      vec3(radius * @math.cos(theta), -half_h, radius * @math.sin(theta)),
+    )
   }
   vertices.push(vec3(0.0, half_h, 0.0))
   {
@@ -173,10 +192,16 @@ pub fn triangular_pyramid_mesh(radius : Double, height : Double) -> Mesh {
   }
 }
 
-fn torus_vertex_index(major_segment : Int, minor_segment : Int, minor_segments : Int) -> Int {
+///|
+fn torus_vertex_index(
+  major_segment : Int,
+  minor_segment : Int,
+  minor_segments : Int,
+) -> Int {
   major_segment * minor_segments + minor_segment
 }
 
+///|
 pub fn torus_mesh(
   major_radius : Double,
   minor_radius : Double,
@@ -195,7 +220,10 @@ pub fn torus_mesh(
     let cos_u = @math.cos(u)
     let sin_u = @math.sin(u)
     for minor in 0..<safe_minor_segments {
-      let v = 2.0 * @math.PI * minor.to_double() / safe_minor_segments.to_double()
+      let v = 2.0 *
+        @math.PI *
+        minor.to_double() /
+        safe_minor_segments.to_double()
       let ring = safe_major_radius + safe_minor_radius * @math.cos(v)
       let y = safe_minor_radius * @math.sin(v)
       vertices.push(vec3(ring * cos_u, y, ring * sin_u))
@@ -218,6 +246,7 @@ pub fn torus_mesh(
   { vertices, faces }
 }
 
+///|
 pub fn face_vertices(mesh : Mesh, face : QuadFace) -> Array[@la.Vector[Double]] {
   [
     mesh.vertices[face.a],
@@ -227,6 +256,7 @@ pub fn face_vertices(mesh : Mesh, face : QuadFace) -> Array[@la.Vector[Double]] 
   ]
 }
 
+///|
 pub fn triangulate_quad(face : QuadFace) -> Array[TriangleFace] {
   [{ a: face.a, b: face.b, c: face.c }, { a: face.a, b: face.c, c: face.d }]
 }
