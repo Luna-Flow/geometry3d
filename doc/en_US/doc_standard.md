@@ -1,7 +1,7 @@
 # Documentation Standard
 
 This repository's documentation should describe the **current implementation on
-the branch**. The active baseline is **v0.4.1**.
+the branch**. The active baseline is **v0.5.0**.
 
 ## Document Types
 

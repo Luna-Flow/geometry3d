@@ -1,6 +1,6 @@
 name = "Luna-Flow/geometry3d"
 
-version = "0.4.1"
+version = "0.5.0"
 
 import {
   "Luna-Flow/arithmetic@0.2.1",
@@ -16,9 +16,9 @@ repository = "https://github.com/Luna-Flow/geometry3d"
 
 license = "Apache-2.0"
 
-keywords = [ "geometry3d", "tui", "canvas", "linear-algebra" ]
+keywords = [ "geometry3d", "tui", "canvas", "svg", "gsap", "linear-algebra" ]
 
-description = "A small MoonBit 3D geometry foundation with core, view, frontend, TUI, and Canvas backend packages built on Luna-Flow/linear-algebra."
+description = "A small MoonBit 3D geometry foundation with core, view, frontend, TUI, Canvas, and GSAP SVG backend packages built on Luna-Flow/linear-algebra."
 
 options(
   source: "src",
