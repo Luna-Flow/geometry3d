@@ -20,7 +20,8 @@ geometry 基础库。它分离 core geometry、camera/view、frontend draw-list 
 - **`frontend`**：`Scene`、`RenderView`、backend-neutral `DrawList`。
 - **`backend-tui`**：TUI frame buffer、背景 pattern、Z-buffer、terminal y-scale、光栅化。
 - **`backend-canvas`**：使用 frontend 软件 Z-buffer 的浏览器 Canvas 2D 输出。
-- **`demo`**：终端 demo 与 TUI 导出/回放辅助命令；`demo_canvas` 提供 Torus 和 Dolly 浏览器 demo。
+- **`backend-gsap`**：使用画家顺序的 SVG polygon 输出与 GSAP 播放控制。
+- **`demo`**：终端 demo 与导出辅助命令；`demo_canvas` 和 `demo_gsap` 提供浏览器 demo。
 
 ## 文档入口
 
@@ -29,5 +30,6 @@ geometry 基础库。它分离 core geometry、camera/view、frontend draw-list 
 - API Reference: [frontend](./frontend/api.md)
 - API Reference: [backend-tui](./backend-tui/api.md)
 - Backend Canvas: [API](./backend-canvas/api.md), [Tutorial](./backend-canvas/tutorial.md), [Design](./backend-canvas/design.md)
+- Backend GSAP: [API](./backend-gsap/api.md), [Tutorial](./backend-gsap/tutorial.md), [Design](./backend-gsap/design.md)
 - API Reference: [demo](./demo/api.md)
 - Migration: [v0.1 to v0.2](./migration_v0_2.md)

@@ -16,6 +16,7 @@ Luna-Flow/linear-algebra
   -> geometry3d frontend
   -> backend/tui
   -> backend/canvas
+  -> backend/gsap
   -> demo
 ```
 
@@ -33,6 +34,8 @@ Luna-Flow/linear-algebra
   triangle rasterization.
 - `Luna-Flow/geometry3d/backend/canvas`: browser Canvas 2D rendering backed by
   the frontend software Z-buffer, quantized RGB shading, and merged scanline runs.
+- `Luna-Flow/geometry3d/backend/gsap`: JS-only SVG polygon rendering with
+  painter-order depth sorting and a GSAP timeline playback controller.
 - `Luna-Flow/geometry3d/demo`: ANSI terminal showcase for cube, torus, and Hitchcock scenes.
 
 The core and frontend packages do not know about terminal characters, ANSI
@@ -55,6 +58,7 @@ Subsystem entry points:
 - Frontend: [API](./doc/en_US/frontend/api.md), [Tutorial](./doc/en_US/frontend/tutorial.md), [Design](./doc/en_US/frontend/design.md)
 - Backend TUI: [API](./doc/en_US/backend-tui/api.md), [Tutorial](./doc/en_US/backend-tui/tutorial.md), [Design](./doc/en_US/backend-tui/design.md)
 - Backend Canvas: [API](./doc/en_US/backend-canvas/api.md), [Tutorial](./doc/en_US/backend-canvas/tutorial.md), [Design](./doc/en_US/backend-canvas/design.md)
+- Backend GSAP: [API](./doc/en_US/backend-gsap/api.md), [Tutorial](./doc/en_US/backend-gsap/tutorial.md), [Design](./doc/en_US/backend-gsap/design.md)
 - Demo: [API](./doc/en_US/demo/api.md), [Tutorial](./doc/en_US/demo/tutorial.md), [Design](./doc/en_US/demo/design.md)
 
 ## Background Patterns
@@ -107,6 +111,17 @@ Then open `http://localhost:8080`. The Canvas backend is JS-only and uses
 used by MoonBit's official browser examples. Use the page selector to switch
 between the rotating torus and the scientific-camera Dolly zoom scene.
 
+To build and serve the GSAP-driven SVG demo:
+
+```sh
+just gsap-serve
+```
+
+Open `http://localhost:8081`. The demo loads GSAP 3.13.0 from jsDelivr and
+provides play, pause, reverse, restart, seek, speed, loop, and scene controls.
+The backend emits reusable SVG polygons ordered from far to near. Intersecting
+triangles use painter-order approximation instead of a per-pixel Z-buffer.
+
 To record a playable TUI sequence and play it back:
 
 ```sh
@@ -144,7 +159,9 @@ luma buffers, optical-flow accumulation, terminal y-scale, background patterns,
 timeline sampling, TUI sequence/image encode/decode, frame buffer
 initialization, Z-buffer behavior, and foreground rendering without relying on
 full character-art snapshots. Canvas tests cover color quantization, scanline
-merging, zero-luma foregrounds, and depth ordering. Torus tests also enforce outward face winding so
+merging, zero-luma foregrounds, and depth ordering. GSAP SVG tests cover config
+normalization, polygon serialization, color quantization, and stable painter
+ordering. Torus tests also enforce outward face winding so
 backface culling cannot regress to displaying the inner wall.
 
 `run_test.sh` mirrors the publish workflow and runs the test suite across

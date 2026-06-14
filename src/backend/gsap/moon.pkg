@@ -1,0 +1,18 @@
+import {
+  "Luna-Flow/geometry3d/frontend",
+  "moonbit-community/rabbita/dom",
+}
+
+import {
+  "Luna-Flow/geometry3d/view",
+} for "wbtest"
+
+supported_targets = "js"
+
+options(
+  targets: {
+    "renderer.mbt": [ "js" ],
+    "player.mbt": [ "js" ],
+    "gsap_wbtest.mbt": [ "js" ],
+  },
+)

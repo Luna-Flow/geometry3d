@@ -21,7 +21,8 @@ frontend draw-list generation, and concrete renderer backends.
 - **`frontend`**: `Scene`, `RenderView`, and backend-neutral `DrawList`.
 - **`backend-tui`**: TUI frame buffer, background patterns, Z-buffer, terminal y-scale, and rasterization.
 - **`backend-canvas`**: browser Canvas 2D output using the frontend software Z-buffer.
-- **`demo`**: terminal demos and TUI export/playback helpers; `demo_canvas` provides Torus and Dolly browser demos.
+- **`backend-gsap`**: SVG polygon output with painter ordering and GSAP playback control.
+- **`demo`**: terminal demos and export helpers; `demo_canvas` and `demo_gsap` provide browser demos.
 
 ## Documentation Entry Points
 
@@ -30,5 +31,6 @@ frontend draw-list generation, and concrete renderer backends.
 - API Reference: [frontend](./frontend/api.md)
 - API Reference: [backend-tui](./backend-tui/api.md)
 - Backend Canvas: [API](./backend-canvas/api.md), [Tutorial](./backend-canvas/tutorial.md), [Design](./backend-canvas/design.md)
+- Backend GSAP: [API](./backend-gsap/api.md), [Tutorial](./backend-gsap/tutorial.md), [Design](./backend-gsap/design.md)
 - API Reference: [demo](./demo/api.md)
 - Migration: [v0.1 to v0.2](./migration_v0_2.md)

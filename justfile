@@ -43,6 +43,16 @@ canvas-build:
 canvas-serve: canvas-build
   python3 -m http.server 8080 -d target/canvas-demo
 
+gsap-build:
+  rtk moon build src/demo_gsap --target js
+  mkdir -p target/gsap-demo
+  cp src/demo_gsap/index.html target/gsap-demo/index.html
+  cp _build/js/debug/build/demo_gsap/demo_gsap.js target/gsap-demo/demo.js
+  @printf 'GSAP SVG demo built at target/gsap-demo/index.html\n'
+
+gsap-serve: gsap-build
+  python3 -m http.server 8081 -d target/gsap-demo
+
 record:
   mkdir -p target
   rtk moon run src/demo --target native -- --record target/geometry3d-demo.tui3d --duration 1 --fps 2
