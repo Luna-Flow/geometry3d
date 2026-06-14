@@ -1,0 +1,104 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Luna-Flow/geometry3d/backend/tui"
+
+import {
+  "Luna-Flow/geometry3d/frontend",
+  "Luna-Flow/geometry3d/view",
+}
+
+// Values
+pub const DEFAULT_HEIGHT : Int = 32
+
+pub const DEFAULT_SHADE_RAMP : String = " .:-=+*#%@"
+
+pub const DEFAULT_TERMINAL_Y_SCALE : Double = 0.5
+
+pub const DEFAULT_WIDTH : Int = 80
+
+pub const FAR_DEPTH : Double = 1.0e30
+
+pub fn apply_terminal_y_scale(@view.ProjectedVertex, Int, Double) -> @view.ProjectedVertex
+
+pub fn blank_background(Int, Int, Int, Int) -> Char
+
+pub fn checker_background(Int, Int, Int, Int) -> Char
+
+pub fn clamp01(Double) -> Double
+
+pub fn decode_tui_image(String) -> TuiImage
+
+pub fn decode_tui_sequence(String) -> TuiSequence
+
+pub fn dotted_background(Int, Int, Int, Int) -> Char
+
+pub fn draw_list_to_tui_luma(@frontend.DrawList, TuiRenderConfig) -> @frontend.LumaBuffer
+
+pub fn draw_triangle_z(FrameBuffer, @view.ProjectedVertex, @view.ProjectedVertex, @view.ProjectedVertex, Char) -> Unit
+
+pub fn edge_function(Double, Double, Double, Double, Double, Double) -> Double
+
+pub fn encode_tui_image(TuiImage) -> String
+
+pub fn encode_tui_sequence(TuiSequence) -> String
+
+pub fn render_draw_list(@frontend.DrawList, TuiRenderConfig) -> FrameBuffer
+
+pub fn render_frame(@frontend.DrawList, TuiRenderConfig) -> String
+
+pub fn render_luma_buffer(@frontend.LumaBuffer, TuiRenderConfig) -> FrameBuffer
+
+pub fn render_luma_frame(@frontend.LumaBuffer, TuiRenderConfig) -> String
+
+pub fn render_scene(@frontend.Scene, @frontend.RenderView, TuiRenderConfig) -> FrameBuffer
+
+pub fn shade_char(String, Double) -> Char
+
+// Errors
+
+// Types and methods
+pub struct FrameBuffer {
+  width : Int
+  height : Int
+  cells : Array[Char]
+  depths : Array[Double]
+}
+pub fn FrameBuffer::index(Self, Int, Int) -> Int
+pub fn FrameBuffer::new(Int, Int, (Int, Int, Int, Int) -> Char) -> Self
+pub fn FrameBuffer::set_pixel_if_closer(Self, Int, Int, Double, Char) -> Unit
+pub fn FrameBuffer::to_string(Self) -> String
+
+pub struct TuiFrame {
+  content : String
+}
+pub fn TuiFrame::new(String) -> Self
+
+pub struct TuiImage {
+  width : Int
+  height : Int
+  content : String
+}
+pub fn TuiImage::new(Int, Int, String) -> Self
+
+pub struct TuiRenderConfig {
+  width : Int
+  height : Int
+  terminal_y_scale : Double
+  shade_ramp : String
+  background_pattern : (Int, Int, Int, Int) -> Char
+}
+pub fn TuiRenderConfig::default() -> Self
+pub fn TuiRenderConfig::sized(Int, Int) -> Self
+
+pub struct TuiSequence {
+  width : Int
+  height : Int
+  fps : Int
+  frames : Array[TuiFrame]
+}
+pub fn TuiSequence::new(Int, Int, Int) -> Self
+pub fn TuiSequence::push_frame(Self, String) -> Unit
+
+// Type aliases
+
+// Traits
+

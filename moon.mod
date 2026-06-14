@@ -1,12 +1,12 @@
 name = "Luna-Flow/geometry3d"
 
-version = "0.4.0"
+version = "0.4.1"
 
 import {
-  "Luna-Flow/arithmetic@0.1.1",
+  "Luna-Flow/arithmetic@0.2.1",
   "moonbitlang/x@0.4.43",
-  "Luna-Flow/luna-generic@0.3.0",
-  "Luna-Flow/linear-algebra@0.2.12",
+  "Luna-Flow/luna-generic@0.3.3",
+  "Luna-Flow/linear-algebra@0.3.0",
   "moonbit-community/rabbita@0.12.4",
 }
 

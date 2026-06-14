@@ -2,7 +2,7 @@
 
 [![img](https://img.shields.io/badge/Maintainer-KCN--judu-violet)](https://github.com/KCN-judu) [![img](https://img.shields.io/badge/License-Apache%202.0-blue)](https://github.com/Luna-Flow/geometry3d/blob/main/LICENSE) ![img](https://img.shields.io/badge/State-active-success)
 
-## v0.4.0 - TUI and Canvas Rendering Pipelines
+## v0.4.1 - TUI and Canvas Rendering Pipelines
 
 `geometry3d` is a small MoonBit 3D geometry foundation built on
 `Luna-Flow/linear-algebra`. It is intentionally not a full 3D engine: the goal

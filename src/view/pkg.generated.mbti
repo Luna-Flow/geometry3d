@@ -1,0 +1,104 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Luna-Flow/geometry3d/view"
+
+import {
+  "Luna-Flow/geometry3d/core",
+  "Luna-Flow/linear-algebra/mutable",
+}
+
+// Values
+pub fn interpolate_perspective_depth(ProjectedVertex, ProjectedVertex, ProjectedVertex, Double, Double, Double) -> Double
+
+pub fn project_orthographic_vertices(Array[@mutable.Vector[Double]], OrthographicProjection) -> Array[ProjectedVertex]
+
+pub fn project_perspective_vertices(Array[@mutable.Vector[Double]], PerspectiveProjection) -> Array[ProjectedVertex]
+
+// Errors
+
+// Types and methods
+pub struct Camera3 {
+  eye : @mutable.Vector[Double]
+  target : @mutable.Vector[Double]
+  up : @mutable.Vector[Double]
+}
+pub fn Camera3::default(Double) -> Self
+pub fn Camera3::forward(Self) -> @mutable.Vector[Double]
+pub fn Camera3::look_at(@mutable.Vector[Double], @mutable.Vector[Double], @mutable.Vector[Double]) -> Self
+pub fn Camera3::right(Self) -> @mutable.Vector[Double]
+pub fn Camera3::true_up(Self) -> @mutable.Vector[Double]
+pub fn Camera3::view_transform(Self) -> @core.Transform3
+pub fn Camera3::world_to_camera_direction(Self, @mutable.Vector[Double]) -> @mutable.Vector[Double]
+pub fn Camera3::world_to_camera_point(Self, @mutable.Vector[Double]) -> @mutable.Vector[Double]
+
+pub struct LensSpec {
+  focal_length_mm : Double
+}
+pub fn LensSpec::diagonal_fov(Self, SensorSpec) -> Double
+pub fn LensSpec::horizontal_fov(Self, SensorSpec) -> Double
+pub fn LensSpec::new(Double) -> Self
+pub fn LensSpec::normal_full_frame() -> Self
+pub fn LensSpec::vertical_fov(Self, SensorSpec) -> Double
+
+pub struct OrthographicProjection {
+  viewport : Viewport
+  scale : Double
+}
+pub fn OrthographicProjection::new(Viewport, Double) -> Self
+pub fn OrthographicProjection::project_point(Self, @mutable.Vector[Double]) -> ProjectedVertex
+
+pub struct PerspectiveProjection {
+  viewport : Viewport
+  scale : Double
+}
+pub fn PerspectiveProjection::new(Viewport, Double) -> Self
+pub fn PerspectiveProjection::project_point(Self, @mutable.Vector[Double]) -> ProjectedVertex
+
+pub struct ProjectedVertex {
+  x : Double
+  y : Double
+  depth : Double
+}
+pub fn ProjectedVertex::new(Double, Double, Double) -> Self
+
+pub struct ScientificCamera {
+  camera : Camera3
+  sensor : SensorSpec
+  lens : LensSpec
+  world_unit : WorldUnit
+}
+pub fn ScientificCamera::auto(Viewport) -> Self
+pub fn ScientificCamera::focal_length_world_units(Self) -> Double
+pub fn ScientificCamera::new(Camera3, SensorSpec, LensSpec, WorldUnit) -> Self
+pub fn ScientificCamera::projection_scale(Self, Viewport) -> Double
+pub fn ScientificCamera::sensor_height_world_units(Self) -> Double
+pub fn ScientificCamera::to_perspective_projection(Self, Viewport) -> PerspectiveProjection
+pub fn ScientificCamera::with_camera(Self, Camera3) -> Self
+pub fn ScientificCamera::with_lens(Self, LensSpec) -> Self
+
+pub struct SensorSpec {
+  width_mm : Double
+  height_mm : Double
+}
+pub fn SensorSpec::apsc() -> Self
+pub fn SensorSpec::custom(Double, Double) -> Self
+pub fn SensorSpec::diagonal_mm(Self) -> Double
+pub fn SensorSpec::full_frame() -> Self
+pub fn SensorSpec::medium_format() -> Self
+
+pub struct Viewport {
+  width : Int
+  height : Int
+}
+pub fn Viewport::new(Int, Int) -> Self
+
+pub struct WorldUnit {
+  meters_per_unit : Double
+}
+pub fn WorldUnit::millimeters_per_unit(Self) -> Double
+pub fn WorldUnit::new(Double) -> Self
+pub fn WorldUnit::unitless() -> Self
+
+// Type aliases
+
+// Traits
+

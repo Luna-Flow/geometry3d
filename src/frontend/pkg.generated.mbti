@@ -1,0 +1,143 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Luna-Flow/geometry3d/frontend"
+
+import {
+  "Luna-Flow/geometry3d/core",
+  "Luna-Flow/geometry3d/view",
+  "Luna-Flow/linear-algebra/mutable",
+}
+
+// Values
+pub const LUMA_FAR_DEPTH : Double = 1.0e30
+
+pub fn accumulate_with_flow(LumaBuffer, LumaBuffer, FlowField) -> LumaBuffer
+
+pub fn align_with_flow(LumaBuffer, LumaBuffer, FlowField) -> LumaBuffer
+
+pub fn average_luma(LumaBuffer, LumaBuffer) -> LumaBuffer
+
+pub fn build_draw_list(Scene, RenderView) -> DrawList
+
+pub fn draw_list_to_luma(DrawList, Int, Int) -> LumaBuffer
+
+pub fn estimate_optical_flow(LumaBuffer, LumaBuffer, Int, Int) -> FlowField
+
+// Errors
+
+// Types and methods
+pub struct DrawList {
+  triangles : Array[DrawTriangle]
+}
+pub fn DrawList::new() -> Self
+pub fn DrawList::push_triangle(Self, DrawTriangle) -> Unit
+
+pub struct DrawTriangle {
+  p0 : @view.ProjectedVertex
+  p1 : @view.ProjectedVertex
+  p2 : @view.ProjectedVertex
+  intensity : Double
+}
+pub fn DrawTriangle::new(@view.ProjectedVertex, @view.ProjectedVertex, @view.ProjectedVertex, Double) -> Self
+
+pub struct ExposureSettings {
+  shutter : ShutterSpeed
+  frame_dt : Double
+  samples : Int
+}
+pub fn ExposureSettings::auto(ShutterSpeed, Double) -> Self
+pub fn ExposureSettings::new(ShutterSpeed, Double, Int) -> Self
+
+pub struct FlowField {
+  width : Int
+  height : Int
+  vectors : Array[FlowVector]
+}
+pub fn FlowField::get(Self, Int, Int) -> FlowVector
+pub fn FlowField::index(Self, Int, Int) -> Int
+pub fn FlowField::new(Int, Int) -> Self
+pub fn FlowField::set(Self, Int, Int, FlowVector) -> Unit
+
+pub struct FlowVector {
+  dx : Int
+  dy : Int
+}
+pub fn FlowVector::new(Int, Int) -> Self
+
+pub struct Light {
+  direction : @mutable.Vector[Double]
+}
+pub fn Light::default() -> Self
+pub fn Light::directional(@mutable.Vector[Double]) -> Self
+
+pub struct LumaBuffer {
+  width : Int
+  height : Int
+  values : Array[Double]
+  depths : Array[Double]
+}
+pub fn LumaBuffer::add_weighted_sample(Self, Self, Double) -> Unit
+pub fn LumaBuffer::depth_at(Self, Int, Int) -> Double
+pub fn LumaBuffer::draw_triangle(Self, DrawTriangle) -> Unit
+pub fn LumaBuffer::get(Self, Int, Int) -> Double
+pub fn LumaBuffer::index(Self, Int, Int) -> Int
+pub fn LumaBuffer::new(Int, Int) -> Self
+pub fn LumaBuffer::set_if_closer(Self, Int, Int, Double, Double) -> Unit
+
+pub struct RenderView {
+  camera : @view.Camera3
+  projection : @view.PerspectiveProjection
+}
+pub fn RenderView::perspective(@view.Camera3, @view.PerspectiveProjection) -> Self
+pub fn RenderView::scientific(@view.ScientificCamera, @view.Viewport) -> Self
+
+pub struct ScalarKeyframe {
+  time_seconds : Double
+  value : Double
+}
+pub fn ScalarKeyframe::new(Double, Double) -> Self
+
+pub struct ScalarTrack {
+  keyframes : Array[ScalarKeyframe]
+}
+pub fn ScalarTrack::new(Array[ScalarKeyframe]) -> Self
+pub fn ScalarTrack::sample(Self, Double) -> Double
+
+pub struct Scene {
+  objects : Array[SceneObject]
+  light : Light
+}
+pub fn Scene::add_object(Self, SceneObject) -> Unit
+pub fn Scene::new(Light) -> Self
+pub fn Scene::single(@core.Mesh, @core.Transform3, Light) -> Self
+
+pub struct SceneObject {
+  mesh : @core.Mesh
+  transform : @core.Transform3
+}
+pub fn SceneObject::new(@core.Mesh, @core.Transform3) -> Self
+
+pub struct ShutterSpeed {
+  seconds : Double
+}
+pub fn ShutterSpeed::reciprocal(Double) -> Self
+pub fn ShutterSpeed::seconds(Double) -> Self
+
+pub struct Timeline {
+  duration_seconds : Double
+  fps : Int
+}
+pub fn Timeline::frame_count(Self) -> Int
+pub fn Timeline::frame_dt(Self) -> Double
+pub fn Timeline::new(Double, Int) -> Self
+pub fn Timeline::sample(Self, Int) -> TimelineSample
+
+pub struct TimelineSample {
+  frame_index : Int
+  time_seconds : Double
+  progress : Double
+}
+
+// Type aliases
+
+// Traits
+

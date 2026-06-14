@@ -1,0 +1,104 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Luna-Flow/geometry3d/core"
+
+import {
+  "Luna-Flow/linear-algebra/mutable",
+}
+
+// Values
+pub const DEPTH_EPSILON : Double = 1.0e-9
+
+pub fn cone_mesh(Double, Double, Int) -> Mesh
+
+pub fn cross_vec(@mutable.Vector[Double], @mutable.Vector[Double]) -> @mutable.Vector[Double]
+
+pub fn cube_mesh(Double) -> Mesh
+
+pub fn cylinder_mesh(Double, Double, Int) -> Mesh
+
+pub fn face_center(Array[@mutable.Vector[Double]], QuadFace) -> @mutable.Vector[Double]
+
+pub fn face_intensity(Array[@mutable.Vector[Double]], QuadFace, @mutable.Vector[Double]) -> Double
+
+pub fn face_is_visible(Array[@mutable.Vector[Double]], QuadFace, @mutable.Vector[Double]) -> Bool
+
+pub fn face_normal(Array[@mutable.Vector[Double]], QuadFace) -> @mutable.Vector[Double]
+
+pub fn face_vertices(Mesh, QuadFace) -> Array[@mutable.Vector[Double]]
+
+pub fn identity_matrix4() -> @mutable.Matrix[Double]
+
+pub fn max3(Double, Double, Double) -> Double
+
+pub fn min3(Double, Double, Double) -> Double
+
+pub fn normalize_vec(@mutable.Vector[Double]) -> @mutable.Vector[Double]
+
+pub fn rotation_matrix(Double, Double, Double) -> @mutable.Matrix[Double]
+
+pub fn rotation_x(Double) -> @mutable.Matrix[Double]
+
+pub fn rotation_y(Double) -> @mutable.Matrix[Double]
+
+pub fn rotation_z(Double) -> @mutable.Matrix[Double]
+
+pub fn scale_matrix(Double, Double, Double) -> @mutable.Matrix[Double]
+
+pub fn sphere_mesh(Double, Int, Int) -> Mesh
+
+pub fn sub_vec(@mutable.Vector[Double], @mutable.Vector[Double]) -> @mutable.Vector[Double]
+
+pub fn torus_mesh(Double, Double, Int, Int) -> Mesh
+
+pub fn translation_matrix(Double, Double, Double) -> @mutable.Matrix[Double]
+
+pub fn triangular_pyramid_mesh(Double, Double) -> Mesh
+
+pub fn triangulate_quad(QuadFace) -> Array[TriangleFace]
+
+pub fn vec3(Double, Double, Double) -> @mutable.Vector[Double]
+
+pub fn vec4(Double, Double, Double, Double) -> @mutable.Vector[Double]
+
+pub fn vec_length(@mutable.Vector[Double]) -> Double
+
+// Errors
+
+// Types and methods
+pub struct Mesh {
+  vertices : Array[@mutable.Vector[Double]]
+  faces : Array[QuadFace]
+}
+
+pub struct QuadFace {
+  a : Int
+  b : Int
+  c : Int
+  d : Int
+}
+
+pub struct Transform3 {
+  matrix : @mutable.Matrix[Double]
+}
+pub fn Transform3::apply_direction(Self, @mutable.Vector[Double]) -> @mutable.Vector[Double]
+pub fn Transform3::apply_mesh(Self, Mesh) -> Mesh
+pub fn Transform3::apply_point(Self, @mutable.Vector[Double]) -> @mutable.Vector[Double]
+pub fn Transform3::apply_vertex(Self, @mutable.Vector[Double]) -> @mutable.Vector[Double]
+pub fn Transform3::compose(Self, Self) -> Self
+pub fn Transform3::from_matrix(@mutable.Matrix[Double]) -> Self
+pub fn Transform3::identity() -> Self
+pub fn Transform3::rotation(Double, Double, Double) -> Self
+pub fn Transform3::rotation_euler(Double, Double, Double) -> Self
+pub fn Transform3::scale(Double, Double, Double) -> Self
+pub fn Transform3::translation(Double, Double, Double) -> Self
+
+pub struct TriangleFace {
+  a : Int
+  b : Int
+  c : Int
+}
+
+// Type aliases
+
+// Traits
+
