@@ -1,6 +1,9 @@
 # Luna-Flow/geometry3d
 
-このドキュメントは、現在のリポジトリ基準 **v0.5.0** を説明します。
+このドキュメントは、現在のリポジトリ基準 **v0.5.1** を説明します。
+
+現在の基準には、Luna-Flow template に揃えた maintenance script と
+`Luna-Flow/linear-algebra@0.4.2` 互換対応が含まれます。
 
 ## リポジトリの位置づけ
 

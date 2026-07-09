@@ -134,7 +134,9 @@ pub fn Transform3::apply_point(
   self : Transform3,
   point : @la.Vector[Double],
 ) -> @la.Vector[Double] {
-  let out = self.matrix.mul_vec(vec4(point[0], point[1], point[2], 1.0))
+  let out = self.matrix.unchecked_mul_vec(
+    vec4(point[0], point[1], point[2], 1.0),
+  )
   if out[3].abs() <= DEPTH_EPSILON {
     vec3(out[0], out[1], out[2])
   } else {
@@ -147,7 +149,7 @@ pub fn Transform3::apply_direction(
   self : Transform3,
   direction : @la.Vector[Double],
 ) -> @la.Vector[Double] {
-  let out = self.matrix.mul_vec(
+  let out = self.matrix.unchecked_mul_vec(
     vec4(direction[0], direction[1], direction[2], 0.0),
   )
   vec3(out[0], out[1], out[2])

@@ -1,6 +1,9 @@
 # Luna-Flow/geometry3d
 
-本文档描述当前仓库 **v0.5.0** 基线。
+本文档描述当前仓库 **v0.5.1** 基线。
+
+当前基线包含与 Luna-Flow template 一致的维护脚本，以及对
+`Luna-Flow/linear-algebra@0.4.2` 的兼容。
 
 ## 仓库定位
 

@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 moon test
 moon test --target wasm-gc
 moon test --target js

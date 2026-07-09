@@ -1,4 +1,6 @@
 _build/
 .mooncakes/
 target/
+_coverage/
+coverage_summary.txt
 .DS_Store

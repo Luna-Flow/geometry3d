@@ -2,12 +2,17 @@
 
 [![img](https://img.shields.io/badge/Maintainer-KCN--judu-violet)](https://github.com/KCN-judu) [![img](https://img.shields.io/badge/License-Apache%202.0-blue)](https://github.com/Luna-Flow/geometry3d/blob/main/LICENSE) ![img](https://img.shields.io/badge/State-active-success)
 
-## v0.5.0 - GSAP SVG Animation Backend
+## v0.5.1 - Linear Algebra 0.4 Compatibility
 
 `geometry3d` is a small MoonBit 3D geometry foundation built on
 `Luna-Flow/linear-algebra`. It is intentionally not a full 3D engine: the goal
 is to show how the Luna-Flow math base can quickly support reliable geometry,
 view, frontend, and backend packages.
+
+This release updates the repository workflow to match the current Luna-Flow
+template maintenance scripts and aligns `geometry3d` with
+`Luna-Flow/linear-algebra@0.4.2`, including the checked/unchecked matrix-vector
+operation split introduced in the `0.4.x` line.
 
 ```text
 Luna-Flow/linear-algebra
@@ -151,6 +156,7 @@ and one rendered character frame.
 ```sh
 moon test
 bash ./run_test.sh
+just ready
 ```
 
 The tests cover mesh construction, TRS transforms, camera/view/projection,
@@ -165,16 +171,27 @@ ordering. Torus tests also enforce outward face winding so
 backface culling cannot regress to displaying the inner wall.
 
 `run_test.sh` mirrors the publish workflow and runs the test suite across
-`wasm-gc`, `js`, `native`, and `wasm` targets.
+`wasm-gc`, `js`, `native`, and `wasm` targets. `just ready` now runs the
+repository formatting, `moon check --target all`, `moon info`, the multi-target
+test matrix, and a best-effort coverage report in one command.
 
 ## Publish
 
 Publishing is handled by `.github/workflows/publish.yml`, matching the
-`linear-algebra` manual workflow:
+repository maintenance workflow:
 
 1. Install MoonBit.
 2. Read `moon.mod` version.
 3. Run `moon update`.
-4. Run `moon check --target all`.
-5. Run `bash ./run_test.sh`.
-6. Publish with `moon publish` using the `LUNA_MOONCAKE` repository secret.
+4. Run `moon install`.
+5. Run `moon check --target all`.
+6. Run `bash ./run_test.sh`.
+7. Publish with `moon publish` using the `LUNA_MOONCAKE` repository secret.
+
+For local validation before pushing, use:
+
+```sh
+just update-deps
+just ready
+just publish-dry-run
+```

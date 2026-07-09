@@ -1,6 +1,9 @@
 # Luna-Flow/geometry3d
 
-This documentation tracks the current repository baseline for **v0.5.0**.
+This documentation tracks the current repository baseline for **v0.5.1**.
+
+The current baseline includes the Luna-Flow template-style maintenance scripts
+and compatibility with `Luna-Flow/linear-algebra@0.4.2`.
 
 ## Repository Positioning
 
