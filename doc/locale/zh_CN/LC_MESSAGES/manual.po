@@ -1,0 +1,1150 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Luna-Flow documentation\n"
+"Report-Msgid-Bugs-To: https://github.com/Luna-Flow\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: conf.json:summary
+msgid "A small MoonBit 3D geometry foundation with core, view, frontend, TUI, Canvas, and GSAP SVG backend packages built on Luna-Flow/linear-algebra."
+msgstr "基于 Luna-Flow/linear-algebra 的小型 MoonBit 3D 几何基础库，包含 core、view、frontend 以及 TUI、Canvas 和 GSAP SVG 后端等包。"
+
+#: manual/api/backend/canvas.md:1
+msgid "Canvas Backend API"
+msgstr "Canvas 后端 API"
+
+#: manual/api/backend/canvas.md:3
+msgid "The JS-only Canvas backend consumes `@frontend.DrawList`, rasterizes it through the frontend perspective-correct Z-buffer, and writes merged horizontal runs to a browser `CanvasRenderingContext2D`."
+msgstr "Canvas 后端仅支持 JS target。它消费 `@frontend.DrawList`，通过 frontend 中支持透视校正的 Z-buffer 完成逐像素光栅化，再将连续同色扫描线区间写入浏览器 `CanvasRenderingContext2D`。"
+
+#: manual/api/backend/canvas.md:7
+#: manual/api/backend/tui.md:5
+#: manual/api/core.md:6
+#: manual/api/frontend.md:5
+#: manual/api/view.md:6
+msgid "Types"
+msgstr "类型"
+
+#: manual/api/backend/canvas.md:9
+msgid "`CanvasColor::rgb(red, green, blue)` clamps RGB channels to `0..255`."
+msgstr "`CanvasColor::rgb(red, green, blue)`：将 RGB 通道限制到 `0..255`。"
+
+#: manual/api/backend/canvas.md:10
+msgid "`CanvasRenderConfig::default()` creates a `640 x 480` configuration."
+msgstr "`CanvasRenderConfig::default()`：创建 `640 x 480` 默认配置。"
+
+#: manual/api/backend/canvas.md:11
+msgid "`CanvasRenderConfig::sized(width, height)` creates a configuration with the default dark background, cyan foreground, and 256 shade levels."
+msgstr "`CanvasRenderConfig::sized(width, height)`：创建指定尺寸的默认深色背景、青色前景配置。"
+
+#: manual/api/backend/canvas.md:14
+#: manual/api/backend/gsap.md:6
+msgid "Rendering"
+msgstr "渲染"
+
+#: manual/api/backend/canvas.md:16
+msgid "`render_draw_list(context, draw_list, config)` renders into an existing 2D context."
+msgstr "`render_draw_list(context, draw_list, config)`：渲染已有 draw list。"
+
+#: manual/api/backend/canvas.md:17
+msgid "`render_scene(context, scene, render_view, config)` builds and renders a draw list."
+msgstr "`render_scene(context, scene, render_view, config)`：构建并渲染 draw list。"
+
+#: manual/api/backend/canvas.md:18
+msgid "`render_canvas(canvas, draw_list, config)` sets the canvas pixel size, obtains its 2D context, and renders the draw list."
+msgstr "`render_canvas(canvas, draw_list, config)`：设置 Canvas 像素尺寸并完成渲染。"
+
+#: manual/api/backend/canvas.md:21
+msgid "Run `just canvas-serve` and open `http://localhost:8080`. The demo selector switches between a rotating torus and the Dolly zoom scene. Dolly uses the same rotating cube, 35-disc wall, camera-distance curve, and focal-length compensation as the terminal demo."
+msgstr "运行 `just canvas-serve`，然后打开 `http://localhost:8080`。页面选择器可以在旋转 Torus 与 Dolly zoom 场景之间切换。Dolly 与终端 demo 共用旋转立方体、 35 个圆盘背景、相机距离曲线和焦距补偿参数。"
+
+#: manual/api/backend/gsap.md:1
+msgid "GSAP SVG Backend API"
+msgstr "GSAP SVG 后端 API"
+
+#: manual/api/backend/gsap.md:3
+msgid "The JS-only GSAP backend renders frontend `DrawList` triangles as SVG polygons and wraps a host-provided `globalThis.gsap` timeline."
+msgstr "该 JS-only 后端把 frontend `DrawList` 三角形渲染为 SVG polygon，并包装宿主提供的 `globalThis.gsap` 时间线。"
+
+#: manual/api/backend/gsap.md:8
+msgid "`GsapSvgColor::rgb(red, green, blue)` clamps channels to `0..255`."
+msgstr "`GsapSvgColor::rgb(red, green, blue)`：将通道限制到 `0..255`。"
+
+#: manual/api/backend/gsap.md:9
+msgid "`GsapSvgRenderConfig::default()` and `sized(width, height)` create configs."
+msgstr "`GsapSvgRenderConfig::default()` / `sized(width, height)`：创建配置。"
+
+#: manual/api/backend/gsap.md:10
+msgid "`render_draw_list(svg, draw_list, config)` updates reusable polygon nodes."
+msgstr "`render_draw_list(svg, draw_list, config)`：更新可复用 polygon 节点。"
+
+#: manual/api/backend/gsap.md:11
+msgid "`render_scene(svg, scene, render_view, config)` builds and renders a draw list."
+msgstr "`render_scene(svg, scene, render_view, config)`：构建并渲染 draw list。"
+
+#: manual/api/backend/gsap.md:13
+msgid "Triangles are ordered by average depth from far to near. Equal-depth triangles keep their source order."
+msgstr "三角形按平均深度从远到近排列；相同深度保持输入顺序。"
+
+#: manual/api/backend/gsap.md:16
+msgid "Playback"
+msgstr "播放"
+
+#: manual/api/backend/gsap.md:18
+#, fuzzy
+msgid "`GsapPlayer::new(duration_seconds, on_frame, repeat=-1)` creates a paused linear timeline. It supports `play`, `pause`, `reverse`, `restart`, `seek`, progress and time access, time scale, repeat, paused-state queries, and `kill`."
+msgstr "`GsapPlayer::new(duration_seconds, on_frame, repeat=-1)` 创建暂停的线性时间线。播放器提供播放、暂停、反向、重播、定位、进度、时间、倍速、循环、暂停状态查询和 `kill`。缺少 `globalThis.gsap` 时会抛出 JavaScript 错误。"
+
+#: manual/api/backend/gsap.md:22
+msgid "Creating a player without `globalThis.gsap` throws a JavaScript error."
+msgstr ""
+
+#: manual/api/backend/tui.md:1
+msgid "Backend TUI API"
+msgstr ""
+
+#: manual/api/backend/tui.md:3
+msgid "The TUI backend consumes `@frontend.DrawList` and emits character frames."
+msgstr "TUI backend 消费 `@frontend.DrawList` 并输出字符帧。"
+
+#: manual/api/backend/tui.md:7
+msgid "`TuiRenderConfig`: width, height, terminal y-scale, shade ramp, and background pattern."
+msgstr "`TuiRenderConfig`：width、height、terminal y-scale、shade ramp、background pattern。"
+
+#: manual/api/backend/tui.md:8
+msgid "`FrameBuffer`: cells plus depth buffer."
+msgstr "`FrameBuffer`：字符 cells 和 depth buffer。"
+
+#: manual/api/backend/tui.md:9
+msgid "`TuiImage`: one static rendered character image."
+msgstr "`TuiImage`：一张静态字符图。"
+
+#: manual/api/backend/tui.md:10
+msgid "`TuiFrame`: one rendered character frame."
+msgstr "`TuiFrame`：一帧已渲染字符画。"
+
+#: manual/api/backend/tui.md:11
+msgid "`TuiSequence`: width, height, fps, and a list of `TuiFrame`s."
+msgstr "`TuiSequence`：width、height、fps 和多帧 `TuiFrame`。"
+
+#: manual/api/backend/tui.md:13
+#: manual/api/demo.md:5
+#: manual/api/frontend.md:21
+msgid "Functions"
+msgstr "函数"
+
+#: manual/api/backend/tui.md:16
+msgid "`TuiRenderConfig::sized(width, height)`: default styling at an explicit viewport size."
+msgstr "`TuiRenderConfig::sized(width, height)`：使用指定 viewport 尺寸和默认 TUI 样式。"
+
+#: manual/api/backend/tui.md:30
+msgid "Patterns"
+msgstr ""
+
+#: manual/api/core.md:1
+msgid "Core API"
+msgstr ""
+
+#: manual/api/core.md:3
+msgid "The core layer owns 3D data and math. It does not know about TUI output, terminal aspect ratio correction, ANSI escape codes, or character backgrounds."
+msgstr "core 层负责 3D 数据和数学关系，不知道 TUI 输出、终端宽高比、ANSI 控制符或字符背景。"
+
+#: manual/api/core.md:15
+msgid "Mesh Construction"
+msgstr "构建 Mesh"
+
+#: manual/api/core.md:17
+#, fuzzy
+msgid "`cube_mesh(size : Double) -> Mesh`: creates a cube centered at the origin."
+msgstr "`cube_mesh(size)`：创建以原点为中心的 cube。"
+
+#: manual/api/core.md:18
+#, fuzzy
+msgid "`sphere_mesh(radius : Double, rings : Int, segments : Int) -> Mesh`: creates a low-poly UV sphere represented as quad faces, with degenerate quads at the caps."
+msgstr "`sphere_mesh(radius, rings, segments)`：创建 quad 拓扑的低多边形 UV sphere，极点使用退化 quad。"
+
+#: manual/api/core.md:20
+#, fuzzy
+msgid "`torus_mesh(major_radius, minor_radius, major_segments, minor_segments) -> Mesh`: creates an outward-wound quad torus suitable for backface culling."
+msgstr "`torus_mesh(major_radius, minor_radius, major_segments, minor_segments)`：创建面绕序朝外、可正确执行背面剔除的 torus。"
+
+#: manual/api/core.md:22
+#, fuzzy
+msgid "`face_vertices(mesh : Mesh, face : QuadFace) -> Array[@la.Vector[Double]]`: returns the four vertices referenced by a face."
+msgstr "`face_vertices(mesh, face)`：取出 face 引用的四个顶点。"
+
+#: manual/api/core.md:24
+#, fuzzy
+msgid "`triangulate_quad(face : QuadFace) -> Array[TriangleFace]`: splits a quad into two triangles for rasterization."
+msgstr "`triangulate_quad(face)`：将 quad 拆成两个 triangle。"
+
+#: manual/api/core.md:27
+msgid "Vector Helpers"
+msgstr "向量 helper"
+
+#: manual/api/core.md:29
+#, fuzzy
+msgid "`vec3(x, y, z)`: constructs a 3D vector."
+msgstr "`face_center`：四个顶点的平均位置。"
+
+#: manual/api/core.md:30
+#, fuzzy
+msgid "`sub_vec(a, b)`: subtracts two vectors."
+msgstr "`face_normal`：基于前三个顶点的归一化叉积。"
+
+#: manual/api/core.md:31
+msgid "`cross_vec(a, b)`: computes a 3D cross product."
+msgstr ""
+
+#: manual/api/core.md:32
+msgid "`vec_length(v)`: computes Euclidean length."
+msgstr ""
+
+#: manual/api/core.md:33
+msgid "`normalize_vec(v)`: returns a unit vector or zero vector for near-zero input."
+msgstr ""
+
+#: manual/api/core.md:35
+msgid "Face Helpers"
+msgstr ""
+
+#: manual/api/core.md:37
+msgid "`face_center(vertices, face)`: average of the four face vertices."
+msgstr ""
+
+#: manual/api/core.md:38
+msgid "`face_normal(vertices, face)`: normalized cross product from the first three face vertices."
+msgstr ""
+
+#: manual/api/core.md:39
+#, fuzzy
+msgid "`face_is_visible(vertices, face, camera_position)`: backface test using `normal dot to_camera`."
+msgstr "`face_is_visible`：`normal dot to_camera` 背面剔除判断。"
+
+#: manual/api/core.md:40
+#, fuzzy
+msgid "`face_intensity(vertices, face, light_direction)`: simple Lambert intensity clamped at zero."
+msgstr "`face_intensity`：简单 Lambert 光照强度。"
+
+#: manual/api/core.md:42
+msgid "Transform Helpers"
+msgstr "Transform helper"
+
+#: manual/api/core.md:44
+#, fuzzy
+msgid "`Transform3::identity()`: identity 4x4 transform."
+msgstr "`rotation_x/y/z(angle)`：4x4 旋转矩阵。"
+
+#: manual/api/core.md:45
+msgid "`Transform3::translation(x, y, z)`: point translation."
+msgstr ""
+
+#: manual/api/core.md:46
+msgid "`Transform3::scale(x, y, z)`: non-uniform scale."
+msgstr ""
+
+#: manual/api/core.md:47
+msgid "`rotation_x(angle)`, `rotation_y(angle)`, `rotation_z(angle)`: 4x4 rotation matrices."
+msgstr ""
+
+#: manual/api/core.md:48
+msgid "`rotation_matrix(angle_x, angle_y, angle_z)`: combined `Z * Y * X` rotation."
+msgstr "`rotation_matrix(angle_x, angle_y, angle_z)`：组合 `Z * Y * X`。"
+
+#: manual/api/core.md:49
+#, fuzzy
+msgid "`Transform3::rotation(angle_x, angle_y, angle_z)`: 4x4 rotation transform."
+msgstr "`Transform3::rotation(...)`：旋转 transform。"
+
+#: manual/api/core.md:50
+#, fuzzy
+msgid "`Transform3::compose(next)`: applies `self` then `next`."
+msgstr "`Transform3::identity/translation/scale/compose`：恒等、平移、缩放和组合 transform。"
+
+#: manual/api/core.md:51
+msgid "`Transform3::apply_point(point)`: applies the full homogeneous transform."
+msgstr ""
+
+#: manual/api/core.md:52
+msgid "`Transform3::apply_direction(direction)`: ignores translation by using `w = 0`."
+msgstr ""
+
+#: manual/api/core.md:53
+msgid "`Transform3::apply_vertex(vertex)`: applies the transform matrix to one vertex."
+msgstr "`Transform3::apply_vertex(vertex)`：矩阵乘向量。"
+
+#: manual/api/core.md:54
+msgid "`Transform3::apply_mesh(mesh)`: transforms vertices and preserves face topology."
+msgstr "`Transform3::apply_mesh(mesh)`：变换顶点并保留 face 拓扑。"
+
+#: manual/api/demo.md:1
+msgid "Demo API"
+msgstr ""
+
+#: manual/api/demo.md:3
+msgid "The demo is the package entry point and terminal runner."
+msgstr "demo 是包入口和终端 runner。"
+
+#: manual/api/demo.md:7
+msgid "`demo_mesh(args : Array[String]) -> Mesh`: selects sphere, torus, or cube geometry."
+msgstr "`demo_mesh(args : Array[String]) -> Mesh`：根据参数选择 sphere、torus 或 cube。"
+
+#: manual/api/demo.md:8
+msgid "`demo_should_rotate(args : Array[String]) -> Bool`: cube rotates by default; sphere is static by default."
+msgstr "`demo_should_rotate(args : Array[String]) -> Bool`：cube 默认旋转，sphere 默认静止。"
+
+#: manual/api/demo.md:10
+msgid "`hitchcock_scene()`: central cube plus background cylinder, cone, and triangular pyramid geometry."
+msgstr "`hitchcock_scene()`：中心 cube + 背景圆柱、圆锥、三棱锥几何体。"
+
+#: manual/api/demo.md:11
+msgid "`hitchcock_render_view(frame)`: camera dolly plus scientific focal-length compensation."
+msgstr "`hitchcock_render_view(frame)`：camera dolly 与科学相机焦距补偿。"
+
+#: manual/api/demo.md:12
+msgid "`hitchcock_frame(frame)`: renders one Hitchcock/dolly zoom frame."
+msgstr "`hitchcock_frame(frame)`：渲染一帧 Hitchcock/dolly zoom 场景。"
+
+#: manual/api/demo.md:13
+msgid "`mesh_frame(mesh, angle_x, angle_y, angle_z) -> String`: renders one frame."
+msgstr "`mesh_frame(mesh, angle_x, angle_y, angle_z) -> String`：渲染一帧字符串。"
+
+#: manual/api/demo.md:14
+msgid "`exposure_mesh_frame(mesh, angle_x, angle_y, angle_z, use_flow) -> String`: renders a pseudo long-exposure frame through `LumaBuffer`."
+msgstr "`exposure_mesh_frame(mesh, angle_x, angle_y, angle_z, use_flow) -> String`：通过 `LumaBuffer` 渲染伪长曝光帧。"
+
+#: manual/api/demo.md:16
+msgid "`exposure_hitchcock_frame(frame, use_flow) -> String`: Hitchcock exposure demo."
+msgstr "`exposure_hitchcock_frame(frame, use_flow) -> String`：Hitchcock 伪长曝光 demo。"
+
+#: manual/api/demo.md:17
+msgid "`render_demo_image(args) -> TuiImage`: renders one static TUI image from the current demo mode."
+msgstr "`render_demo_image(args) -> TuiImage`：按当前 demo 模式渲染一张静态 TUI 图。"
+
+#: manual/api/demo.md:18
+msgid "`render_demo_sequence(args, timeline) -> TuiSequence`: offline renders a playable TUI sequence."
+msgstr "`render_demo_sequence(args, timeline) -> TuiSequence`：离线渲染可播放的 TUI 序列。"
+
+#: manual/api/demo.md:19
+msgid "`play_sequence(sequence, frame_limit) -> Unit`: plays frames using the sequence fps."
+msgstr "`play_sequence(sequence, frame_limit) -> Unit`：按序列 fps 播放字符帧。"
+
+#: manual/api/demo.md:20
+msgid "`render_once(mesh, angle_x, angle_y, angle_z) -> Unit`: clears the terminal and prints one frame."
+msgstr "`render_once(mesh, angle_x, angle_y, angle_z) -> Unit`：清屏并输出一帧。"
+
+#: manual/api/demo.md:22
+msgid "`run_animation(mesh, rotate, frame_limit, exposure, use_flow, render_view) -> Unit`: runs the frame loop."
+msgstr "`run_animation(mesh, rotate, frame_limit, exposure, use_flow, render_view) -> Unit`：运行帧循环。"
+
+#: manual/api/demo.md:23
+msgid "`main`: parses `--sphere`, `--torus`, `--hitchcock`, `--dolly`, `--camera-auto`, `--long-exposure`, `--flow-exposure`, `--export-image`, `--show-image`, `--record`, `--record-stdout`, `--play`, `--duration`, `--fps`, and `--once`."
+msgstr "`main`：解析 `--sphere`、`--torus`、`--hitchcock`、`--dolly`、`--camera-auto`、`--long-exposure`、`--flow-exposure`、`--export-image`、`--show-image`、`--record`、`--record-stdout`、`--play`、`--duration`、`--fps` 和 `--once`。"
+
+#: manual/api/demo.md:27
+msgid "CLI"
+msgstr ""
+
+#: manual/api/demo.md:51
+msgid "Use `--record-stdout` for large recordings. It writes frames incrementally and avoids constructing the complete sequence in memory. Video conversion details are documented in [`tools/README.md`](../../../tools/README.md)."
+msgstr "大型录制建议使用 `--record-stdout`。它会逐帧写出，避免在内存中构建完整序列。视频转换的依赖、宽高比和参数说明见 [`tools/README.md`](../../../tools/README.md)。"
+
+#: manual/api/frontend.md:1
+msgid "Frontend API"
+msgstr ""
+
+#: manual/api/frontend.md:3
+msgid "The frontend package turns geometry and view state into backend-neutral draw commands."
+msgstr "frontend package 将 geometry 和 view 状态转换为 backend-neutral draw commands。"
+
+#: manual/api/frontend.md:7
+msgid "`SceneObject`: mesh plus transform."
+msgstr "`SceneObject`：mesh + transform。"
+
+#: manual/api/frontend.md:8
+msgid "`Light`: directional light."
+msgstr "`Light`：方向光。"
+
+#: manual/api/frontend.md:9
+msgid "`Scene`: objects plus light."
+msgstr "`Scene`：objects + light。"
+
+#: manual/api/frontend.md:10
+msgid "`RenderView`: camera plus perspective projection."
+msgstr "`RenderView`：camera + projection。"
+
+#: manual/api/frontend.md:11
+msgid "`DrawTriangle`: projected triangle plus intensity."
+msgstr "`DrawTriangle`：projected triangle + intensity。"
+
+#: manual/api/frontend.md:12
+msgid "`DrawList`: ordered triangle commands for backends."
+msgstr "`DrawList`：backend 可消费的 triangle 命令列表。"
+
+#: manual/api/frontend.md:13
+msgid "`ShutterSpeed`: exposure duration in seconds."
+msgstr "`ShutterSpeed`：以秒表示的快门时间。"
+
+#: manual/api/frontend.md:14
+msgid "`ExposureSettings`: shutter, frame interval, and derived sample count."
+msgstr "`ExposureSettings`：快门、帧间隔和推导出的采样数。"
+
+#: manual/api/frontend.md:15
+msgid "`LumaBuffer`: floating-point intensity buffer with depth values."
+msgstr "`LumaBuffer`：带 depth 的浮点亮度缓冲。"
+
+#: manual/api/frontend.md:16
+msgid "`FlowVector` / `FlowField`: image-space optical-flow estimate."
+msgstr "`FlowVector` / `FlowField`：图像空间 optical flow。"
+
+#: manual/api/frontend.md:17
+msgid "`Timeline`: duration and fps for deterministic offline sampling."
+msgstr "`Timeline`：用于离线采样的时长和 fps。"
+
+#: manual/api/frontend.md:18
+msgid "`TimelineSample`: frame index, time in seconds, and normalized progress."
+msgstr "`TimelineSample`：frame index、秒时间和归一化 progress。"
+
+#: manual/api/frontend.md:19
+msgid "`ScalarKeyframe` / `ScalarTrack`: scalar keyframes with linear interpolation."
+msgstr "`ScalarKeyframe` / `ScalarTrack`：线性插值的标量关键帧轨道。"
+
+#: manual/api/frontend.md:27
+msgid "`build_draw_list(scene, render_view)`: transforms and culls geometry, builds a directional-light shadow map, and emits lit projected triangles."
+msgstr "`build_draw_list(scene, render_view)`：执行 transform、culling、方向光 shadow map 和 triangle lighting。"
+
+#: manual/api/frontend.md:37
+msgid "`DrawList` does not contain `Char`, `FrameBuffer`, ANSI, or terminal aspect ratio details."
+msgstr "`DrawList` 不包含 `Char`、`FrameBuffer`、ANSI 或 terminal aspect ratio。"
+
+#: manual/api/view.md:1
+msgid "View API"
+msgstr ""
+
+#: manual/api/view.md:3
+msgid "The view package owns camera and projection math. It is backend neutral and does not apply terminal y-scale correction."
+msgstr "view package 负责 camera 和 projection 数学，不处理终端 y-scale。"
+
+#: manual/api/view.md:8
+msgid "`Camera3`: `eye`, `target`, and `up` vectors."
+msgstr ""
+
+#: manual/api/view.md:9
+msgid "`Viewport`: output width and height."
+msgstr "`Viewport`：输出宽高。"
+
+#: manual/api/view.md:10
+msgid "`SensorSpec`: physical sensor width and height in millimeters."
+msgstr "`SensorSpec`：以毫米表示的传感器宽高。"
+
+#: manual/api/view.md:11
+msgid "`LensSpec`: focal length in millimeters plus FOV helpers."
+msgstr "`LensSpec`：以毫米表示的焦距，以及 FOV helper。"
+
+#: manual/api/view.md:12
+msgid "`WorldUnit`: meters represented by one world-space unit."
+msgstr "`WorldUnit`：一个世界单位对应的米数。"
+
+#: manual/api/view.md:13
+msgid "`ScientificCamera`: `Camera3` plus sensor, lens, and world-unit metadata."
+msgstr "`ScientificCamera`：`Camera3` + sensor + lens + world unit。"
+
+#: manual/api/view.md:14
+msgid "`PerspectiveProjection`: viewport plus perspective scale."
+msgstr "`PerspectiveProjection`：透视投影。"
+
+#: manual/api/view.md:15
+msgid "`OrthographicProjection`: viewport plus orthographic scale."
+msgstr "`OrthographicProjection`：正交投影。"
+
+#: manual/api/view.md:16
+msgid "`ProjectedVertex`: projected `x`, `y`, and `depth`."
+msgstr "`ProjectedVertex`：投影后的 `x`、`y`、`depth`。"
+
+#: manual/api/view.md:18
+msgid "Camera"
+msgstr "相机"
+
+#: manual/api/view.md:20
+#, fuzzy
+msgid "`Camera3::look_at(eye, target, up)`: builds a camera description."
+msgstr "`interpolate_perspective_depth`：基于重心权重执行倒数深度插值，并在无效深度时安全回退到线性插值。"
+
+#: manual/api/view.md:21
+msgid "`Camera3::default(distance)`: camera at `(0, 0, -distance)` looking at origin."
+msgstr ""
+
+#: manual/api/view.md:22
+msgid "`Camera3::view_transform()`: world-to-camera 4x4 transform."
+msgstr ""
+
+#: manual/api/view.md:23
+msgid "`world_to_camera_point` / `world_to_camera_direction`: apply the view transform."
+msgstr ""
+
+#: manual/api/view.md:25
+msgid "Scientific Camera"
+msgstr ""
+
+#: manual/api/view.md:27
+msgid "`SensorSpec::apsc()` / `full_frame()` / `medium_format()`: common sensor presets."
+msgstr ""
+
+#: manual/api/view.md:28
+msgid "`SensorSpec::custom(width_mm, height_mm)`: custom positive sensor size."
+msgstr ""
+
+#: manual/api/view.md:29
+msgid "`LensSpec::new(focal_length_mm)`: focal length in millimeters."
+msgstr ""
+
+#: manual/api/view.md:30
+msgid "`horizontal_fov` / `vertical_fov` / `diagonal_fov`: FOV helpers using `2 * atan(sensor_dimension / (2 * focal_length))`."
+msgstr ""
+
+#: manual/api/view.md:32
+msgid "`WorldUnit::new(meters_per_unit)`: explicit world-unit scale."
+msgstr ""
+
+#: manual/api/view.md:33
+msgid "`ScientificCamera::auto(viewport)`: full-frame, 50mm default camera."
+msgstr ""
+
+#: manual/api/view.md:34
+msgid "`ScientificCamera::to_perspective_projection(viewport)`: derives the current single-axis `PerspectiveProjection.scale` from vertical sensor scale."
+msgstr ""
+
+#: manual/api/view.md:37
+msgid "Projection"
+msgstr ""
+
+#: manual/api/view.md:39
+msgid "`PerspectiveProjection::project_point(point)`: perspective screen projection."
+msgstr ""
+
+#: manual/api/view.md:40
+msgid "`OrthographicProjection::project_point(point)`: orthographic screen projection."
+msgstr ""
+
+#: manual/api/view.md:41
+msgid "`project_perspective_vertices` / `project_orthographic_vertices`: batch helpers."
+msgstr ""
+
+#: manual/api/view.md:42
+msgid "`interpolate_perspective_depth(p0, p1, p2, b0, b1, b2)`: reciprocal-depth interpolation for perspective triangle rasterization, with a safe linear fallback."
+msgstr ""
+
+#: manual/conventions.md:1
+msgid "Repository conventions"
+msgstr "仓库约定"
+
+#: manual/conventions.md:3
+msgid "These rules add to the Luna-Flow documentation standard for `geometry3d`."
+msgstr "以下规则是 `geometry3d` 在 Luna-Flow 文档标准之外补充的约定。"
+
+#: manual/conventions.md:5
+msgid "Scope"
+msgstr "范围"
+
+#: manual/conventions.md:7
+msgid "Document the version on the current branch; the active baseline is **v0.5.1**."
+msgstr "文档描述当前分支上的版本；当前基线为 **v0.5.1**。"
+
+#: manual/conventions.md:8
+msgid "Do not document speculative engine features such as scene graphs, materials, textures, physics, BVH, or asset loaders unless they are implemented."
+msgstr "不记录尚未实现的 engine 功能，例如 scene graph、material、texture、 physics、BVH 或 asset loader。"
+
+#: manual/conventions.md:11
+msgid "Package boundaries"
+msgstr "包边界"
+
+#: manual/conventions.md:13
+msgid "Keep geometry core documentation free of terminal, ANSI, and TUI concerns."
+msgstr "geometry core 文档不得混入 terminal、ANSI、TUI 等细节。"
+
+#: manual/conventions.md:14
+msgid "Keep terminal y-scale, background patterns, and character rasterization under `backend/tui` or `demo`."
+msgstr "terminal y-scale、背景 pattern、字符光栅化只放在 `backend/tui` 或 `demo`。"
+
+#: manual/conventions.md:16
+msgid "Keep browser DOM, Canvas, scanline, and JS-target details under `backend/canvas`, `backend/gsap`, or `demo`."
+msgstr "browser DOM、Canvas、scanline 和 JS target 细节只放在 `backend/canvas`、`backend/gsap` 或 `demo`。"
+
+#: manual/conventions.md:18
+msgid "When behavior crosses package boundaries, update the API, design, and tutorial pages of every affected package together."
+msgstr "行为变化跨越包边界时，同步更新所有受影响包的 API、设计和教程页面。"
+
+#: manual/design/backend/canvas.md:1
+msgid "Canvas Backend Design"
+msgstr "Canvas 后端设计"
+
+#: manual/design/backend/canvas.md:3
+#: manual/design/backend/gsap.md:3
+#: manual/design/backend/tui.md:3
+#: manual/design/core.md:3
+#: manual/design/demo.md:3
+#: manual/design/frontend.md:3
+#: manual/design/view.md:3
+msgid "Responsibilities"
+msgstr "职责"
+
+#: manual/design/backend/canvas.md:5
+msgid "Consume the same backend-neutral `DrawList` as the TUI backend."
+msgstr "消费与 TUI backend 相同的 backend-neutral `DrawList`。"
+
+#: manual/design/backend/canvas.md:6
+msgid "Reuse the frontend perspective-correct software Z-buffer."
+msgstr "复用 frontend 支持透视校正的软件 Z-buffer。"
+
+#: manual/design/backend/canvas.md:7
+msgid "Convert visible luma values to quantized RGB shades."
+msgstr "将可见亮度转换为量化 RGB 色阶。"
+
+#: manual/design/backend/canvas.md:8
+msgid "Merge adjacent equal-shade pixels into horizontal Canvas fill runs."
+msgstr "将相邻同色色素合并为水平 Canvas fill run。"
+
+#: manual/design/backend/canvas.md:10
+msgid "Boundary"
+msgstr "边界"
+
+#: manual/design/backend/canvas.md:12
+msgid "The package is JS-only and owns browser Canvas details. Core, view, and frontend do not depend on DOM types. `demo_canvas` owns element lookup, animation frames, and demo selection."
+msgstr "该 package 仅支持 JS target，并负责 browser Canvas 细节。core、view 和 frontend 不依赖 DOM 类型；`demo_canvas` 负责元素查找、动画帧与 demo 选择。"
+
+#: manual/design/backend/canvas.md:16
+#: manual/design/backend/tui.md:20
+#: manual/design/core.md:16
+#: manual/design/view.md:15
+msgid "Limitations"
+msgstr "限制"
+
+#: manual/design/backend/canvas.md:18
+msgid "Rendering is opaque and uses one foreground RGB color scaled by luma. There are no materials, textures, alpha blending, anti-aliasing, or GPU acceleration."
+msgstr "当前只支持不透明背景和单一前景 RGB 颜色的亮度缩放，不支持 material、texture、 alpha blending、anti-aliasing 或 GPU acceleration。"
+
+#: manual/design/backend/gsap.md:1
+msgid "GSAP SVG Backend Design"
+msgstr "GSAP SVG 后端设计"
+
+#: manual/design/backend/gsap.md:5
+msgid "Consume the backend-neutral frontend `DrawList`."
+msgstr "消费 backend-neutral frontend `DrawList`。"
+
+#: manual/design/backend/gsap.md:6
+msgid "Serialize projected triangles to reusable SVG polygon nodes."
+msgstr "将投影三角形写入可复用 SVG polygon 节点。"
+
+#: manual/design/backend/gsap.md:7
+msgid "Order polygons from far to near by average depth."
+msgstr "按平均深度从远到近排序。"
+
+#: manual/design/backend/gsap.md:8
+msgid "Expose GSAP playback while scene math remains in MoonBit."
+msgstr "提供 GSAP 播放能力，场景数学仍保留在 MoonBit。"
+
+#: manual/design/backend/gsap.md:10
+msgid "Boundary and Limitations"
+msgstr "边界与限制"
+
+#: manual/design/backend/gsap.md:12
+msgid "The package is JS-only and requires `globalThis.gsap`. SVG uses DOM paint order, not a per-pixel Z-buffer. Intersecting triangles are not split, so occlusion can differ from Canvas. Rendering is limited to opaque flat-shaded polygons."
+msgstr "该 package 仅支持 JS target，并要求 `globalThis.gsap`。SVG 使用 DOM 绘制顺序，不使用逐像素 Z-buffer；相交三角形不会沿交线拆分。当前只支持不透明平面着色。"
+
+#: manual/design/backend/tui.md:1
+msgid "Backend TUI Design"
+msgstr ""
+
+#: manual/design/backend/tui.md:5
+msgid "Convert projected triangles into terminal characters."
+msgstr "将 projected triangle 转为终端字符。"
+
+#: manual/design/backend/tui.md:6
+msgid "Own Z-buffer, shade ramp, background pattern, and terminal y-scale correction."
+msgstr "管理 Z-buffer、shade ramp、background pattern 和 terminal y-scale。"
+
+#: manual/design/backend/tui.md:7
+msgid "Keep tests behavioral instead of snapshotting full ASCII frames."
+msgstr "测试以行为断言为主，不依赖完整 ASCII frame snapshot。"
+
+#: manual/design/backend/tui.md:9
+msgid "Pipeline"
+msgstr ""
+
+#: manual/design/backend/tui.md:22
+msgid "No clipping, textures, smooth normals, or anti-aliasing."
+msgstr "没有 clipping、texture、smooth normal 或 anti-aliasing。"
+
+#: manual/design/core.md:1
+msgid "Core Design"
+msgstr ""
+
+#: manual/design/core.md:5
+msgid "Represent small 3D meshes using vectors from `Luna-Flow/linear-algebra`."
+msgstr "使用 `Luna-Flow/linear-algebra` 的向量表示小型 3D mesh。"
+
+#: manual/design/core.md:6
+msgid "Keep transforms, normals, visibility, and projection-adjacent math backend neutral."
+msgstr "保持 transform、normal、visibility 等几何逻辑与 backend 无关。"
+
+#: manual/design/core.md:7
+msgid "Preserve face topology while applying transforms to vertex data."
+msgstr "对 vertex 应用 transform，同时保留 face 拓扑。"
+
+#: manual/design/core.md:9
+msgid "Invariants"
+msgstr "不变量"
+
+#: manual/design/core.md:11
+msgid "Geometry core must not depend on `Char`, ANSI output, terminal dimensions, or background patterns."
+msgstr "core 不依赖 `Char`、ANSI、终端尺寸或背景 pattern。"
+
+#: manual/design/core.md:12
+msgid "Mesh factories return vertices centered around the origin."
+msgstr "mesh factory 返回以原点为中心的顶点集合。"
+
+#: manual/design/core.md:13
+msgid "Quad faces are the canonical mesh topology; triangulation is a helper for raster backends."
+msgstr "quad face 是当前 canonical topology，triangulation 只是 raster backend helper。"
+
+#: manual/design/core.md:14
+msgid "Closed primitive faces use outward-facing vertex winding so normal-based culling remains valid."
+msgstr "封闭 primitive 的顶点绕序必须朝外，保证 normal 与背面剔除一致。"
+
+#: manual/design/core.md:18
+msgid "No scene graph, materials, textures, clipping, camera orientation, asset loading, physics, or BVH."
+msgstr "没有 scene graph、material、texture、clipping、camera orientation、asset loading、physics 或 BVH。"
+
+#: manual/design/core.md:19
+msgid "Sphere caps are represented as degenerate quads so the current quad pipeline can remain simple."
+msgstr "sphere 极点使用退化 quad，以保持当前 quad pipeline 简单。"
+
+#: manual/design/core.md:21
+msgid "Extension Points"
+msgstr "扩展点"
+
+#: manual/design/core.md:23
+msgid "Extend `Transform3` deliberately while preserving point/direction semantics."
+msgstr "扩展 `Transform3` 时应保持 point 与 direction 的不同语义。"
+
+#: manual/design/core.md:24
+msgid "Add alternate mesh factories while keeping the same `Mesh` topology contract."
+msgstr "可以新增 mesh factory，但应保持 `Mesh` 拓扑契约。"
+
+#: manual/design/core.md:25
+#, fuzzy
+msgid "Add non-TUI backends by consuming `Mesh`, `Transform3`, and projected vertices without changing core."
+msgstr "可以新增非 TUI backend，而不修改 core。"
+
+#: manual/design/demo.md:1
+msgid "Demo Design"
+msgstr ""
+
+#: manual/design/demo.md:5
+msgid "Wire the core and TUI renderer together."
+msgstr "将 core 和 TUI renderer 组合起来。"
+
+#: manual/design/demo.md:6
+msgid "Keep CLI behavior small and predictable."
+msgstr "保持 CLI 行为小而可预测。"
+
+#: manual/design/demo.md:7
+msgid "Demonstrate the linear algebra pipeline without adding engine-level concepts."
+msgstr "展示 linear algebra 管线，而不是引入 engine 概念。"
+
+#: manual/design/demo.md:9
+msgid "Defaults"
+msgstr "默认值"
+
+#: manual/design/demo.md:11
+msgid "Cube: rotating, radius/half-size `1.0`."
+msgstr "Cube：旋转，尺寸 `1.0`。"
+
+#: manual/design/demo.md:12
+msgid "Sphere: static, radius `2.4`, `18` rings, `36` segments."
+msgstr "Sphere：静止，半径 `2.4`，`18` rings，`36` segments。"
+
+#: manual/design/demo.md:13
+msgid "Torus: rotating, major radius `2.1`, minor radius `0.72`, outward face winding."
+msgstr "Torus：旋转，主半径 `2.1`、管半径 `0.72`，面绕序朝外。"
+
+#: manual/design/demo.md:14
+msgid "Hitchcock: central cube plus background cylinder, cone, triangular pyramid, and rotated variants."
+msgstr "Hitchcock：中心 cube，加背景圆柱、圆锥、三棱锥及其旋转变体。"
+
+#: manual/design/demo.md:15
+msgid "Renderer: terminal-derived viewport with `80x32` fallback, dotted background, scientific-camera projection, and terminal y-scale `0.5`."
+msgstr "Renderer：优先使用终端尺寸并回退到 `80x32`，dotted background，scientific-camera projection，terminal y-scale `0.5`。"
+
+#: manual/design/demo.md:18
+#: manual/design/frontend.md:15
+msgid "Non-Goals"
+msgstr "非目标"
+
+#: manual/design/demo.md:20
+msgid "Runtime UI, command parser, config files, or interactive controls."
+msgstr "Runtime UI、复杂命令解析、配置文件或交互控制。"
+
+#: manual/design/demo.md:21
+msgid "Persisted scenes or asset loading."
+msgstr "持久化 scene 或 asset loading。"
+
+#: manual/design/demo.md:22
+msgid "Snapshot-stable ASCII art tests."
+msgstr "依赖完整 ASCII art 的 snapshot 测试。"
+
+#: manual/design/frontend.md:1
+msgid "Frontend Design"
+msgstr ""
+
+#: manual/design/frontend.md:5
+msgid "Own scene-level composition without owning a concrete renderer."
+msgstr "负责 scene-level 组合，但不绑定具体 renderer。"
+
+#: manual/design/frontend.md:6
+msgid "Apply object transforms, camera transforms, projection, culling, directional lighting, and scene-wide shadow visibility."
+msgstr "执行 object transform、camera transform、projection、culling、方向光和 scene-wide shadow visibility 编排。"
+
+#: manual/design/frontend.md:8
+msgid "Emit compact projected triangle commands."
+msgstr "输出简洁的 projected triangle commands。"
+
+#: manual/design/frontend.md:10
+msgid "Backend Boundary"
+msgstr "后端边界"
+
+#: manual/design/frontend.md:12
+msgid "Frontend output is a `DrawList`. This is the stable boundary consumed by the current TUI and Canvas backends, and by future image or diagnostic backends."
+msgstr "`DrawList` 是 frontend 与 backend 的稳定边界。当前 TUI 与 Canvas backend 都消费这一结构，未来 image 或 diagnostic backend 也可以复用它。"
+
+#: manual/design/frontend.md:17
+msgid "The internal shadow map is fixed-resolution and face-sampled; there is no material system, scene graph hierarchy, textures, asset loading, physics, or BVH."
+msgstr "当前内部 shadow map 使用固定分辨率和 face sampling；仍没有 material system、texture、physics 或 BVH。"
+
+#: manual/design/view.md:1
+msgid "View Design"
+msgstr ""
+
+#: manual/design/view.md:5
+msgid "Convert world-space points and directions into camera space."
+msgstr "将 world-space point/direction 转换到 camera space。"
+
+#: manual/design/view.md:6
+msgid "Project camera-space points into viewport coordinates."
+msgstr "将 camera-space point 投影到 viewport 坐标。"
+
+#: manual/design/view.md:7
+msgid "Provide backend-neutral perspective-correct depth interpolation."
+msgstr "提供 backend-neutral 的 perspective-correct depth interpolation。"
+
+#: manual/design/view.md:8
+msgid "Keep terminal and backend concerns outside the view package."
+msgstr "不包含 terminal、ANSI 或 backend 细节。"
+
+#: manual/design/view.md:10
+msgid "Conventions"
+msgstr "约定"
+
+#: manual/design/view.md:12
+msgid "Camera-space positive `z` is in front of the camera. `Camera3::look_at` builds a view transform using `right`, `true_up`, and `forward` basis vectors."
+msgstr "camera space 中正 `z` 方向表示在相机前方。`Camera3::look_at` 基于 `right`、`true_up`、 `forward` 三个基向量生成 view transform。"
+
+#: manual/design/view.md:17
+msgid "The first version exposes compact projection helpers instead of full clipping, near/far planes, or unprojection."
+msgstr ""
+
+#: manual/index.md:1
+msgid "Luna-Flow/geometry3d"
+msgstr "Luna-Flow/geometry3d"
+
+#: manual/index.md:3
+msgid "This documentation tracks the current repository baseline for **v0.5.1**."
+msgstr "本文档描述当前仓库 **v0.5.1** 基线。"
+
+#: manual/index.md:5
+msgid "The current baseline includes the Luna-Flow template-style maintenance scripts and compatibility with `Luna-Flow/linear-algebra@0.4.2`."
+msgstr "当前基线包含与 Luna-Flow template 一致的维护脚本，以及对 `Luna-Flow/linear-algebra@0.4.2` 的兼容。"
+
+#: manual/index.md:8
+msgid "Repository positioning"
+msgstr "仓库定位"
+
+#: manual/index.md:10
+msgid "`geometry3d` is a compact MoonBit 3D geometry foundation built on `Luna-Flow/linear-algebra`. It separates core geometry, camera/view math, frontend draw-list generation, and concrete renderer backends."
+msgstr "`geometry3d` 是一个基于 `Luna-Flow/linear-algebra` 的小型 MoonBit 3D geometry 基础库。它分离 core geometry、camera/view、frontend draw-list 和具体 renderer backend。"
+
+#: manual/index.md:14
+msgid "Packages"
+msgstr "包"
+
+#: manual/index.md:16
+msgid "Each package has an API reference, a design note and a tutorial."
+msgstr "每个包都有 API 参考、设计说明和教程。"
+
+#: manual/index.md:18
+msgid "Package"
+msgstr "包"
+
+#: manual/index.md:18
+msgid "Contents"
+msgstr "内容"
+
+#: manual/index.md:20
+msgid "`Mesh`, quad faces, vector helpers, normals, visibility, and 4x4 TRS transforms."
+msgstr "`Mesh`、quad face、向量 helper、法线、可见性、4x4 TRS transform。"
+
+#: manual/index.md:21
+msgid "Camera, `look_at`, viewport, perspective projection, and orthographic projection."
+msgstr "camera、`look_at`、viewport、perspective 和 orthographic projection。"
+
+#: manual/index.md:22
+msgid "`Scene`, `RenderView`, and backend-neutral `DrawList`."
+msgstr "`Scene`、`RenderView`、backend-neutral `DrawList`。"
+
+#: manual/index.md:23
+msgid "TUI frame buffer, background patterns, Z-buffer, terminal y-scale, and rasterization."
+msgstr "TUI frame buffer、背景 pattern、Z-buffer、terminal y-scale、光栅化。"
+
+#: manual/index.md:24
+msgid "Browser Canvas 2D output using the frontend software Z-buffer."
+msgstr "使用 frontend 软件 Z-buffer 的浏览器 Canvas 2D 输出。"
+
+#: manual/index.md:25
+msgid "SVG polygon output with painter ordering and GSAP playback control."
+msgstr "使用画家顺序的 SVG polygon 输出与 GSAP 播放控制。"
+
+#: manual/index.md:26
+msgid "Terminal demos and export helpers; `demo_canvas` and `demo_gsap` provide browser demos."
+msgstr "终端 demo 与导出辅助命令；`demo_canvas` 和 `demo_gsap` 提供浏览器 demo。"
+
+#: manual/index.md:28
+msgid "Guides"
+msgstr "指南"
+
+#: manual/index.md:30
+msgid "[Migration from v0.1 to v0.2](migration_v0_2.md) maps the old single package and its TUI entry point onto the current packages."
+msgstr "[从 v0.1 迁移到 v0.2](migration_v0_2.md) 说明旧的单一包及其 TUI 入口如何对应到当前各个包。"
+
+#: manual/index.md:32
+msgid "[Repository conventions](conventions.md) lists what each package's documentation may and may not cover."
+msgstr "[仓库约定](conventions.md) 列出每个包的文档可以涵盖和不应涵盖的内容。"
+
+#: manual/migration_v0_2.md:1
+msgid "Migration from v0.1 to v0.2"
+msgstr "从 v0.1 迁移到 v0.2"
+
+#: manual/migration_v0_2.md:3
+msgid "`v0.2.0` is a breaking architecture release."
+msgstr "`v0.2.0` 是 breaking architecture release。"
+
+#: manual/migration_v0_2.md:5
+msgid "Package paths"
+msgstr "包路径"
+
+#: manual/migration_v0_2.md:7
+msgid "Old single package: `Luna-Flow/geometry3d`"
+msgstr "旧单包：`Luna-Flow/geometry3d`"
+
+#: manual/migration_v0_2.md:8
+msgid "New packages:"
+msgstr "新包："
+
+#: manual/migration_v0_2.md:15
+msgid "Demo command"
+msgstr "Demo 命令"
+
+#: manual/migration_v0_2.md:22
+msgid "Rendering flow"
+msgstr "渲染流程"
+
+#: manual/migration_v0_2.md:24
+msgid "The old `render_mesh(mesh, transform, config)` TUI entry point is replaced by:"
+msgstr "旧的 `render_mesh(mesh, transform, config)` TUI 入口改为："
+
+#: manual/migration_v0_2.md:32
+msgid "Terminal y-scale moved fully into `backend/tui`."
+msgstr "terminal y-scale 已完全移入 `backend/tui`。"
+
+#: manual/tutorial/backend/canvas.md:1
+msgid "Canvas Backend Tutorial"
+msgstr "Canvas 后端教程"
+
+#: manual/tutorial/backend/canvas.md:3
+msgid "Build and serve the browser demo:"
+msgstr "构建并启动浏览器 demo："
+
+#: manual/tutorial/backend/canvas.md:9
+msgid "Open `http://localhost:8080` and use the selector to switch between Torus and Dolly zoom. The build output is written to `target/canvas-demo`."
+msgstr "打开 `http://localhost:8080`，通过选择器切换 Torus 与 Dolly zoom。构建产物位于 `target/canvas-demo`。"
+
+#: manual/tutorial/backend/canvas.md:12
+msgid "For application code, obtain a `CanvasRenderingContext2D` with `moonbit-community/rabbita/dom`, build a frontend draw list, and call `render_draw_list`. Use `render_scene` when the backend should build the draw list from a `Scene` and `RenderView`."
+msgstr "应用代码可以通过 `moonbit-community/rabbita/dom` 获取 `CanvasRenderingContext2D`，构建 frontend draw list 后调用 `render_draw_list`；需要由后端从 `Scene` 和 `RenderView` 构建 draw list 时使用 `render_scene`。"
+
+#: manual/tutorial/backend/gsap.md:1
+msgid "GSAP SVG Backend Tutorial"
+msgstr "GSAP SVG 后端教程"
+
+#: manual/tutorial/backend/gsap.md:7
+msgid "Open `http://localhost:8081`. The demo loads pinned GSAP ESM, assigns it to `globalThis.gsap`, and then loads the MoonBit output."
+msgstr "打开 `http://localhost:8081`。demo 加载固定版本 GSAP ESM，写入 `globalThis.gsap` 后再加载 MoonBit 产物。"
+
+#: manual/tutorial/backend/gsap.md:10
+msgid "Pass an SVG element and frontend `DrawList` to `render_draw_list`. For animation, create `GsapPlayer` and rebuild the scene from the seconds supplied to its frame callback. Call `kill` when the owning page or component is disposed."
+msgstr "应用可向 `render_draw_list` 传入 SVG 元素和 frontend `DrawList`。动画场景在 `GsapPlayer` 帧回调中根据传入秒数重建。页面或组件销毁时应调用 `kill`。"
+
+#: manual/tutorial/backend/tui.md:1
+msgid "Backend TUI Tutorial"
+msgstr ""
+
+#: manual/tutorial/backend/tui.md:10
+msgid "Use `TuiRenderConfig::sized(width, height)` when dimensions come from the current terminal."
+msgstr "viewport 来自当前终端尺寸时，使用 `TuiRenderConfig::sized(width, height)`。"
+
+#: manual/tutorial/backend/tui.md:12
+msgid "To change the background:"
+msgstr "替换背景："
+
+#: manual/tutorial/backend/tui.md:18
+msgid "`terminal_y_scale` belongs to this backend because it compensates for terminal cell shape rather than geometry or camera math."
+msgstr "`terminal_y_scale` 属于 TUI backend，因为它补偿的是终端字符格形状，而不是几何或相机数学。"
+
+#: manual/tutorial/core.md:1
+msgid "Core Tutorial"
+msgstr ""
+
+#: manual/tutorial/core.md:3
+msgid "Build A Mesh"
+msgstr "创建 Mesh"
+
+#: manual/tutorial/core.md:11
+msgid "Both meshes use `@la.Vector[Double]` vertices and `QuadFace` topology."
+msgstr "两者都使用 `@la.Vector[Double]` 顶点和 `QuadFace` 拓扑。"
+
+#: manual/tutorial/core.md:13
+msgid "Transform A Mesh"
+msgstr "变换 Mesh"
+
+#: manual/tutorial/core.md:20
+msgid "`Transform3` also provides translation, non-uniform scale, and composition."
+msgstr ""
+
+#: manual/tutorial/core.md:22
+msgid "The transform layer uses `Luna-Flow/linear-algebra` matrix construction, matrix multiplication, and `mul_vec`."
+msgstr "变换层继续使用 `Luna-Flow/linear-algebra` 的矩阵构造、矩阵乘法和 `mul_vec`。"
+
+#: manual/tutorial/core.md:25
+msgid "Inspect Face Geometry"
+msgstr "读取面几何关系"
+
+#: manual/tutorial/core.md:34
+msgid "Use these helpers before projection or rendering. They are independent of any screen size or backend."
+msgstr "这些 helper 应在投影或渲染前使用，并且不依赖任何屏幕尺寸或 backend。"
+
+#: manual/tutorial/demo.md:1
+msgid "Demo Tutorial"
+msgstr ""
+
+#: manual/tutorial/demo.md:3
+msgid "Rotating Cube"
+msgstr "旋转 Cube"
+
+#: manual/tutorial/demo.md:9
+msgid "The default demo renders a rotating cube with dotted background, Z-buffering, backface culling, flat lighting, and terminal y-scale correction."
+msgstr "默认 demo 渲染旋转 cube，包含 dotted background、Z-buffer、backface culling、 flat lighting 和 terminal y-scale correction。"
+
+#: manual/tutorial/demo.md:12
+msgid "Static Sphere"
+msgstr "静止 Sphere"
+
+#: manual/tutorial/demo.md:18
+msgid "The sphere demo uses a higher-subdivision UV sphere and remains static so the faceted lighting is easy to inspect."
+msgstr "sphere demo 使用较高细分的 UV sphere，并保持静止，方便观察字符明暗变化。"
+
+#: manual/tutorial/demo.md:21
+msgid "Rotating Torus"
+msgstr "旋转 Torus"
+
+#: manual/tutorial/demo.md:27
+msgid "The torus uses outward face winding so backface culling shows the exterior rather than the inner wall. `just` also forwards the detected terminal dimensions."
+msgstr "torus 的面绕序朝外，因此背面剔除会显示外表面而不是内壁。`just` 会自动传入检测到的终端尺寸。"
+
+#: manual/tutorial/demo.md:30
+msgid "Hitchcock Zoom Scene"
+msgstr "Hitchcock Zoom 场景"
+
+#: manual/tutorial/demo.md:36
+msgid "This scene keeps a central cube visually stable while the camera distance and projection scale change together. A cylinder, cone, triangular pyramid, and rotated variants sit behind the cube, making the dolly zoom effect visible."
+msgstr "该场景让中心 cube 在视觉上保持稳定，同时联动 camera distance 和 projection scale。圆柱、圆锥、三棱锥及其旋转变体位于 cube 后方，用来凸显 dolly zoom 的空间压缩效果。"
+
+#: manual/tutorial/demo.md:40
+msgid "Smoke Tests"
+msgstr "Smoke Test"
+
+#: manual/tutorial/demo.md:48
+msgid "Use `--once` when validating the renderer in scripts or CI-like local checks."
+msgstr "脚本化验证时使用 `--once`，避免进入无限动画循环。"
+
+#: manual/tutorial/demo.md:50
+msgid "Use `just record`, `just export-image`, and `just show-image` for the default sequence and static-image workflows under the ignored `target/` directory."
+msgstr "使用 `just record`、`just export-image` 和 `just show-image` 执行默认序列与静态图流程，产物写入已忽略的 `target/`。"
+
+#: manual/tutorial/frontend.md:1
+msgid "Frontend Tutorial"
+msgstr ""
+
+#: manual/tutorial/frontend.md:16
+msgid "Backends consume `draw_list` and decide how to rasterize or serialize it. `build_draw_list` also applies the scene's directional-light shadow map before writing each triangle intensity."
+msgstr "backend 只消费 `draw_list`，决定如何 rasterize 或 serialize。 `build_draw_list` 会先应用 scene 的方向光 shadow map，再写入每个 triangle 的 intensity。"
+
+#: manual/tutorial/view.md:1
+msgid "View Tutorial"
+msgstr ""
+
+#: manual/tutorial/view.md:15
+msgid "Use `OrthographicProjection` when depth should not affect projected size. Rasterizers should pass triangle barycentric weights to `interpolate_perspective_depth` instead of linearly interpolating perspective depth."
+msgstr "需要不随 depth 缩放时，使用 `OrthographicProjection`。 rasterizer 应将 triangle 的重心权重传给 `interpolate_perspective_depth`，而不是线性插值透视深度。"
+
+#~ msgid "Documentation Standard"
+#~ msgstr "文档规范"
+
+#~ msgid "Document Types"
+#~ msgstr "文档类型"
+
+#~ msgid "**API Reference (`api.md`)**: public types, functions, parameters, and return semantics."
+#~ msgstr "**API Reference (`api.md`)**：公开类型、函数、参数与返回语义。"
+
+#~ msgid "**User Guide (`tutorial.md`)**: practical workflows and runnable examples."
+#~ msgstr "**User Guide (`tutorial.md`)**：实践流程和可运行示例。"
+
+#~ msgid "**Design Documentation (`design.md`)**: architecture, invariants, extension points, and limitations."
+#~ msgstr "**Design Documentation (`design.md`)**：架构、约束、扩展点与限制。"
+
+#~ msgid "Organization"
+#~ msgstr "组织结构"
+
+#~ msgid "Documentation Rules"
+#~ msgstr "维护规则"
+
+#~ msgid "Keep the documentation aligned with the code that exists in the repository."
+#~ msgstr "文档必须和仓库已有代码保持一致。"
+
+#~ msgid "Documentation Layout"
+#~ msgstr "文档结构"
+
+#~ msgid "`README.md` for the package narrative and release baseline."
+#~ msgstr "`README.md`：包定位与版本基线。"
+
+#~ msgid "`doc_standard.md` for the documentation contract."
+#~ msgstr "`doc_standard.md`：文档维护约定。"
+
+#~ msgid "Subsystem folders with `api.md`, `tutorial.md`, and `design.md`."
+#~ msgstr "子系统目录：每个目录包含 `api.md`、`tutorial.md`、`design.md`。"
+
+#~ msgid "Subsystem Overview"
+#~ msgstr "子系统概览"
+
+#~ msgid "Documentation Entry Points"
+#~ msgstr "文档入口"

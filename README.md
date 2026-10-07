@@ -48,23 +48,18 @@ output, backgrounds, or terminal aspect ratio correction.
 
 ## Documentation
 
-This repository follows the same documentation shape used by
-`Luna-Flow/linear-algebra`: localized docs under `doc/`, a documentation
-standard, and subsystem pages for API, tutorial, and design notes.
+The manual is published at <https://luna-flow.github.io/en/geometry3d/>, with
+Chinese and Japanese translations. Its English source lives in
+[`doc/manual/`](./doc/manual/index.md): one API reference, design note, and
+tutorial per package.
 
-- English: [doc/en_US](./doc/en_US/README.md)
-- 简体中文: [doc/zh_CN](./doc/zh_CN/README.md)
-- 日本語: [doc/ja_JP](./doc/ja_JP/README.md)
-
-Subsystem entry points:
-
-- Core: [API](./doc/en_US/core/api.md), [Tutorial](./doc/en_US/core/tutorial.md), [Design](./doc/en_US/core/design.md)
-- View: [API](./doc/en_US/view/api.md), [Tutorial](./doc/en_US/view/tutorial.md), [Design](./doc/en_US/view/design.md)
-- Frontend: [API](./doc/en_US/frontend/api.md), [Tutorial](./doc/en_US/frontend/tutorial.md), [Design](./doc/en_US/frontend/design.md)
-- Backend TUI: [API](./doc/en_US/backend-tui/api.md), [Tutorial](./doc/en_US/backend-tui/tutorial.md), [Design](./doc/en_US/backend-tui/design.md)
-- Backend Canvas: [API](./doc/en_US/backend-canvas/api.md), [Tutorial](./doc/en_US/backend-canvas/tutorial.md), [Design](./doc/en_US/backend-canvas/design.md)
-- Backend GSAP: [API](./doc/en_US/backend-gsap/api.md), [Tutorial](./doc/en_US/backend-gsap/tutorial.md), [Design](./doc/en_US/backend-gsap/design.md)
-- Demo: [API](./doc/en_US/demo/api.md), [Tutorial](./doc/en_US/demo/tutorial.md), [Design](./doc/en_US/demo/design.md)
+- Core: [API](./doc/manual/api/core.md), [Tutorial](./doc/manual/tutorial/core.md), [Design](./doc/manual/design/core.md)
+- View: [API](./doc/manual/api/view.md), [Tutorial](./doc/manual/tutorial/view.md), [Design](./doc/manual/design/view.md)
+- Frontend: [API](./doc/manual/api/frontend.md), [Tutorial](./doc/manual/tutorial/frontend.md), [Design](./doc/manual/design/frontend.md)
+- Backend TUI: [API](./doc/manual/api/backend/tui.md), [Tutorial](./doc/manual/tutorial/backend/tui.md), [Design](./doc/manual/design/backend/tui.md)
+- Backend Canvas: [API](./doc/manual/api/backend/canvas.md), [Tutorial](./doc/manual/tutorial/backend/canvas.md), [Design](./doc/manual/design/backend/canvas.md)
+- Backend GSAP: [API](./doc/manual/api/backend/gsap.md), [Tutorial](./doc/manual/tutorial/backend/gsap.md), [Design](./doc/manual/design/backend/gsap.md)
+- Demo: [API](./doc/manual/api/demo.md), [Tutorial](./doc/manual/tutorial/demo.md), [Design](./doc/manual/design/demo.md)
 
 ## Background Patterns
 

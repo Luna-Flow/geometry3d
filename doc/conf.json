@@ -1,0 +1,8 @@
+{
+  "title": "geometry3d",
+  "summary": "A small MoonBit 3D geometry foundation with core, view, frontend, TUI, Canvas, and GSAP SVG backend packages built on Luna-Flow/linear-algebra.",
+  "locales": [
+    "zh_CN",
+    "ja_JP"
+  ]
+}
