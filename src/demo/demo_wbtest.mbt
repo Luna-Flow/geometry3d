@@ -118,3 +118,31 @@ test "demo can render a static tui image" {
   assert_eq(image.height, @tui.DEFAULT_HEIGHT)
   assert_true(image.content.length() > 0)
 }
+
+///|
+fn mesh_frame(
+  mesh : @core.Mesh,
+  angle_x : Double,
+  angle_y : Double,
+  angle_z : Double,
+) -> String {
+  mesh_frame_with_view(mesh, angle_x, angle_y, angle_z, demo_render_view())
+}
+
+///|
+fn exposure_mesh_frame(
+  mesh : @core.Mesh,
+  angle_x : Double,
+  angle_y : Double,
+  angle_z : Double,
+  use_flow : Bool,
+) -> String {
+  exposure_mesh_frame_with_view(
+    mesh,
+    angle_x,
+    angle_y,
+    angle_z,
+    use_flow,
+    demo_render_view(),
+  )
+}

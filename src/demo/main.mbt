@@ -132,7 +132,7 @@ fn env_positive_int(
 
 ///|
 fn auto_viewport() -> @view.Viewport {
-  let envs = @sys.get_env_vars()
+  let envs = @env.get_env_vars()
   let width = env_positive_int(envs, "COLUMNS", @tui.DEFAULT_WIDTH)
   let raw_height = env_positive_int(envs, "LINES", @tui.DEFAULT_HEIGHT + 1)
   // Leave one row for the shell prompt to avoid scroll churn.
@@ -369,16 +369,6 @@ fn hitchcock_scene() -> @frontend.Scene {
 }
 
 ///|
-fn mesh_frame(
-  mesh : @core.Mesh,
-  angle_x : Double,
-  angle_y : Double,
-  angle_z : Double,
-) -> String {
-  mesh_frame_with_view(mesh, angle_x, angle_y, angle_z, demo_render_view())
-}
-
-///|
 fn mesh_frame_with_view(
   mesh : @core.Mesh,
   angle_x : Double,
@@ -394,16 +384,6 @@ fn mesh_frame_with_view(
   )
   let draw_list = @frontend.build_draw_list(scene, render_view)
   @tui.render_frame(draw_list, auto_render_config())
-}
-
-///|
-fn mesh_luma(
-  mesh : @core.Mesh,
-  angle_x : Double,
-  angle_y : Double,
-  angle_z : Double,
-) -> @frontend.LumaBuffer {
-  mesh_luma_with_view(mesh, angle_x, angle_y, angle_z, demo_render_view())
 }
 
 ///|
@@ -477,24 +457,6 @@ fn add_exposure_sample(
   } else {
     out.add_weighted_sample(sample, weight)
   }
-}
-
-///|
-fn exposure_mesh_frame(
-  mesh : @core.Mesh,
-  angle_x : Double,
-  angle_y : Double,
-  angle_z : Double,
-  use_flow : Bool,
-) -> String {
-  exposure_mesh_frame_with_view(
-    mesh,
-    angle_x,
-    angle_y,
-    angle_z,
-    use_flow,
-    demo_render_view(),
-  )
 }
 
 ///|
@@ -594,14 +556,6 @@ fn exposure_dolly_frame(frame : Int, use_flow : Bool) -> String {
 }
 
 ///|
-fn timeline_mesh_frame(
-  mesh : @core.Mesh,
-  sample : @frontend.TimelineSample,
-) -> String {
-  timeline_mesh_frame_with_view(mesh, sample, demo_render_view())
-}
-
-///|
 fn timeline_mesh_frame_with_view(
   mesh : @core.Mesh,
   sample : @frontend.TimelineSample,
@@ -611,20 +565,6 @@ fn timeline_mesh_frame_with_view(
   let angle_y = sample.time_seconds * 1.05
   let angle_z = sample.time_seconds * 0.6
   mesh_frame_with_view(mesh, angle_x, angle_y, angle_z, render_view)
-}
-
-///|
-fn timeline_exposure_mesh_frame(
-  mesh : @core.Mesh,
-  sample : @frontend.TimelineSample,
-  use_flow : Bool,
-) -> String {
-  timeline_exposure_mesh_frame_with_view(
-    mesh,
-    sample,
-    use_flow,
-    demo_render_view(),
-  )
 }
 
 ///|
@@ -809,17 +749,6 @@ fn show_image_file(path : String) -> Unit {
 }
 
 ///|
-fn render_once(
-  mesh : @core.Mesh,
-  angle_x : Double,
-  angle_y : Double,
-  angle_z : Double,
-) -> Unit {
-  let frame = mesh_frame(mesh, angle_x, angle_y, angle_z)
-  println("\u{1b}[2J\u{1b}[H\{frame}")
-}
-
-///|
 fn render_once_with_view(
   mesh : @core.Mesh,
   angle_x : Double,
@@ -829,19 +758,6 @@ fn render_once_with_view(
 ) -> Unit {
   println(
     "\u{1b}[2J\u{1b}[H\{mesh_frame_with_view(mesh, angle_x, angle_y, angle_z, render_view)}",
-  )
-}
-
-///|
-fn render_exposure_once(
-  mesh : @core.Mesh,
-  angle_x : Double,
-  angle_y : Double,
-  angle_z : Double,
-  use_flow : Bool,
-) -> Unit {
-  println(
-    "\u{1b}[2J\u{1b}[H\{exposure_mesh_frame(mesh, angle_x, angle_y, angle_z, use_flow)}",
   )
 }
 

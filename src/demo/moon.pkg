@@ -2,7 +2,6 @@ import {
   "moonbitlang/core/env",
   "moonbitlang/core/math",
   "moonbitlang/x/fs",
-  "moonbitlang/x/sys",
   "Luna-Flow/geometry3d/core",
   "Luna-Flow/geometry3d/view",
   "Luna-Flow/geometry3d/frontend",
