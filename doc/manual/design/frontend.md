@@ -70,7 +70,7 @@ $$
 
 [^offset]: Reading texel $(\lfloor X \rfloor, \lfloor Y \rfloor)$, or sampling the depth pass at integer grid points, would make the two grids agree and halve the bound. The code does neither; the bound above describes it as it is.
 
-A face whose normal makes an angle $\theta$ with $\ell$ has $\lVert (z_x, z_y) \rVert = \tan\theta$, so the error grows without bound at grazing incidence. The tolerance $3b$ removes acne whenever $\sqrt2\,\tan\theta\,\Delta \le 3b$. Where it does not, $\theta$ is close to $90°$ and the Lambert factor $\cos\theta$ already makes the face dark, so residual acne is hard to see. The price of the bias is that a shadow starts slightly late at contact points ("peter-panning"), by about $3b$ = 1.5% of the scene's depth span.
+A face whose normal makes an angle $\theta$ with $\ell$ has $\lVert (z_x, z_y) \rVert = \tan\theta$, so the error grows without bound at grazing incidence. The tolerance $3b$ removes acne whenever $\sqrt2\,\tan\theta\,\Delta \le 3b$. Where it does not, $\theta$ is large and the Lambert factor $\cos\theta$ already makes the face darker, but the residual acne is not negligible: the five lookups of a face also land on texels written by neighbouring, steeper faces, and on a single `sphere_mesh(1.5, 12, 24)` under `Light::default`, over 200 orientations, about 15% of the lit visible faces lose some visibility although a convex object cannot shadow itself (about 1% of the faces whose Lambert term exceeds $0.5$). The price of the bias is that a shadow starts slightly late at contact points ("peter-panning"), by about $3b$ = 1.5% of the scene's depth span.
 
 **Face visibility.** The frontend tests the centre and the four vertices of each face and averages:
 
