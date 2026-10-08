@@ -4,6 +4,12 @@
 
 `view` answers one question: where on the screen does a world-space point appear, and how far away is it? The answer must be exact enough that every backend (terminal cells, canvas pixels, SVG polygons) shows the same picture, simple enough to state in three formulas, and parameterized the way a photographer thinks: a sensor, a lens and a distance, rather than an abstract field-of-view number.
 
+## Constraints
+
+- The projection must give the same picture on terminal cells, canvas pixels and SVG coordinates, so it works in viewport units and leaves the cell shape to the backends.
+- There is no clipper anywhere in the pipeline, so every projected point is assumed to lie in front of the camera.
+- Depth must stay comparable between triangles drawn by different rasterizers.
+
 ## Mathematical background
 
 The pipeline has three stages, each a map between coordinate systems:

@@ -4,6 +4,11 @@
 
 `demo_gsap` shows that a `geometry3d` scene can be scrubbed, reversed and replayed like any GSAP animation, because each picture is a pure function of time. It is a complete player page with the smallest possible amount of JavaScript.
 
+## Constraints
+
+- The program runs in a browser page it does not create, and GSAP must be loaded by that page before the program starts.
+- It may only use the public API of the library packages, `rabbita` and a few small `extern "js"` helpers.
+
 ## Mathematical background
 
 ### Scenes as functions of time

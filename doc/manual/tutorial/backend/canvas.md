@@ -2,6 +2,13 @@
 
 This tutorial shows you how to put a `geometry3d` scene on a web page: set up a JavaScript-target package, draw a frame on a `<canvas>`, animate it with `requestAnimationFrame`, and write a variant with your own colours.
 
+| I want to | Use |
+| --- | --- |
+| draw a scene on a `<canvas>` | `@canvas.render_scene(context, scene, view, config)` |
+| animate it | `requestAnimationFrame` through `@dom.window()` |
+| choose the size and colours | `@canvas.CanvasRenderConfig::sized`, `CanvasColor::rgb` |
+| draw an existing draw list | `@canvas.render_draw_list` |
+
 ## Quick start
 
 The backend needs the `js` target and the DOM bindings of `rabbita`:

@@ -1,5 +1,7 @@
 # demo_canvas API
 
+## Purpose
+
 `Luna-Flow/geometry3d/demo_canvas` is a browser executable for the `js` target. It exports no MoonBit items; its interface is the HTML page it expects and the scenes it draws with the [Canvas backend](backend/canvas.md).
 
 ## Build and serve

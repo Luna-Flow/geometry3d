@@ -1,5 +1,7 @@
 # demo_gsap API
 
+## Purpose
+
 `Luna-Flow/geometry3d/demo_gsap` is a browser executable for the `js` target. It exports no MoonBit items; its interface is the HTML page it expects and the player it builds with the [GSAP SVG backend](backend/gsap.md).
 
 ## Build and serve

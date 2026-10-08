@@ -4,6 +4,12 @@
 
 The GSAP backend shows a `DrawList` as resolution-independent vector graphics and lets a mature animation library, GSAP, own playback: play, pause, reverse, seek, speed and looping. The scene math stays in MoonBit; JavaScript only stores polygons and runs the clock. The backend has no depth buffer, because SVG has none, so it must decide visibility by drawing order. This page states when that order is exact.
 
+## Constraints
+
+- SVG has no depth buffer: occlusion can only come from the order of the elements.
+- GSAP is loaded by the page, not by MoonBit, and is found at `globalThis.gsap`.
+- The package runs only on the `js` target.
+
 ## Mathematical background
 
 ### Painter's algorithm

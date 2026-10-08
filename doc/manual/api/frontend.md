@@ -1,6 +1,10 @@
 # frontend API
 
+## Purpose
+
 The package `Luna-Flow/geometry3d/frontend` turns a scene and a camera into a backend-neutral list of shaded, projected triangles (`DrawList`). It also owns the software depth buffer for scalar images (`LumaBuffer`) used by the Canvas backend and the exposure effects, a block-matching optical-flow estimator, exposure settings and animation timelines. It knows nothing about characters, colours or the DOM.
+
+## Importing
 
 ```moonbit nocheck
 import {

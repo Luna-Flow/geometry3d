@@ -2,6 +2,14 @@
 
 This tutorial shows you how to put a camera in a scene and find where points land on the screen: aiming a look-at camera, projecting with perspective or orthographic projection, deriving the projection from a real lens and sensor, animating a dolly zoom, and computing the correct depth inside a projected triangle.
 
+| I want to | Use |
+| --- | --- |
+| aim a camera | `@view.Camera3::look_at(eye, target, up)` or `Camera3::default(distance)` |
+| project camera-space points | `@view.PerspectiveProjection::new(viewport, scale).project_point(p)` |
+| derive the scale from a lens | `@view.ScientificCamera::new(...).to_perspective_projection(viewport)` |
+| animate a dolly zoom | `ScientificCamera::with_lens` with $f \propto d$ |
+| find the depth under a pixel | `@view.interpolate_perspective_depth` |
+
 ## Quick start
 
 Install the module as in the [core tutorial](core.md) and import `view` next to `core`:

@@ -1,6 +1,10 @@
 # backend/canvas API
 
+## Purpose
+
 The package `Luna-Flow/geometry3d/backend/canvas` draws a frontend `DrawList` on an HTML `<canvas>` with the 2D context. It rasterizes the list into the frontend's software depth buffer, quantizes each pixel's intensity to a shade of one foreground colour, and paints horizontal runs of equal shade with `fillRect`. It supports only the `js` target and uses the DOM bindings of `moonbit-community/rabbita`.
+
+## Importing
 
 ```moonbit nocheck
 import {

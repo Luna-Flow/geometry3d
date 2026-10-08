@@ -2,6 +2,15 @@
 
 This tutorial shows you how to describe a scene, render it into the backend-neutral `DrawList`, and work with the frontend's image tools: the luma buffer, shadows, long exposures and timelines. At the end you write a tiny backend of your own.
 
+| I want to | Use |
+| --- | --- |
+| put meshes and a light into a scene | `@frontend.Scene::single`, `Scene::new`, `Scene::add_object` |
+| turn a scene into shaded triangles | `@frontend.build_draw_list(scene, view)` |
+| render through a physical camera | `@frontend.RenderView::scientific(camera, viewport)` |
+| rasterize into a depth-tested scalar image | `@frontend.draw_list_to_luma` |
+| average several frames into a long exposure | `LumaBuffer::add_weighted_sample` with `ExposureSettings` |
+| sample an animation at fixed times | `Timeline::sample`, `ScalarTrack::sample` |
+
 ## Quick start
 
 Import the frontend next to `core` and `view`:

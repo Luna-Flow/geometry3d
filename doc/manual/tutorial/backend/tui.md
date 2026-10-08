@@ -2,6 +2,14 @@
 
 This tutorial shows you how to turn scenes into terminal text: rendering a frame, animating it, choosing your own characters and background, making a long exposure, and saving frames and sequences to files.
 
+| I want to | Use |
+| --- | --- |
+| print a scene in the terminal | `@tui.render_scene(scene, view, config)` |
+| size the frame to the terminal | `@tui.TuiRenderConfig::sized(width, height)` |
+| draw an existing draw list | `@tui.render_draw_list` or `@tui.render_frame` |
+| render a long exposure | `@tui.draw_list_to_tui_luma` and `@tui.render_luma_buffer` |
+| save and load frames | `encode_tui_sequence`, `decode_tui_sequence`, `encode_tui_image`, `decode_tui_image` |
+
 ## Quick start
 
 Import the TUI backend with the packages that build the scene:

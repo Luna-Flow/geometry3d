@@ -1,6 +1,10 @@
 # backend/gsap API
 
+## Purpose
+
 The package `Luna-Flow/geometry3d/backend/gsap` draws a frontend `DrawList` as SVG polygons and drives animations with a [GSAP](https://gsap.com/) timeline. Triangles are ordered far to near (painter's algorithm) and written into reusable `<polygon>` nodes of an `<svg>` element. `GsapPlayer` wraps a GSAP timeline that calls back into MoonBit with the current time. The package supports only the `js` target, uses `moonbit-community/rabbita/dom`, and expects GSAP 3 at `globalThis.gsap`.
+
+## Importing
 
 ```moonbit nocheck
 import {

@@ -1,6 +1,10 @@
 # backend/tui API
 
+## Purpose
+
 The package `Luna-Flow/geometry3d/backend/tui` draws a frontend `DrawList` as text: a character frame buffer with a depth buffer, a shade ramp that maps intensity to characters, background patterns, the correction for tall terminal cells, and plain-text file formats for single images (`.tuiimg`) and animated sequences (`.tui3d`). It runs on every target and produces strings; printing them is up to the caller.
+
+## Importing
 
 ```moonbit nocheck
 import {

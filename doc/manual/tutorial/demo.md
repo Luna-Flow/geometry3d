@@ -2,6 +2,14 @@
 
 This tutorial shows you how to run the terminal demo of the repository: the animated scenes, the exposure effects, recording and playback, still images and video export. You need a clone of the repository and a native MoonBit toolchain; no code is written.
 
+| I want to | Use |
+| --- | --- |
+| watch an animated scene | `moon run src/demo --target native` with `--sphere`, `--torus`, `--hitchcock` or `--dolly` |
+| add motion blur | `--long-exposure` or `--flow-exposure` |
+| record and replay a sequence | `--record PATH` and `--play PATH` |
+| export and show a still image | `--export-image PATH` and `--show-image PATH` |
+| make a video | `tools/tui3d_to_video.py` |
+
 ## Quick start
 
 From the repository root, render one frame of the sphere scene into a 48 × 14 frame:

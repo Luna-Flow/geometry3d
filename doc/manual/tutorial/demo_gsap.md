@@ -2,6 +2,12 @@
 
 This tutorial shows you how to run the GSAP SVG demo and how its program connects page controls to a `GsapPlayer`.
 
+| I want to | Use |
+| --- | --- |
+| run the player | `just gsap-serve` |
+| change the animation length | the constant `DURATION_SECONDS` |
+| use a local copy of GSAP | a local `gsap` module in `index.html` that sets `globalThis.gsap` |
+
 ## Quick start
 
 From the repository root:

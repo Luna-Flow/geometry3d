@@ -2,6 +2,12 @@
 
 This tutorial shows you how to build and open the browser Canvas demo, and how its program is put together so that you can adapt it.
 
+| I want to | Use |
+| --- | --- |
+| build and open the demo | `just canvas-serve` |
+| add a scene | a `DemoKind` constructor and its branches in `src/demo_canvas/main.mbt`, and an `<option>` in `index.html` |
+| change the canvas size | the constants `WIDTH` and `HEIGHT`, and the attributes in `index.html` |
+
 ## Quick start
 
 From the repository root:

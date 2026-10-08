@@ -4,6 +4,11 @@
 
 `demo_canvas` shows the Canvas backend on a real page with as little browser code as possible: one canvas, one selector, one animation loop. It reuses the scenes of the terminal demo, so the two outputs can be compared directly.
 
+## Constraints
+
+- The program runs in a browser page it does not create: the elements it needs must be present in `index.html`.
+- It may only use the public API of the library packages and `rabbita`.
+
 ## Mathematical background
 
 ### Time from animation frames

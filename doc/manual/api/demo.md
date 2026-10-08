@@ -1,5 +1,7 @@
 # demo API
 
+## Purpose
+
 `Luna-Flow/geometry3d/demo` is an executable, not a library: it exports no MoonBit items. Its interface is the command line described here. It renders animated scenes into the terminal with the [TUI backend](backend/tui.md), and records, plays, exports and shows `.tui3d` sequences and `.tuiimg` images. It is meant for the `native` target, which provides the clock, the environment and the file system it uses.
 
 ```sh
