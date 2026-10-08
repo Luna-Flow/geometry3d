@@ -37,6 +37,19 @@ follow semantic versioning.
   follows one frame through the packages.
 - The manual is fully translated into Chinese (`zh_CN`) and Japanese (`ja_JP`).
 - README rewritten for the current version.
+- Manual brought to the luna-generic layout: an overview with install, page
+  table, exported items and reading paths; `Purpose` and `Importing` sections
+  on every API page, task tables on every tutorial, and `Constraints`
+  sections on every design page.
+- Documented that `cylinder_mesh`, `cone_mesh` and `triangular_pyramid_mesh`
+  wind their faces inwards (they render inside out), with a workaround, and
+  derived why recomputed normals equal transformed ones (cofactor identity).
+- Corrected the depth-buffer invariant: a pixel shows a triangle within
+  `DEPTH_EPSILON` of the nearest, not the first drawn among near-ties.
+- Corrected the shadow-acne bound: the depth pass samples texel centres while
+  the lookup rounds, so a lookup is off by up to one texel, not half.
+- Corrected the dolly-zoom magnification of the disc wall (about 2.39, limit
+  2.56, not 2.6) and the projection of points at or behind the eye.
 
 ## 0.5.1 - 2026-07-09
 

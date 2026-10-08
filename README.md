@@ -67,6 +67,10 @@ prints a shaded torus as text.
 `core`, `view` and `frontend` know nothing about terminals, colours or the
 DOM; only the backends and demos do.
 
+`cylinder_mesh`, `cone_mesh` and `triangular_pyramid_mesh` currently wind their
+faces inwards and render inside out; the
+[core API](./doc/manual/api/core.md) documents the effect and a workaround.
+
 ## Run the demos
 
 ```sh
