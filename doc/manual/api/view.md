@@ -1,6 +1,12 @@
 # view API
 
+## Purpose
+
 The package `Luna-Flow/geometry3d/view` takes points from world space to the screen. It contains the look-at camera, the perspective and orthographic projections into a viewport, the perspective-correct depth interpolation used by every rasterizer, and a physical camera model (sensor, lens, world unit) that derives the projection scale from a focal length. It does not rasterize and knows nothing about terminals or the DOM.
+
+Coordinates follow one convention throughout. In camera space $x$ points right, $y$ up and $z$ forward, so visible points have $z > 0$. On the screen $x$ grows to the right and $y$ grows downwards, in pixels (or terminal cells) of the viewport. The [view design](../design/view.md) derives every formula on this page.
+
+## Importing
 
 ```moonbit nocheck
 import {
@@ -9,8 +15,6 @@ import {
   "Luna-Flow/linear-algebra/mutable" @la,
 }
 ```
-
-Coordinates follow one convention throughout. In camera space $x$ points right, $y$ up and $z$ forward, so visible points have $z > 0$. On the screen $x$ grows to the right and $y$ grows downwards, in pixels (or terminal cells) of the viewport. The [view design](../design/view.md) derives every formula on this page.
 
 ## Camera
 
@@ -180,7 +184,7 @@ y_s = \frac{H}{2} - s\,\frac{y}{z},\qquad
 \mathit{depth} = z ,
 $$
 
-where $W \times H$ is the viewport. The point must lie in front of the camera ($z > 0$). There is no near plane and no clipping: $z = 0$ produces infinities and $z < 0$ a mirrored image.
+where $W \times H$ is the viewport. The point must lie in front of the camera ($z > 0$). There is no near plane and no clipping: $z = 0$ produces infinities (or NaN for a coordinate that is also $0$) and $z < 0$ a point reflected through the centre of the viewport.
 
 ### `OrthographicProjection`
 

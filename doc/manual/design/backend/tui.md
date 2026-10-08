@@ -4,6 +4,11 @@
 
 The TUI backend shows the frontend's triangles in a terminal, using only characters. A terminal cell is a coarse, non-square pixel with no colour in this backend, so the package has three jobs: correct the cell shape so that a cube looks like a cube, map a continuous intensity onto a handful of characters, and resolve occlusion per cell. It should produce plain strings that tests, files and video tools can consume, and stay free of ANSI escape codes and terminal I/O, which belong to the demo.
 
+## Constraints
+
+- A terminal cell is a coarse pixel about twice as tall as it is wide, with one character and, in this backend, no colour.
+- The output must be plain strings that tests, files and the video exporter can consume on every target.
+
 ## Mathematical background
 
 ### Non-square cells
@@ -39,7 +44,7 @@ The default ramp `" .:-=+*#%@"` has $n = 10$, so the quantization error is at mo
 
 ### Rasterization and depth
 
-`draw_triangle_z` uses the edge-function rule and the depth invariant derived in the [frontend design](../frontend.md): a cell is covered when its centre $(x + \tfrac12, y + \tfrac12)$ lies in the closed triangle, the depth there is $\big(\sum \lambda_i / z_i\big)^{-1}$, and a write happens only if it is nearer than the stored depth by more than `DEPTH_EPSILON`. After all triangles are drawn, each cell shows the character of the nearest covering triangle (the first drawn among near-ties), independently of the draw order.
+`draw_triangle_z` uses the edge-function rule and the depth invariant derived in the [frontend design](../frontend.md): a cell is covered when its centre $(x + \tfrac12, y + \tfrac12)$ lies in the closed triangle, the depth there is $\big(\sum \lambda_i / z_i\big)^{-1}$, and a write happens only if it is nearer than the stored depth by more than `DEPTH_EPSILON`. After all triangles are drawn, each cell shows the character of a covering triangle whose depth is within `DEPTH_EPSILON` of the nearest one; only the choice among such near-ties depends on the draw order.
 
 ### Two rendering paths
 
@@ -94,7 +99,7 @@ The formats are readable in a text editor, diffable, and trivially parsed by the
 - `FrameBuffer::to_string` has exactly `height * (width + 1)` characters.
 - `shade_char` returns a ramp character for every input; its error is at most $1/(2(n - 1))$ on $[0, 1]$.
 - The vertical squeeze preserves perspective-correct depth, so occlusion is the same with and without it.
-- Each cell shows the nearest covering triangle; background cells keep depth `FAR_DEPTH`.
+- Each cell shows a covering triangle within `DEPTH_EPSILON` of the nearest covering depth; background cells keep depth `FAR_DEPTH`.
 - Sequences and images round-trip under the condition stated above.
 
 The cost of drawing a triangle is proportional to the area of its bounding box in cells. The box is not clipped to the buffer, so a huge off-screen triangle (from geometry close to the eye) costs time even though it writes nothing.

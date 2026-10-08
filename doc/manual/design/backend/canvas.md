@@ -4,6 +4,11 @@
 
 The Canvas backend shows the same `DrawList` as the terminal backend in a browser, at pixel resolution and in colour, with exact occlusion. It should reuse the frontend's software depth buffer instead of growing a second rasterizer, and keep the number of DOM calls per frame small, because each call from MoonBit into the Canvas API crosses the JavaScript boundary.
 
+## Constraints
+
+- The package runs only on the `js` target and reaches the Canvas 2D API through `moonbit-community/rabbita/dom`.
+- Every call into the DOM crosses the JavaScript boundary, so the number of calls per frame matters more than the arithmetic.
+
 ## Mathematical background
 
 ### From intensity to colour
@@ -31,7 +36,7 @@ Painting each run as one rectangle of height 1 produces exactly the same image a
 
 ### Occlusion
 
-Visibility comes from the frontend's depth buffer, whose invariant is derived in the [frontend design](../frontend.md): every pixel shows the nearest covering triangle, independent of draw order. The Canvas output is therefore exact per pixel, unlike the painter's ordering of the [GSAP SVG backend](gsap.md).
+Visibility comes from the frontend's depth buffer, whose invariant is derived in the [frontend design](../frontend.md#the-depth-buffer): every pixel shows a covering triangle within `DEPTH_EPSILON` of the nearest one, independent of draw order except among such near-ties. The Canvas output is therefore exact per pixel, unlike the painter's ordering of the [GSAP SVG backend](gsap.md).
 
 ## Design decisions
 

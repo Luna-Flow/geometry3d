@@ -4,6 +4,12 @@
 
 The frontend is where a 3D scene stops being 3D. It owns every step that is the same for all outputs (model and view transforms, projection, visibility, lighting and shadows) and hands the backends a flat list of screen-space triangles with one brightness each. A backend can then be written in an afternoon: it only decides how a triangle of a given brightness looks on its device. The same boundary lets the TUI, Canvas and SVG backends show the same picture from the same `DrawList`.
 
+## Constraints
+
+- The backends have very different output models (a character grid, a pixel canvas, retained SVG nodes), and none of them may see world-space geometry.
+- Everything runs on the CPU in MoonBit, at demo scale (a few thousand triangles per frame).
+- Rendering must be deterministic and testable: no clock, no randomness, no global state.
+
 ## Mathematical background
 
 ### The pipeline
@@ -50,13 +56,21 @@ $$
 
 so the effective tolerance is $3b$, with $b = \max(0.005 \cdot \text{depth span}, 10^{-4})$.
 
-**Why a bias is needed.** A surface shadowing itself because of the grid's finite resolution is called shadow acne. Rounding to the nearest texel centre moves the lookup by at most half a texel, $\Delta/2$, along each axis, where $\Delta$ is the texel size in light-space units. If the surface through $q$ has depth gradient $(z_x, z_y)$ in light space, the stored depth of its own texel differs from $z_\ell(q)$ by at most
+**Why a bias is needed.** A surface shadowing itself because of the grid's finite resolution is called shadow acne. Let $\Delta = (x_{\max} - x_{\min})/(N - 1)$ be the texel size in light-space units (and likewise in $y$). The depth pass samples texel $(i, j)$ at the grid point $(i + \tfrac12, j + \tfrac12)$, like every rasterizer of the repository, but the lookup reads the texel $(\operatorname{round} X, \operatorname{round} Y)$. For $X \in [i - \tfrac12, i + \tfrac12)$ the stored sample lies at $i + \tfrac12$, so it is displaced from the lookup point by
 
 $$
-|D - z_\ell(q)| \le \big(|z_x| + |z_y|\big)\,\frac{\Delta}{2} .
+\big(i + \tfrac12\big) - X \in (0, 1]
 $$
 
-A face whose normal makes an angle $\theta$ with $\ell$ has $\lVert (z_x, z_y) \rVert = \tan\theta$, so the error grows without bound at grazing incidence. The tolerance $3b$ removes acne whenever $\sqrt2\,\tan\theta\,\Delta/2 \le 3b$. Where it does not, $\theta$ is close to $90°$ and the Lambert factor $\cos\theta$ already makes the face dark, so residual acne is hard to see. The price of the bias is that a shadow starts slightly late at contact points ("peter-panning"), by about $3b$ = 1.5% of the scene's depth span.
+texels along each axis: up to a whole texel, and half a texel on average, always towards larger $X$ and $Y$.[^offset] If the surface through $q$ has depth gradient $(z_x, z_y)$ in light space, the stored depth of its texel therefore differs from $z_\ell(q)$ by at most
+
+$$
+|D - z_\ell(q)| \le \big(|z_x| + |z_y|\big)\,\Delta \le \sqrt2\,\lVert (z_x, z_y) \rVert\,\Delta .
+$$
+
+[^offset]: Reading texel $(\lfloor X \rfloor, \lfloor Y \rfloor)$, or sampling the depth pass at integer grid points, would make the two grids agree and halve the bound. The code does neither; the bound above describes it as it is.
+
+A face whose normal makes an angle $\theta$ with $\ell$ has $\lVert (z_x, z_y) \rVert = \tan\theta$, so the error grows without bound at grazing incidence. The tolerance $3b$ removes acne whenever $\sqrt2\,\tan\theta\,\Delta \le 3b$. Where it does not, $\theta$ is close to $90°$ and the Lambert factor $\cos\theta$ already makes the face dark, so residual acne is hard to see. The price of the bias is that a shadow starts slightly late at contact points ("peter-panning"), by about $3b$ = 1.5% of the scene's depth span.
 
 **Face visibility.** The frontend tests the centre and the four vertices of each face and averages:
 
@@ -93,7 +107,17 @@ are the barycentric coordinates of $p$ ($\lambda_i(p_j) = \delta_{ij}$, $\sum \l
 
 ### The depth buffer
 
-`set_if_closer` writes a pixel only when the new depth is smaller than the stored one by more than $\varepsilon$ = `DEPTH_EPSILON`. By induction over the triangles drawn, after drawing $T_1, \dots, T_k$ every pixel holds the intensity of the triangle with the smallest depth among those covering it, and among triangles within $\varepsilon$ of that depth, the one drawn first. The base case is the empty buffer at depth $10^{30}$. In the step, $T_{k+1}$ replaces the stored value exactly when it is strictly nearer by more than $\varepsilon$. The final image is therefore independent of the drawing order except for near-ties, which is why the draw list is not sorted.
+`set_if_closer` writes a pixel only when the new depth is smaller than the stored one by more than $\varepsilon$ = `DEPTH_EPSILON`. Fix a pixel, let $d_1, d_2, \dots$ be the depths of the triangles that cover it in drawing order, and let $s_k$ be the stored depth after the first $k$ of them ($s_0 = 10^{30}$). Then
+
+$$
+s_k \in \{d_1, \dots, d_k\}
+\quad\text{and}\quad
+s_k \le d_i + \varepsilon \ \text{ for every } i \le k ,
+\qquad\text{hence}\qquad
+\min_{i \le k} d_i \le s_k \le \min_{i \le k} d_i + \varepsilon .
+$$
+
+By induction: if $d_{k+1} + \varepsilon < s_k$, the write happens and $s_{k+1} = d_{k+1} < s_k - \varepsilon \le d_i$ for every earlier $i$; otherwise $s_{k+1} = s_k \le d_{k+1} + \varepsilon$, and the earlier bounds still hold. So every pixel shows a covering triangle whose depth is within $\varepsilon$ of the nearest one, and triangles that are separated in depth by more than $\varepsilon$ are resolved independently of the drawing order, which is why the draw list is not sorted. Among triangles closer than $\varepsilon$ to each other the winner depends on the order, and it is not always the first drawn or the nearest: for the depths $1$, $1 - 0.9\varepsilon$, $1 - 1.8\varepsilon$ drawn in this order the second triangle never writes (it is not $\varepsilon$ nearer than the first), and the third does.
 
 Edges are inclusive, without a "top-left" tie rule: a pixel centre exactly on an edge shared by two triangles is covered by both. The depth test keeps one of them. Both triangles of a quad have the same intensity, so this is invisible inside a face.
 
@@ -141,7 +165,7 @@ Shadows need the world-space geometry of the whole scene, which backends never s
 
 - Emitted triangles face the camera ($\hat n \cdot (0 - c) > 0$ in camera space) and have intensity in $[0, 1]$, up to rounding (a fully lit face may come out as $1 + 2^{-52}$), when the light direction is a unit vector; backends clamp it.
 - The draw list is in scene order, object by object and face by face; two triangles per visible quad.
-- `LumaBuffer` holds, per pixel, the nearest covering triangle's value (first drawn among $\varepsilon$-ties), as shown above.
+- `LumaBuffer` holds, per pixel, the value of a covering triangle whose depth is within $\varepsilon$ of the nearest covering depth, as shown above; which one of several near-ties wins depends on the drawing order.
 - The shadow lookup never darkens a point that lies outside the map or under an empty texel; visibility is a multiple of $0.2$.
 - `ExposureSettings` always has $0 < \text{shutter} \le \text{frame\_dt}$ and at least one sample; `auto` yields exactly one sample (the shutter is clamped before the count is taken).
 - `Timeline::frame_count` is at least 1; sample times are $k/\mathit{fps}$; progress is clamped to $[0, 1]$.

@@ -4,6 +4,11 @@
 
 The terminal demo shows that the library packages compose into a working renderer with very little glue: a scene, a camera, `build_draw_list`, and a backend. It also exercises the parts of the library that a test cannot judge by eye (perspective, lighting, shadows, the dolly zoom, exposure effects) and produces recordings that can be turned into video. Everything that touches the operating system lives here: argument parsing, environment variables, the clock, the terminal and files.
 
+## Constraints
+
+- The demo is the only package allowed to touch the clock, environment variables, the terminal and files.
+- The portable standard library has no sleep primitive and no terminal-size query.
+
 ## Mathematical background
 
 ### The dolly zoom
@@ -21,7 +26,7 @@ The scenes use these values:
 | Scene | Distance $d$ | Base $(d_0, f_0)$ | Focal range |
 | --- | --- | --- | --- |
 | `--hitchcock` | $5.7 + 2.3 \sin(0.035\,k)$ for frame $k$, in $[3.4, 8]$ | $(4.5, 18\ \text{mm})$ | 13.6–32 mm |
-| `--dolly` | $3.2 + 66.37 \cdot \tfrac12\big(1 + \sin(0.028\,k)\big)$, in $[3.2, 69.57]$ | $(3.2, 23\ \text{mm})$ | 23–500 mm |
+| `--dolly` | $3.2 + 66.365 \cdot \tfrac12\big(1 + \sin(0.028\,k)\big)$, in $[3.2, 69.565]$ | $(3.2, 23\ \text{mm})$ | 23–500 mm |
 
 The far distance of the dolly scene, $69.565\ldots = 3.2 \cdot 500 / 23$, is chosen so that the focal length peaks at exactly 500 mm. An object at distance $d + \Delta$ from the camera, behind the subject, appears scaled by
 
@@ -29,7 +34,13 @@ $$
 \frac{s/(d + \Delta)}{s_0/(d_0 + \Delta)} = \frac{d\,(d_0 + \Delta)}{d_0\,(d + \Delta)}
 $$
 
-relative to the base view. The factor grows towards $(d_0 + \Delta)/d_0$ as $d \to \infty$: the wall of discs, $\Delta \approx 5$ units behind the cube, swells to about $2.6$ times its base size while the cube stays fixed. The camera on the long end approaches an orthographic projection, which is why the background flattens. Tests check that the subject's projected size ratio stays constant across frames.
+relative to the base view. The factor increases with $d$ towards $(d_0 + \Delta)/d_0$ as $d \to \infty$. The wall of discs stands $\Delta = 5$ units behind the cube, so the limit is $8.2/3.2 \approx 2.56$, and at the far end of the dolly, $d = 3.2 \cdot 500/23$, the wall is
+
+$$
+\frac{69.565 \cdot 8.2}{3.2 \cdot 74.565} \approx 2.39
+$$
+
+times its base size while the cube stays fixed. The camera on the long end approaches an orthographic projection, which is why the background flattens. Tests check that the subject's projected size ratio stays constant across frames.
 
 ### Exposure
 
