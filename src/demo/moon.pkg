@@ -9,6 +9,4 @@ import {
   "Luna-Flow/geometry3d/backend/tui",
 }
 
-options(
-  "is-main": true,
-)
+pkgtype(kind: "executable")
