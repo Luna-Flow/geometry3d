@@ -1,5 +1,4 @@
 import {
   "moonbitlang/core/math",
-  "Luna-Flow/luna-generic",
   "Luna-Flow/linear-algebra/mutable" @la,
 }
