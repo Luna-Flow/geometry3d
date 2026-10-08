@@ -4,6 +4,12 @@
 
 `core` is the part of `geometry3d` that every other package agrees on: what a mesh is, how a point moves under a transform, which side of a face is the outside, and how bright a face is under a light. It must be small enough to read in one sitting, exact about its conventions, and free of anything that belongs to a camera, a screen or an output device. It is also a demonstration that the dense types of `Luna-Flow/linear-algebra` are enough to carry a 3D pipeline.
 
+## Constraints
+
+- Vectors and matrices are the dense `Double` types of `Luna-Flow/linear-algebra`; the package adds no vector type of its own.
+- Every other package depends on `core`, so it may not depend on cameras, screens or output devices.
+- Meshes must be usable by three rasterizers and by back-face culling, so the face type has to carry an orientation.
+
 ## Mathematical background
 
 ### Homogeneous coordinates
@@ -89,7 +95,7 @@ $$
 n = (v_b - v_a) \times (v_c - v_a),\qquad \hat n = n / \lVert n \rVert .
 $$
 
-The cross product is antisymmetric, so swapping two vertices reverses $n$; the vertex order *is* the orientation. The generators list every face so that $\hat n$ points out of the solid. For the cube face $(0, 3, 2, 1)$ at $z = -s$:
+The cross product is antisymmetric, so swapping two vertices reverses $n$; the vertex order *is* the orientation. The convention is that $\hat n$ points out of the solid; `cube_mesh`, `sphere_mesh` and `torus_mesh` follow it, and `cylinder_mesh`, `cone_mesh` and `triangular_pyramid_mesh` violate it (see below). For the cube face $(0, 3, 2, 1)$ at $z = -s$:
 
 $$
 \begin{aligned}
@@ -105,6 +111,15 @@ n \approx (P_v \times P_u)\, \Delta u\, \Delta v ,
 $$
 
 and at $u = v = 0$, $P_v = (0, r, 0)$ and $P_u = (0, 0, R + r)$ give $P_v \times P_u = (r (R + r), 0, 0)$: the normal points away from the axis, out of the tube. A test in the repository checks this so that back-face culling cannot regress to showing the inner wall.
+
+The same computation shows that the other three generators are wound inwards. The first side face of `cylinder_mesh` is $(b_0, b_1, t_1, t_0)$ with $b_k = (r\cos\theta_k, -h, r\sin\theta_k)$ and $t_k$ the same point at height $+h$. At $\theta_0 = 0$, to first order in $\Delta = \theta_1$,
+
+$$
+b_1 - b_0 \approx (0, 0, r\Delta),\qquad t_1 - b_0 \approx (0, 2h, r\Delta),\qquad
+(0, 0, r\Delta) \times (0, 2h, r\Delta) = (-2hr\Delta, 0, 0),
+$$
+
+which points towards the axis. The bottom cap $(\text{centre}, b_1, b_0)$ gives $(r\cos\Delta, 0, r\sin\Delta) \times (r, 0, 0) = (0, r^2\sin\Delta, 0)$, upwards into the solid, and the cone sides and the pyramid faces are wound the same way. Back-face culling therefore keeps the far, inner side of these three solids. This is a defect of the generators; the [core API](../api/core.md#cube_mesh-sphere_mesh-cylinder_mesh-cone_mesh-triangular_pyramid_mesh-torus_mesh) shows a workaround.
 
 Every quad the generators emit is planar, so its normal is well defined. For the sphere and the torus, the face between the parameters $u, u'$ is symmetric under the reflection in the plane through the $y$ axis at angle $(u + u')/2$, which swaps $P(u, v) \leftrightarrow P(u', v)$ and $P(u, v') \leftrightarrow P(u', v')$. The segments $P(u, v)P(u', v)$ and $P(u, v')P(u', v')$ are both perpendicular to that mirror plane, hence parallel, and two parallel segments span a plane. Cube, cylinder sides and degenerate quads are planar by construction.
 
@@ -140,7 +155,14 @@ The problem: meshes need one face type that every generator, the culling test an
 
 ### Normals recomputed, not transformed
 
-Normals do not transform like directions under a non-uniform scale: the correct matrix for normals is $(A^{-1})^\mathsf{T}$, because the tangent $t$ of a surface satisfies $n \cdot t = 0$, and after the map $t' = A t$ the vector $n' = A^{-\mathsf{T}} n$ keeps $n' \cdot t' = n^\mathsf{T} A^{-1} A t = 0$. Instead of storing normals and transforming them with this matrix, `core` recomputes $\hat n$ from transformed vertices every time (`face_normal` after `apply_mesh`). The cost is one cross product per face; the benefit is that normals are always correct for any affine map with $\det A > 0$, including non-uniform scales. A map with $\det A < 0$ (a reflection) reverses the winding and turns every face inside out.
+Normals do not transform like directions under a non-uniform scale: the correct matrix for normals is $(A^{-1})^\mathsf{T}$, because the tangent $t$ of a surface satisfies $n \cdot t = 0$, and after the map $t' = A t$ the vector $n' = A^{-\mathsf{T}} n$ keeps $n' \cdot t' = n^\mathsf{T} A^{-1} A t = 0$. Instead of storing normals and transforming them with this matrix, `core` recomputes $\hat n$ from transformed vertices every time (`face_normal` after `apply_mesh`). The two agree because of the cofactor identity
+
+$$
+(A u) \times (A v) = \det(A)\, A^{-\mathsf{T}} (u \times v)
+\qquad\text{for invertible } A ,
+$$
+
+which follows from $w \cdot \big((Au) \times (Av)\big) = \det[\,w \mid Au \mid Av\,] = \det A \cdot \det[\,A^{-1} w \mid u \mid v\,] = \det A \cdot (A^{-1} w) \cdot (u \times v)$ for every $w$. Applied to the two edge vectors of a face, the recomputed normal is $\det A$ times the transformed one. The cost is one cross product per face; the benefit is that normals are always correct for any affine map with $\det A > 0$, including non-uniform scales. A map with $\det A < 0$ (a reflection) multiplies every normal by a negative number, so it reverses the winding and turns every face inside out.
 
 ### Euler angles instead of axis-angle or quaternions
 
@@ -155,7 +177,7 @@ The demos only need to spin objects with independent rates about three axes, whi
 - `apply_point` on an affine transform is exact up to floating-point rounding: $w' = 1$, so no division error is introduced.
 - `compose` satisfies $\texttt{t1.compose(t2).apply\_point}(p) = \texttt{t2.apply\_point}(\texttt{t1.apply\_point}(p))$ for affine transforms, and up to the homogeneous scale for projective ones. A test checks the order with a translation followed by a scale.
 - Rotation matrices are orthogonal with determinant $1$; products of them are again rotations.
-- Generated meshes are closed, centred on the origin, with planar faces and outward normals; `face_is_visible` and `face_intensity` rely on that.
+- Generated meshes are closed, centred on the origin, with planar faces. `face_is_visible` and `face_intensity` rely on outward normals, which `cube_mesh`, `sphere_mesh` and `torus_mesh` have and `cylinder_mesh`, `cone_mesh` and `triangular_pyramid_mesh` do not.
 - `normalize_vec` and `face_normal` never divide by a number smaller than `DEPTH_EPSILON`; degenerate inputs yield the zero vector, which makes the face invisible and unlit.
 - Every operation allocates a new vector or mesh; no function mutates its arguments. `apply_mesh` shares the face array of its input.
 

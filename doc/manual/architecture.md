@@ -42,7 +42,7 @@ Occlusion is the one decision that differs between backends. The TUI and Canvas 
 
 ## Conventions that cross packages
 
-- **Coordinates.** World and camera space follow the left-handed convention of Direct3D: with the default camera, $+x$ is right, $+y$ up and $+z$ away from the viewer. Screen $y$ grows downwards. Faces are wound so that $(b - a) \times (c - a)$ points outwards.
+- **Coordinates.** World and camera space follow the left-handed convention of Direct3D: with the default camera, $+x$ is right, $+y$ up and $+z$ away from the viewer. Screen $y$ grows downwards. Faces are meant to be wound so that $(b - a) \times (c - a)$ points outwards; `cylinder_mesh`, `cone_mesh` and `triangular_pyramid_mesh` currently wind them inwards (see the [core API](api/core.md#cube_mesh-sphere_mesh-cylinder_mesh-cone_mesh-triangular_pyramid_mesh-torus_mesh)).
 - **Light direction.** A `Light` stores the unit vector from the scene towards the light.
 - **Depth.** Depth is camera-space $z$ everywhere after projection; smaller is nearer. Empty pixels have depth $10^{30}$.
 - **Tolerance.** `@core.DEPTH_EPSILON` = $10^{-9}$ decides degenerate normals, homogeneous division, zero-area triangles and depth-test ties in every package.

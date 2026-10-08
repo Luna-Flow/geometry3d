@@ -2,6 +2,13 @@
 
 This tutorial shows you how to render a scene as SVG and control its animation with GSAP: loading GSAP on the page, drawing into an `<svg>`, driving the drawing from a `GsapPlayer`, and wiring play, pause, seek and speed controls.
 
+| I want to | Use |
+| --- | --- |
+| draw a scene as SVG polygons | `@gsap.render_scene(svg, scene, view, config)` |
+| play, pause, reverse or seek an animation | `@gsap.GsapPlayer` and its methods |
+| show the timeline position | `GsapPlayer::progress`, `GsapPlayer::time` |
+| choose the colours and size | `@gsap.GsapSvgRenderConfig::sized`, `GsapSvgColor::rgb` |
+
 ## Quick start
 
 The package needs the `js` target, `rabbita` for the DOM, and GSAP 3 on the page. Install the modules as for the [Canvas backend](canvas.md), then declare an executable package:
@@ -131,7 +138,7 @@ fn select(player : @gsap.GsapPlayer, kind : Ref[String], value : String, svg : @
 
 ### Exactness of the drawing order
 
-Polygons are sorted far to near by mean depth. A single convex object (cube, sphere, cylinder, cone, pyramid) is always drawn correctly; the torus and multi-object scenes can show brief ordering errors where triangles overlap in depth, and intersecting objects are never resolved. The [GSAP design](../../design/backend/gsap.md) proves when the order is exact. Use the [Canvas backend](canvas.md) when exact occlusion matters more than vector output.
+Polygons are sorted far to near by mean depth. A single convex object (cube, sphere, cylinder, cone, pyramid) is always drawn in a correct order, although the cylinder, cone and pyramid generators currently show their inner side (see the [core API](../../api/core.md#cube_mesh-sphere_mesh-cylinder_mesh-cone_mesh-triangular_pyramid_mesh-torus_mesh)); the torus and multi-object scenes can show brief ordering errors where triangles overlap in depth, and intersecting objects are never resolved. The [GSAP design](../../design/backend/gsap.md) proves when the order is exact. Use the [Canvas backend](canvas.md) when exact occlusion matters more than vector output.
 
 ### Styling the output
 

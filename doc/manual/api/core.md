@@ -1,6 +1,10 @@
 # core API
 
+## Purpose
+
 The package `Luna-Flow/geometry3d/core` holds the 3D data and the affine math of the pipeline: vectors, quad meshes, mesh generators, face normals, back-face visibility, Lambert intensity and 4×4 homogeneous transforms. It knows nothing about cameras, screens, terminals or the browser. Vectors and matrices are the mutable dense types of `Luna-Flow/linear-algebra`, imported here as `@la`.
+
+## Importing
 
 Import it with:
 
@@ -156,7 +160,22 @@ The fields of `Mesh`, `QuadFace` and `TriangleFace` are read-only outside the pa
 
 These generators build the closed primitive meshes.
 
-Every generator returns a mesh centred on the origin, with outward winding, and clamps its resolution arguments to at least 3.
+Every generator returns a closed mesh with planar faces, centred on the origin, and clamps its resolution arguments to at least 3. `cube_mesh`, `sphere_mesh` and `torus_mesh` wind every face outwards: $(b - a) \times (c - a)$ points out of the solid.
+
+> [!WARNING]
+> `cylinder_mesh`, `cone_mesh` and `triangular_pyramid_mesh` wind every face the other way, so their face normals point into the solid. `face_is_visible` then keeps the far side of the solid instead of the near side, and `face_intensity` lights the inner surface: a cylinder seen from above shows its bottom cap from the inside and no top cap, and the shading of the walls is mirrored. Until the generators are fixed, apply a reflection that maps the mesh onto itself, because a reflection reverses the winding (see the [core design](../design/core.md#normals-recomputed-not-transformed)): `Transform3::scale(1.0, 1.0, -1.0)` for cylinders and cones, `Transform3::scale(-1.0, 1.0, 1.0)` for the pyramid.
+
+```moonbit
+test "inward winding of the cylinder and its workaround" {
+  let cylinder = @core.cylinder_mesh(1.0, 2.0, 12)
+  let face = cylinder.faces[0]
+  let outward = @core.face_center(cylinder.vertices, face)
+  inspect(@core.face_normal(cylinder.vertices, face).dot(outward) < 0.0, content="true")
+  let fixed = @core.Transform3::scale(1.0, 1.0, -1.0).apply_mesh(cylinder)
+  let centre = @core.face_center(fixed.vertices, face)
+  inspect(@core.face_normal(fixed.vertices, face).dot(centre) > 0.0, content="true")
+}
+```
 
 | Generator | Shape | Vertices | Faces |
 | --- | --- | --- | --- |

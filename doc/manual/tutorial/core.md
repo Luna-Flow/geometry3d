@@ -2,6 +2,15 @@
 
 This tutorial teaches you to build meshes, place them in the world with transforms, and ask the questions every renderer asks about a face: where it is, which way it points, whether the eye can see it and how brightly it is lit. You need no camera or screen for any of it; those come in the [view tutorial](view.md).
 
+| I want to | Use |
+| --- | --- |
+| build a cube, sphere or torus | `@core.cube_mesh`, `@core.sphere_mesh`, `@core.torus_mesh` |
+| place an object in the world | `Transform3::scale(...).compose(Transform3::rotation(...)).compose(Transform3::translation(...))` |
+| move a point or a direction | `t.apply_point(p)`, `t.apply_direction(d)` |
+| find the faces the eye can see | `@core.face_is_visible(vertices, face, eye)` |
+| shade a face | `@core.face_intensity(vertices, face, light)` |
+| split quads for a rasterizer | `@core.triangulate_quad(face)` |
+
 ## Quick start
 
 Add the module and `linear-algebra`, whose vector type `core` uses:
@@ -200,6 +209,7 @@ Every vector operation allocates a new `@la.Vector[Double]`, and `apply_mesh` al
 - **Radians.** All angles are in radians. `rotation_matrix(α, β, γ)` applies $x$, then $y$, then $z$ about world axes, and loses a degree of freedom at $\beta = \pm 90°$ (gimbal lock).
 - **Light direction.** `face_intensity` expects the unit vector from the surface towards the light. A vector pointing the other way lights the back of the object; an unnormalized vector gives intensities above 1.
 - **Mirror transforms.** A scale with an odd number of negative factors turns faces inside out: their normals point inwards, and the back-face test hides the wrong side.
+- **Inward cylinders, cones and pyramids.** `cylinder_mesh`, `cone_mesh` and `triangular_pyramid_mesh` currently wind their faces inwards, so they render inside out. Mirror them once with `Transform3::scale(1.0, 1.0, -1.0)` (cylinder, cone) or `Transform3::scale(-1.0, 1.0, 1.0)` (pyramid) before use; see the [core API](../api/core.md#cube_mesh-sphere_mesh-cylinder_mesh-cone_mesh-triangular_pyramid_mesh-torus_mesh).
 - **Building meshes by hand.** The fields of `Mesh` and `QuadFace` are read-only outside `core`, so a record literal such as `{ vertices, faces }` does not compile in your package. Start from a generator and reshape it with transforms.
 - **Absolute tolerance.** `DEPTH_EPSILON` is $10^{-9}$ in world units. Scenes far larger or smaller than unit scale may hit it unexpectedly.
 
