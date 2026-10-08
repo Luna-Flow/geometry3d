@@ -3,10 +3,10 @@ name = "Luna-Flow/geometry3d"
 version = "0.5.1"
 
 import {
-  "Luna-Flow/arithmetic@0.2.2",
+  "Luna-Flow/arithmetic@0.5.0",
   "moonbitlang/x@0.4.46",
-  "Luna-Flow/luna-generic@0.3.3",
-  "Luna-Flow/linear-algebra@0.4.2",
+  "Luna-Flow/luna-generic@0.4.0",
+  "Luna-Flow/linear-algebra@0.4.7",
   "moonbit-community/rabbita@0.12.4",
 }
 

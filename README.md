@@ -17,7 +17,7 @@ mathematics it implements.
 moon add Luna-Flow/geometry3d@0.5.1
 ```
 
-Add `Luna-Flow/linear-algebra@0.4.2` as well if your code names its vector
+Add `Luna-Flow/linear-algebra@0.4.7` as well if your code names its vector
 types, and `moonbit-community/rabbita@0.12.4` for the browser backends.
 
 ## Example
