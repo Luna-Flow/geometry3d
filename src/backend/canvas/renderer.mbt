@@ -137,7 +137,7 @@ fn scanline_runs(
             quantize_luma(buffer.get(x, y), shade_levels) == shade {
         x += 1
       }
-      runs.push({ x: start, y, width: x - start, shade })
+      runs.push({ x: start, y, width: x - start, shade, })
     }
   }
   runs

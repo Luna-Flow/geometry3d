@@ -373,7 +373,7 @@ pub fn RenderView::perspective(
   camera : @view.Camera3,
   projection : @view.PerspectiveProjection,
 ) -> RenderView {
-  { camera, projection }
+  { camera, projection, }
 }
 
 ///|

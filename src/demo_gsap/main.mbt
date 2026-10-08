@@ -192,7 +192,7 @@ fn main {
     .get_element_by_id("geometry3d-svg")
     .to_option()
     .unwrap()
-  let selected : Ref[DemoKind] = { val: Torus }
+  let selected : Ref[DemoKind] = { val: Torus, }
   let player = @gsap.GsapPlayer::new(
     DURATION_SECONDS,
     fn(time_seconds) {

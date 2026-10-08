@@ -84,7 +84,7 @@ pub fn rotation_matrix(
 
 ///|
 pub fn Transform3::identity() -> Transform3 {
-  { matrix: identity_matrix4() }
+  { matrix: identity_matrix4(), }
 }
 
 ///|
@@ -98,12 +98,12 @@ pub fn Transform3::translation(
   y : Double,
   z : Double,
 ) -> Transform3 {
-  { matrix: translation_matrix(x, y, z) }
+  { matrix: translation_matrix(x, y, z), }
 }
 
 ///|
 pub fn Transform3::scale(x : Double, y : Double, z : Double) -> Transform3 {
-  { matrix: scale_matrix(x, y, z) }
+  { matrix: scale_matrix(x, y, z), }
 }
 
 ///|
@@ -112,7 +112,7 @@ pub fn Transform3::rotation(
   angle_y : Double,
   angle_z : Double,
 ) -> Transform3 {
-  { matrix: rotation_matrix(angle_x, angle_y, angle_z) }
+  { matrix: rotation_matrix(angle_x, angle_y, angle_z), }
 }
 
 ///|
@@ -126,7 +126,7 @@ pub fn Transform3::rotation_euler(
 
 ///|
 pub fn Transform3::compose(self : Transform3, next : Transform3) -> Transform3 {
-  { matrix: next.matrix * self.matrix }
+  { matrix: next.matrix * self.matrix, }
 }
 
 ///|

@@ -67,8 +67,8 @@ test "gsap svg config normalizes values" {
   let config = normalized_config({
     width: 0,
     height: -1,
-    background_color: { red: -1, green: 20, blue: 300 },
-    foreground_color: { red: 12, green: 34, blue: 56 },
+    background_color: { red: -1, green: 20, blue: 300, },
+    foreground_color: { red: 12, green: 34, blue: 56, },
     shade_levels: 1,
   })
   assert_eq(config.width, 640)
@@ -107,7 +107,7 @@ test "gsap svg orders far triangles first and keeps ties stable" {
 ///|
 test "gsap player delegates playback and clamps public controls" {
   install_gsap_stub()
-  let sampled_time : Ref[Double] = { val: -1.0 }
+  let sampled_time : Ref[Double] = { val: -1.0, }
   let player = GsapPlayer::new(4.0, fn(time) { sampled_time.val = time })
   assert_eq(sampled_time.val, 0.0)
   assert_true(player.is_paused())

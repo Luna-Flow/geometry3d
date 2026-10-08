@@ -3,8 +3,8 @@ test "canvas config normalizes dimensions and colors" {
   let config = normalized_config({
     width: 0,
     height: -1,
-    background_color: { red: -1, green: 20, blue: 300 },
-    foreground_color: { red: 12, green: 34, blue: 56 },
+    background_color: { red: -1, green: 20, blue: 300, },
+    foreground_color: { red: 12, green: 34, blue: 56, },
     shade_levels: 1,
   })
   assert_eq(config.width, 640)

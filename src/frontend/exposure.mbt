@@ -12,7 +12,7 @@ pub struct ExposureSettings {
 
 ///|
 pub fn ShutterSpeed::seconds(seconds : Double) -> ShutterSpeed {
-  { seconds: if seconds <= 0.0 { 1.0 / 60.0 } else { seconds } }
+  { seconds: if seconds <= 0.0 { 1.0 / 60.0 } else { seconds }, }
 }
 
 ///|

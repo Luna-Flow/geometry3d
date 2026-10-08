@@ -11,7 +11,7 @@ pub fn Camera3::look_at(
   target : @la.Vector[Double],
   up : @la.Vector[Double],
 ) -> Camera3 {
-  { eye, target, up }
+  { eye, target, up, }
 }
 
 ///|

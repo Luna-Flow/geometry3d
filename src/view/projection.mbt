@@ -23,7 +23,7 @@ pub fn ProjectedVertex::new(
   y : Double,
   depth : Double,
 ) -> ProjectedVertex {
-  { x, y, depth }
+  { x, y, depth, }
 }
 
 ///|
@@ -54,7 +54,7 @@ pub fn PerspectiveProjection::new(
   viewport : Viewport,
   scale : Double,
 ) -> PerspectiveProjection {
-  { viewport, scale }
+  { viewport, scale, }
 }
 
 ///|
@@ -62,7 +62,7 @@ pub fn OrthographicProjection::new(
   viewport : Viewport,
   scale : Double,
 ) -> OrthographicProjection {
-  { viewport, scale }
+  { viewport, scale, }
 }
 
 ///|

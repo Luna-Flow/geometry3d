@@ -39,7 +39,7 @@ pub fn ScientificCamera::new(
   lens : LensSpec,
   world_unit : WorldUnit,
 ) -> ScientificCamera {
-  { camera, sensor, lens, world_unit }
+  { camera, sensor, lens, world_unit, }
 }
 
 ///|
@@ -58,7 +58,7 @@ pub fn ScientificCamera::with_camera(
   self : ScientificCamera,
   camera : Camera3,
 ) -> ScientificCamera {
-  { camera, sensor: self.sensor, lens: self.lens, world_unit: self.world_unit }
+  { camera, sensor: self.sensor, lens: self.lens, world_unit: self.world_unit, }
 }
 
 ///|

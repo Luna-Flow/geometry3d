@@ -34,12 +34,12 @@ pub fn cube_mesh(size : Double) -> Mesh {
       vec3(-s, s, s),
     ],
     faces: [
-      { a: 0, b: 3, c: 2, d: 1 },
-      { a: 4, b: 5, c: 6, d: 7 },
-      { a: 0, b: 4, c: 7, d: 3 },
-      { a: 1, b: 2, c: 6, d: 5 },
-      { a: 0, b: 1, c: 5, d: 4 },
-      { a: 3, b: 7, c: 6, d: 2 },
+      { a: 0, b: 3, c: 2, d: 1, },
+      { a: 4, b: 5, c: 6, d: 7, },
+      { a: 0, b: 4, c: 7, d: 3, },
+      { a: 1, b: 2, c: 6, d: 5, },
+      { a: 0, b: 1, c: 5, d: 4, },
+      { a: 3, b: 7, c: 6, d: 2, },
     ],
   }
 }
@@ -107,7 +107,7 @@ pub fn sphere_mesh(radius : Double, rings : Int, segments : Int) -> Mesh {
     })
   }
 
-  { vertices, faces }
+  { vertices, faces, }
 }
 
 ///|
@@ -135,12 +135,12 @@ pub fn cylinder_mesh(radius : Double, height : Double, segments : Int) -> Mesh {
     let t0 = b0 + 1
     let b1 = next * 2
     let t1 = b1 + 1
-    faces.push({ a: b0, b: b1, c: t1, d: t0 })
-    faces.push({ a: bottom_center, b: b1, c: b0, d: bottom_center })
-    faces.push({ a: top_center, b: t0, c: t1, d: top_center })
+    faces.push({ a: b0, b: b1, c: t1, d: t0, })
+    faces.push({ a: bottom_center, b: b1, c: b0, d: bottom_center, })
+    faces.push({ a: top_center, b: t0, c: t1, d: top_center, })
   }
 
-  { vertices, faces }
+  { vertices, faces, }
 }
 
 ///|
@@ -163,11 +163,11 @@ pub fn cone_mesh(radius : Double, height : Double, segments : Int) -> Mesh {
 
   for segment in 0..<safe_segments {
     let next = (segment + 1) % safe_segments
-    faces.push({ a: apex, b: segment, c: next, d: apex })
-    faces.push({ a: center, b: next, c: segment, d: center })
+    faces.push({ a: apex, b: segment, c: next, d: apex, })
+    faces.push({ a: center, b: next, c: segment, d: center, })
   }
 
-  { vertices, faces }
+  { vertices, faces, }
 }
 
 ///|
@@ -184,10 +184,10 @@ pub fn triangular_pyramid_mesh(radius : Double, height : Double) -> Mesh {
   {
     vertices,
     faces: [
-      { a: 3, b: 0, c: 1, d: 3 },
-      { a: 3, b: 1, c: 2, d: 3 },
-      { a: 3, b: 2, c: 0, d: 3 },
-      { a: 0, b: 2, c: 1, d: 0 },
+      { a: 3, b: 0, c: 1, d: 3, },
+      { a: 3, b: 1, c: 2, d: 3, },
+      { a: 3, b: 2, c: 0, d: 3, },
+      { a: 0, b: 2, c: 1, d: 0, },
     ],
   }
 }
@@ -243,7 +243,7 @@ pub fn torus_mesh(
     }
   }
 
-  { vertices, faces }
+  { vertices, faces, }
 }
 
 ///|
@@ -258,5 +258,5 @@ pub fn face_vertices(mesh : Mesh, face : QuadFace) -> Array[@la.Vector[Double]] 
 
 ///|
 pub fn triangulate_quad(face : QuadFace) -> Array[TriangleFace] {
-  [{ a: face.a, b: face.b, c: face.c }, { a: face.a, b: face.c, c: face.d }]
+  [{ a: face.a, b: face.b, c: face.c, }, { a: face.a, b: face.c, c: face.d, }]
 }

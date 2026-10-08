@@ -168,7 +168,7 @@ fn main {
     .to_option()
     .unwrap()
   let selector = selector_element.to_html_select_element().unwrap()
-  let selected : Ref[DemoKind] = { val: demo_kind(selector.value()) }
+  let selected : Ref[DemoKind] = { val: demo_kind(selector.value()), }
   selector_element.add_event_listener("change", fn(_) {
     selected.val = demo_kind(selector.value())
   })

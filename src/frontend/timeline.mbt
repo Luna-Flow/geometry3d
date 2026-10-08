@@ -75,7 +75,7 @@ pub fn ScalarKeyframe::new(
   time_seconds : Double,
   value : Double,
 ) -> ScalarKeyframe {
-  { time_seconds, value }
+  { time_seconds, value, }
 }
 
 ///|

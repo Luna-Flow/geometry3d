@@ -6,5 +6,5 @@ pub struct Viewport {
 
 ///|
 pub fn Viewport::new(width : Int, height : Int) -> Viewport {
-  { width, height }
+  { width, height, }
 }

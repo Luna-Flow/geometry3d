@@ -18,12 +18,12 @@ pub fn DrawTriangle::new(
   p2 : @view.ProjectedVertex,
   intensity : Double,
 ) -> DrawTriangle {
-  { p0, p1, p2, intensity }
+  { p0, p1, p2, intensity, }
 }
 
 ///|
 pub fn DrawList::new() -> DrawList {
-  { triangles: [] }
+  { triangles: [], }
 }
 
 ///|

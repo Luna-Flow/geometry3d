@@ -20,12 +20,12 @@ pub fn SceneObject::new(
   mesh : @core.Mesh,
   transform : @core.Transform3,
 ) -> SceneObject {
-  { mesh, transform }
+  { mesh, transform, }
 }
 
 ///|
 pub fn Light::directional(direction : @la.Vector[Double]) -> Light {
-  { direction: @core.normalize_vec(direction) }
+  { direction: @core.normalize_vec(direction), }
 }
 
 ///|
@@ -35,7 +35,7 @@ pub fn Light::default() -> Light {
 
 ///|
 pub fn Scene::new(light : Light) -> Scene {
-  { objects: [], light }
+  { objects: [], light, }
 }
 
 ///|
@@ -44,7 +44,7 @@ pub fn Scene::single(
   transform : @core.Transform3,
   light : Light,
 ) -> Scene {
-  { objects: [{ mesh, transform }], light }
+  { objects: [{ mesh, transform, }], light, }
 }
 
 ///|

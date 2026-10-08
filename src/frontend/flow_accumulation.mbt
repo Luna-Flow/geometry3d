@@ -13,12 +13,16 @@ pub struct FlowField {
 
 ///|
 pub fn FlowVector::new(dx : Int, dy : Int) -> FlowVector {
-  { dx, dy }
+  { dx, dy, }
 }
 
 ///|
 pub fn FlowField::new(width : Int, height : Int) -> FlowField {
-  { width, height, vectors: Array::make(width * height, FlowVector::new(0, 0)) }
+  {
+    width,
+    height,
+    vectors: Array::make(width * height, FlowVector::new(0, 0)),
+  }
 }
 
 ///|
