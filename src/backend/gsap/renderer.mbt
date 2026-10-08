@@ -173,8 +173,8 @@ extern "js" fn update_svg_dom(
   width : Int,
   height : Int,
   background : String,
-  points : Array[String],
-  fills : Array[String],
+  points : FixedArray[String],
+  fills : FixedArray[String],
 ) -> Unit =
   #| (svg, width, height, background, points, fills) => {
   #|   const namespace = "http://www.w3.org/2000/svg";
@@ -232,8 +232,8 @@ pub fn render_draw_list(
     config.width,
     config.height,
     color_css(config.background_color),
-    points,
-    fills,
+    FixedArray::from_array(points),
+    FixedArray::from_array(fills),
   )
 }
 
