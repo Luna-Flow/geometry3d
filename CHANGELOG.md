@@ -23,6 +23,10 @@ follow semantic versioning.
   `moonbitlang/core/env` instead of the deprecated `moonbitlang/x/sys`, and its
   test-only helpers moved into the whitebox tests.
 - `.gitignore` excludes the local state of AI coding assistants.
+- Dependencies bumped to the latest published releases:
+  `Luna-Flow/arithmetic` 0.2.2 → 0.5.0, `Luna-Flow/luna-generic` 0.3.3 →
+  0.4.0 and `Luna-Flow/linear-algebra` 0.4.2 → 0.4.7. No source changes were
+  needed; the public API is unchanged.
 
 ### Documentation
 
