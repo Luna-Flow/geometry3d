@@ -57,7 +57,7 @@ fn write_line(builder : StringBuilder, line : String) -> Unit {
 
 ///|
 pub fn encode_tui_sequence(sequence : TuiSequence) -> String {
-  let builder = StringBuilder::new()
+  let builder = StringBuilder()
   write_line(builder, TUI_SEQUENCE_MAGIC)
   write_line(builder, "width=\{sequence.width}")
   write_line(builder, "height=\{sequence.height}")
@@ -77,11 +77,11 @@ pub fn encode_tui_sequence(sequence : TuiSequence) -> String {
 ///|
 fn split_lines(text : String) -> Array[String] {
   let lines : Array[String] = []
-  let mut current = StringBuilder::new()
+  let mut current = StringBuilder()
   for ch in text {
     if ch == '\n' {
       lines.push(current.to_string())
-      current = StringBuilder::new()
+      current = StringBuilder()
     } else if ch != '\r' {
       current.write_char(ch)
     }
@@ -156,7 +156,7 @@ pub fn decode_tui_sequence(text : String) -> TuiSequence {
   let mut index = 5
   while index < lines.length() {
     if lines[index - 1] == TUI_FRAME_MARKER {
-      let builder = StringBuilder::new()
+      let builder = StringBuilder()
       let mut rows = 0
       while index < lines.length() && rows < sequence.height {
         write_line(builder, lines[index])

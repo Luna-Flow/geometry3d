@@ -55,7 +55,7 @@ pub fn FrameBuffer::set_pixel_if_closer(
 
 ///|
 pub fn FrameBuffer::to_string(self : FrameBuffer) -> String {
-  let builder = StringBuilder::new()
+  let builder = StringBuilder()
   for y in 0..<self.height {
     for x in 0..<self.width {
       builder.write_char(self.cells[self.index(x, y)])

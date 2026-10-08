@@ -101,4 +101,3 @@ pub fn TuiSequence::push_frame(Self, String) -> Unit
 // Type aliases
 
 // Traits
-
