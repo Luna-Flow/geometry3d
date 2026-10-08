@@ -17,7 +17,7 @@ Add the module and `linear-algebra`, whose vector type `core` uses:
 
 ```sh
 moon add Luna-Flow/geometry3d@0.5.1
-moon add Luna-Flow/linear-algebra@0.4.2
+moon add Luna-Flow/linear-algebra@0.4.7
 ```
 
 Import the package in your `moon.pkg`:

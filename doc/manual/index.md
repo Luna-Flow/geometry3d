@@ -17,7 +17,7 @@ This manual documents version `0.5.1` of `Luna-Flow/geometry3d` as it stands on 
 
 ```sh
 moon add Luna-Flow/geometry3d@0.5.1
-moon add Luna-Flow/linear-algebra@0.4.2
+moon add Luna-Flow/linear-algebra@0.4.7
 ```
 
 Then import the packages you use in your `moon.pkg`:
