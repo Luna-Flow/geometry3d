@@ -1,12 +1,12 @@
 ///|
 pub struct Timeline {
   duration_seconds : Double
-  fps : Int
+  fps : Int32
 }
 
 ///|
 pub struct TimelineSample {
-  frame_index : Int
+  frame_index : Int32
   time_seconds : Double
   progress : Double
 }
@@ -23,7 +23,7 @@ pub struct ScalarTrack {
 }
 
 ///|
-pub fn Timeline::new(duration_seconds : Double, fps : Int) -> Timeline {
+pub fn Timeline::new(duration_seconds : Double, fps : Int32) -> Timeline {
   {
     duration_seconds: if duration_seconds <= 0.0 {
       1.0
@@ -39,7 +39,7 @@ pub fn Timeline::new(duration_seconds : Double, fps : Int) -> Timeline {
 }
 
 ///|
-pub fn Timeline::frame_count(self : Timeline) -> Int {
+pub fn Timeline::frame_count(self : Timeline) -> Int32 {
   let count = (self.duration_seconds * self.fps.to_double()).ceil().to_int()
   if count < 1 {
     1
@@ -54,7 +54,7 @@ pub fn Timeline::frame_dt(self : Timeline) -> Double {
 }
 
 ///|
-pub fn Timeline::sample(self : Timeline, frame_index : Int) -> TimelineSample {
+pub fn Timeline::sample(self : Timeline, frame_index : Int32) -> TimelineSample {
   let safe_index = if frame_index < 0 { 0 } else { frame_index }
   let time = safe_index.to_double() * self.frame_dt()
   {

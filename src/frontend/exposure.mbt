@@ -7,7 +7,7 @@ pub struct ShutterSpeed {
 pub struct ExposureSettings {
   shutter : ShutterSpeed
   frame_dt : Double
-  samples : Int
+  samples : Int32
 }
 
 ///|
@@ -40,7 +40,7 @@ fn clamp_shutter_to_frame_dt(
 pub fn ExposureSettings::new(
   shutter : ShutterSpeed,
   frame_dt : Double,
-  samples : Int,
+  samples : Int32,
 ) -> ExposureSettings {
   let safe_dt = if frame_dt <= 0.0 { 1.0 / 60.0 } else { frame_dt }
   {

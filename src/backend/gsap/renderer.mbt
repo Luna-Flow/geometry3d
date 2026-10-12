@@ -1,28 +1,32 @@
 ///|
 pub struct GsapSvgColor {
-  red : Int
-  green : Int
-  blue : Int
+  red : Int32
+  green : Int32
+  blue : Int32
 }
 
 ///|
 pub struct GsapSvgRenderConfig {
-  width : Int
-  height : Int
+  width : Int32
+  height : Int32
   background_color : GsapSvgColor
   foreground_color : GsapSvgColor
-  shade_levels : Int
+  shade_levels : Int32
 }
 
 ///|
 priv struct OrderedTriangle {
   triangle : @frontend.DrawTriangle
-  source_index : Int
+  source_index : Int32
   average_depth : Double
 }
 
 ///|
-pub fn GsapSvgColor::rgb(red : Int, green : Int, blue : Int) -> GsapSvgColor {
+pub fn GsapSvgColor::rgb(
+  red : Int32,
+  green : Int32,
+  blue : Int32,
+) -> GsapSvgColor {
   {
     red: clamp_channel(red),
     green: clamp_channel(green),
@@ -37,8 +41,8 @@ pub fn GsapSvgRenderConfig::default() -> GsapSvgRenderConfig {
 
 ///|
 pub fn GsapSvgRenderConfig::sized(
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> GsapSvgRenderConfig {
   {
     width: if width > 0 {
@@ -58,7 +62,7 @@ pub fn GsapSvgRenderConfig::sized(
 }
 
 ///|
-fn clamp_channel(value : Int) -> Int {
+fn clamp_channel(value : Int32) -> Int32 {
   if value < 0 {
     0
   } else if value > 255 {
@@ -80,7 +84,7 @@ fn clamp01(value : Double) -> Double {
 }
 
 ///|
-fn normalized_shade_levels(levels : Int) -> Int {
+fn normalized_shade_levels(levels : Int32) -> Int32 {
   if levels < 2 {
     2
   } else if levels > 256 {
@@ -123,7 +127,11 @@ fn color_css(color : GsapSvgColor) -> String {
 }
 
 ///|
-fn shade_css(color : GsapSvgColor, intensity : Double, levels : Int) -> String {
+fn shade_css(
+  color : GsapSvgColor,
+  intensity : Double,
+  levels : Int32,
+) -> String {
   let last = normalized_shade_levels(levels) - 1
   let shade = (clamp01(intensity) * last.to_double()).round().to_int()
   let scale = shade.to_double() / last.to_double()
@@ -170,8 +178,8 @@ fn ordered_triangles(draw_list : @frontend.DrawList) -> Array[OrderedTriangle] {
 ///|
 extern "js" fn update_svg_dom(
   svg : @dom.Element,
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
   background : String,
   points : FixedArray[String],
   fills : FixedArray[String],

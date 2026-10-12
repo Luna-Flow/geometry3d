@@ -11,7 +11,7 @@ using @arith {trait Sqrt}
 using @lg {trait Num}
 
 ///|
-const SHADOW_MAP_SIZE : Int = 128
+const SHADOW_MAP_SIZE : Int32 = 128
 
 ///|
 const SHADOW_PADDING_RATIO : Double = 0.05
@@ -35,8 +35,8 @@ priv struct ShadowMap {
   max_x : Double
   min_y : Double
   max_y : Double
-  width : Int
-  height : Int
+  width : Int32
+  height : Int32
   depths : Array[Double]
   bias : Double
 }
@@ -54,7 +54,7 @@ fn shadow_edge_function(
 }
 
 ///|
-fn shadow_index(shadow_map : ShadowMap, x : Int, y : Int) -> Int {
+fn shadow_index(shadow_map : ShadowMap, x : Int32, y : Int32) -> Int32 {
   y * shadow_map.width + x
 }
 

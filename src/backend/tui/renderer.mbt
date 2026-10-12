@@ -1,8 +1,8 @@
 ///|
-pub const DEFAULT_WIDTH : Int = 80
+pub const DEFAULT_WIDTH : Int32 = 80
 
 ///|
-pub const DEFAULT_HEIGHT : Int = 32
+pub const DEFAULT_HEIGHT : Int32 = 32
 
 ///|
 pub const DEFAULT_TERMINAL_Y_SCALE : Double = 0.5
@@ -12,11 +12,11 @@ pub const DEFAULT_SHADE_RAMP : String = " .:-=+*#%@"
 
 ///|
 pub struct TuiRenderConfig {
-  width : Int
-  height : Int
+  width : Int32
+  height : Int32
   terminal_y_scale : Double
   shade_ramp : String
-  background_pattern : (Int, Int, Int, Int) -> Char
+  background_pattern : (Int32, Int32, Int32, Int32) -> Char
 }
 
 ///|
@@ -31,7 +31,7 @@ pub fn TuiRenderConfig::default() -> TuiRenderConfig {
 }
 
 ///|
-pub fn TuiRenderConfig::sized(width : Int, height : Int) -> TuiRenderConfig {
+pub fn TuiRenderConfig::sized(width : Int32, height : Int32) -> TuiRenderConfig {
   {
     width: if width > 0 {
       width

@@ -6,13 +6,17 @@ const TUI_IMAGE_MARKER : String = "---image---"
 
 ///|
 pub struct TuiImage {
-  width : Int
-  height : Int
+  width : Int32
+  height : Int32
   content : String
 }
 
 ///|
-pub fn TuiImage::new(width : Int, height : Int, content : String) -> TuiImage {
+pub fn TuiImage::new(
+  width : Int32,
+  height : Int32,
+  content : String,
+) -> TuiImage {
   {
     width: if width < 1 {
       1
@@ -68,7 +72,7 @@ fn image_split_lines(text : String) -> Array[String] {
 }
 
 ///|
-fn image_digit_value(ch : Char) -> Int {
+fn image_digit_value(ch : Char) -> Int32 {
   if ch == '0' {
     0
   } else if ch == '1' {
@@ -95,7 +99,7 @@ fn image_digit_value(ch : Char) -> Int {
 }
 
 ///|
-fn image_parse_int_after_equals(line : String, fallback : Int) -> Int {
+fn image_parse_int_after_equals(line : String, fallback : Int32) -> Int32 {
   let mut seen_equals = false
   let mut value = 0
   let mut seen_digit = false

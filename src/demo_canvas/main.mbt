@@ -1,8 +1,8 @@
 ///|
-const WIDTH : Int = 640
+const WIDTH : Int32 = 640
 
 ///|
-const HEIGHT : Int = 480
+const HEIGHT : Int32 = 480
 
 ///|
 const DOLLY_BASE_DISTANCE : Double = 3.2
@@ -71,12 +71,12 @@ fn torus_render_view() -> @frontend.RenderView {
 }
 
 ///|
-fn dolly_frame(timestamp : Double) -> Int {
+fn dolly_frame(timestamp : Double) -> Int32 {
   (timestamp / 33.333333333333336).floor().to_int()
 }
 
 ///|
-fn dolly_distance(frame : Int) -> Double {
+fn dolly_distance(frame : Int32) -> Double {
   let wave = (@math.sin(frame.to_double() * 0.028) + 1.0) * 0.5
   DOLLY_NEAR_DISTANCE + (DOLLY_FAR_DISTANCE - DOLLY_NEAR_DISTANCE) * wave
 }
@@ -87,7 +87,7 @@ fn dolly_focal_length_mm(distance : Double) -> Double {
 }
 
 ///|
-fn dolly_render_view(frame : Int) -> @frontend.RenderView {
+fn dolly_render_view(frame : Int32) -> @frontend.RenderView {
   let distance = dolly_distance(frame)
   let viewport = @view.Viewport::new(WIDTH, HEIGHT)
   let camera = @view.ScientificCamera::new(
@@ -100,7 +100,7 @@ fn dolly_render_view(frame : Int) -> @frontend.RenderView {
 }
 
 ///|
-fn dolly_scene(frame : Int) -> @frontend.Scene {
+fn dolly_scene(frame : Int32) -> @frontend.Scene {
   let scene = @frontend.Scene::new(
     @frontend.Light::directional(@core.vec3(-0.35, 0.7, -1.0)),
   )

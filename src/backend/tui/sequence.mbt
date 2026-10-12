@@ -11,9 +11,9 @@ pub struct TuiFrame {
 
 ///|
 pub struct TuiSequence {
-  width : Int
-  height : Int
-  fps : Int
+  width : Int32
+  height : Int32
+  fps : Int32
   frames : Array[TuiFrame]
 }
 
@@ -23,7 +23,11 @@ pub fn TuiFrame::new(content : String) -> TuiFrame {
 }
 
 ///|
-pub fn TuiSequence::new(width : Int, height : Int, fps : Int) -> TuiSequence {
+pub fn TuiSequence::new(
+  width : Int32,
+  height : Int32,
+  fps : Int32,
+) -> TuiSequence {
   {
     width: if width < 1 {
       1
@@ -93,7 +97,7 @@ fn split_lines(text : String) -> Array[String] {
 }
 
 ///|
-fn digit_value(ch : Char) -> Int {
+fn digit_value(ch : Char) -> Int32 {
   if ch == '0' {
     0
   } else if ch == '1' {
@@ -120,7 +124,7 @@ fn digit_value(ch : Char) -> Int {
 }
 
 ///|
-fn parse_int_after_equals(line : String, fallback : Int) -> Int {
+fn parse_int_after_equals(line : String, fallback : Int32) -> Int32 {
   let mut seen_equals = false
   let mut value = 0
   let mut seen_digit = false

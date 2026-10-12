@@ -3,17 +3,17 @@ pub const FAR_DEPTH : Double = 1.0e30
 
 ///|
 pub struct FrameBuffer {
-  width : Int
-  height : Int
+  width : Int32
+  height : Int32
   cells : Array[Char]
   depths : Array[Double]
 }
 
 ///|
 pub fn FrameBuffer::new(
-  width : Int,
-  height : Int,
-  background_pattern : (Int, Int, Int, Int) -> Char,
+  width : Int32,
+  height : Int32,
+  background_pattern : (Int32, Int32, Int32, Int32) -> Char,
 ) -> FrameBuffer {
   let buffer = {
     width,
@@ -31,15 +31,15 @@ pub fn FrameBuffer::new(
 }
 
 ///|
-pub fn FrameBuffer::index(self : FrameBuffer, x : Int, y : Int) -> Int {
+pub fn FrameBuffer::index(self : FrameBuffer, x : Int32, y : Int32) -> Int32 {
   y * self.width + x
 }
 
 ///|
 pub fn FrameBuffer::set_pixel_if_closer(
   self : FrameBuffer,
-  x : Int,
-  y : Int,
+  x : Int32,
+  y : Int32,
   depth : Double,
   pixel : Char,
 ) -> Unit {
