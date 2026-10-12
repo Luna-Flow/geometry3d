@@ -8,6 +8,14 @@ follow semantic versioning.
 
 ### Changed
 
+- Builds with the latest MoonBit toolchain (moon 0.1.20261012, moonc 0.10.15):
+  `Luna-Flow/arithmetic` is raised to 0.5.1, `Luna-Flow/linear-algebra` to 0.5.1
+  and `moonbitlang/x` to 0.5.5 (the earlier versions depend on packages that ship
+  the legacy `moon.mod.json`, which the new toolchain rejects), and the sources
+  follow the formatter of that toolchain. The public API is unchanged.
+
+### Changed
+
 - Migrated to MoonBit 0.10 (`moonc` 0.10 or later is required). The public API
   is unchanged.
 - Package manifests use the `moon.pkg` DSL: the executable packages `demo`,

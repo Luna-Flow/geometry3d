@@ -1,7 +1,7 @@
 ///|
 pub fn apply_terminal_y_scale(
   point : @view.ProjectedVertex,
-  height : Int,
+  height : Int32,
   terminal_y_scale : Double,
 ) -> @view.ProjectedVertex {
   let center_y = height.to_double() / 2.0

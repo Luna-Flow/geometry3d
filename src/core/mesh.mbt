@@ -1,16 +1,16 @@
 ///|
 pub struct QuadFace {
-  a : Int
-  b : Int
-  c : Int
-  d : Int
+  a : Int32
+  b : Int32
+  c : Int32
+  d : Int32
 }
 
 ///|
 pub struct TriangleFace {
-  a : Int
-  b : Int
-  c : Int
+  a : Int32
+  b : Int32
+  c : Int32
 }
 
 ///|
@@ -45,12 +45,12 @@ pub fn cube_mesh(size : Double) -> Mesh {
 }
 
 ///|
-fn sphere_ring_index(ring : Int, segment : Int, segments : Int) -> Int {
+fn sphere_ring_index(ring : Int32, segment : Int32, segments : Int32) -> Int32 {
   1 + (ring - 1) * segments + segment % segments
 }
 
 ///|
-pub fn sphere_mesh(radius : Double, rings : Int, segments : Int) -> Mesh {
+pub fn sphere_mesh(radius : Double, rings : Int32, segments : Int32) -> Mesh {
   let safe_rings = if rings < 3 { 3 } else { rings }
   let safe_segments = if segments < 3 { 3 } else { segments }
   let vertices : Array[@la.Vector[Double]] = []
@@ -111,7 +111,11 @@ pub fn sphere_mesh(radius : Double, rings : Int, segments : Int) -> Mesh {
 }
 
 ///|
-pub fn cylinder_mesh(radius : Double, height : Double, segments : Int) -> Mesh {
+pub fn cylinder_mesh(
+  radius : Double,
+  height : Double,
+  segments : Int32,
+) -> Mesh {
   let safe_segments = if segments < 3 { 3 } else { segments }
   let half_h = height * 0.5
   let vertices : Array[@la.Vector[Double]] = []
@@ -144,7 +148,7 @@ pub fn cylinder_mesh(radius : Double, height : Double, segments : Int) -> Mesh {
 }
 
 ///|
-pub fn cone_mesh(radius : Double, height : Double, segments : Int) -> Mesh {
+pub fn cone_mesh(radius : Double, height : Double, segments : Int32) -> Mesh {
   let safe_segments = if segments < 3 { 3 } else { segments }
   let half_h = height * 0.5
   let vertices : Array[@la.Vector[Double]] = []
@@ -194,10 +198,10 @@ pub fn triangular_pyramid_mesh(radius : Double, height : Double) -> Mesh {
 
 ///|
 fn torus_vertex_index(
-  major_segment : Int,
-  minor_segment : Int,
-  minor_segments : Int,
-) -> Int {
+  major_segment : Int32,
+  minor_segment : Int32,
+  minor_segments : Int32,
+) -> Int32 {
   major_segment * minor_segments + minor_segment
 }
 
@@ -205,8 +209,8 @@ fn torus_vertex_index(
 pub fn torus_mesh(
   major_radius : Double,
   minor_radius : Double,
-  major_segments : Int,
-  minor_segments : Int,
+  major_segments : Int32,
+  minor_segments : Int32,
 ) -> Mesh {
   let safe_major_radius = if major_radius <= 0.0 { 1.0 } else { major_radius }
   let safe_minor_radius = if minor_radius <= 0.0 { 0.25 } else { minor_radius }

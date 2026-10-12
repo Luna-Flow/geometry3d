@@ -1,10 +1,10 @@
 ///|
 pub struct Viewport {
-  width : Int
-  height : Int
+  width : Int32
+  height : Int32
 }
 
 ///|
-pub fn Viewport::new(width : Int, height : Int) -> Viewport {
+pub fn Viewport::new(width : Int32, height : Int32) -> Viewport {
   { width, height, }
 }

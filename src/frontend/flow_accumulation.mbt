@@ -1,23 +1,23 @@
 ///|
 pub struct FlowVector {
-  dx : Int
-  dy : Int
+  dx : Int32
+  dy : Int32
 }
 
 ///|
 pub struct FlowField {
-  width : Int
-  height : Int
+  width : Int32
+  height : Int32
   vectors : Array[FlowVector]
 }
 
 ///|
-pub fn FlowVector::new(dx : Int, dy : Int) -> FlowVector {
+pub fn FlowVector::new(dx : Int32, dy : Int32) -> FlowVector {
   { dx, dy, }
 }
 
 ///|
-pub fn FlowField::new(width : Int, height : Int) -> FlowField {
+pub fn FlowField::new(width : Int32, height : Int32) -> FlowField {
   {
     width,
     height,
@@ -26,12 +26,12 @@ pub fn FlowField::new(width : Int, height : Int) -> FlowField {
 }
 
 ///|
-pub fn FlowField::index(self : FlowField, x : Int, y : Int) -> Int {
+pub fn FlowField::index(self : FlowField, x : Int32, y : Int32) -> Int32 {
   y * self.width + x
 }
 
 ///|
-pub fn FlowField::get(self : FlowField, x : Int, y : Int) -> FlowVector {
+pub fn FlowField::get(self : FlowField, x : Int32, y : Int32) -> FlowVector {
   if x < 0 || x >= self.width || y < 0 || y >= self.height {
     FlowVector::new(0, 0)
   } else {
@@ -42,8 +42,8 @@ pub fn FlowField::get(self : FlowField, x : Int, y : Int) -> FlowVector {
 ///|
 pub fn FlowField::set(
   self : FlowField,
-  x : Int,
-  y : Int,
+  x : Int32,
+  y : Int32,
   flow : FlowVector,
 ) -> Unit {
   if x < 0 || x >= self.width || y < 0 || y >= self.height {
@@ -56,11 +56,11 @@ pub fn FlowField::set(
 fn patch_error(
   previous : LumaBuffer,
   current : LumaBuffer,
-  x : Int,
-  y : Int,
-  dx : Int,
-  dy : Int,
-  radius : Int,
+  x : Int32,
+  y : Int32,
+  dx : Int32,
+  dy : Int32,
+  radius : Int32,
 ) -> Double {
   let mut error = 0.0
   for oy in -radius..<(radius + 1) {
@@ -78,8 +78,8 @@ fn patch_error(
 pub fn estimate_optical_flow(
   previous : LumaBuffer,
   current : LumaBuffer,
-  search_radius : Int,
-  patch_radius : Int,
+  search_radius : Int32,
+  patch_radius : Int32,
 ) -> FlowField {
   let flow = FlowField::new(current.width, current.height)
   let safe_search = if search_radius < 0 { 0 } else { search_radius }

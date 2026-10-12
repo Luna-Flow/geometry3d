@@ -56,7 +56,7 @@ const EXPOSURE_FRAME_DT : Double = 1.0 / 30.0
 const EXPOSURE_SHUTTER_DENOMINATOR : Double = 30.0
 
 ///|
-const EXPOSURE_ACCUMULATION_SAMPLES : Int = 12
+const EXPOSURE_ACCUMULATION_SAMPLES : Int32 = 12
 
 ///|
 fn has_arg(args : Array[String], name : String) -> Bool {
@@ -74,7 +74,7 @@ fn arg_value(args : Array[String], name : String) -> String? {
 }
 
 ///|
-fn digit_value(ch : Char) -> Int {
+fn digit_value(ch : Char) -> Int32 {
   if ch == '0' {
     0
   } else if ch == '1' {
@@ -101,7 +101,7 @@ fn digit_value(ch : Char) -> Int {
 }
 
 ///|
-fn parse_positive_int(text : String, fallback : Int) -> Int {
+fn parse_positive_int(text : String, fallback : Int32) -> Int32 {
   let mut value = 0
   let mut seen_digit = false
   for ch in text {
@@ -122,8 +122,8 @@ fn parse_positive_int(text : String, fallback : Int) -> Int {
 fn env_positive_int(
   envs : Map[String, String],
   key : String,
-  fallback : Int,
-) -> Int {
+  fallback : Int32,
+) -> Int32 {
   match envs.get(key) {
     Some(value) => parse_positive_int(value, fallback)
     None => fallback
@@ -225,7 +225,7 @@ fn scaled_translated(
 }
 
 ///|
-fn hitchcock_distance(frame : Int) -> Double {
+fn hitchcock_distance(frame : Int32) -> Double {
   let t = @math.sin(frame.to_double() * 0.035)
   let midpoint = (HITCHCOCK_NEAR_DISTANCE + HITCHCOCK_FAR_DISTANCE) * 0.5
   let amplitude = (HITCHCOCK_FAR_DISTANCE - HITCHCOCK_NEAR_DISTANCE) * 0.5
@@ -238,7 +238,7 @@ fn hitchcock_focal_length_mm(distance : Double) -> Double {
 }
 
 ///|
-fn hitchcock_render_view(frame : Int) -> @frontend.RenderView {
+fn hitchcock_render_view(frame : Int32) -> @frontend.RenderView {
   let distance = hitchcock_distance(frame)
   let viewport = auto_viewport()
   let camera = @view.Camera3::default(distance)
@@ -252,7 +252,7 @@ fn hitchcock_render_view(frame : Int) -> @frontend.RenderView {
 }
 
 ///|
-fn dolly_distance(frame : Int) -> Double {
+fn dolly_distance(frame : Int32) -> Double {
   let wave = (@math.sin(frame.to_double() * 0.028) + 1.0) * 0.5
   DOLLY_NEAR_DISTANCE + (DOLLY_FAR_DISTANCE - DOLLY_NEAR_DISTANCE) * wave
 }
@@ -263,7 +263,7 @@ fn dolly_focal_length_mm(distance : Double) -> Double {
 }
 
 ///|
-fn dolly_render_view(frame : Int) -> @frontend.RenderView {
+fn dolly_render_view(frame : Int32) -> @frontend.RenderView {
   let distance = dolly_distance(frame)
   let viewport = auto_viewport()
   let camera = @view.Camera3::default(distance)
@@ -277,7 +277,7 @@ fn dolly_render_view(frame : Int) -> @frontend.RenderView {
 }
 
 ///|
-fn dolly_scene(frame : Int) -> @frontend.Scene {
+fn dolly_scene(frame : Int32) -> @frontend.Scene {
   let scene = @frontend.Scene::new(
     @frontend.Light::directional(@core.vec3(-0.35, 0.7, -1.0)),
   )
@@ -405,7 +405,7 @@ fn mesh_luma_with_view(
 }
 
 ///|
-fn hitchcock_frame(frame : Int) -> String {
+fn hitchcock_frame(frame : Int32) -> String {
   let draw_list = @frontend.build_draw_list(
     hitchcock_scene(),
     hitchcock_render_view(frame),
@@ -414,7 +414,7 @@ fn hitchcock_frame(frame : Int) -> String {
 }
 
 ///|
-fn hitchcock_luma(frame : Int) -> @frontend.LumaBuffer {
+fn hitchcock_luma(frame : Int32) -> @frontend.LumaBuffer {
   let draw_list = @frontend.build_draw_list(
     hitchcock_scene(),
     hitchcock_render_view(frame),
@@ -423,7 +423,7 @@ fn hitchcock_luma(frame : Int) -> @frontend.LumaBuffer {
 }
 
 ///|
-fn dolly_frame(frame : Int) -> String {
+fn dolly_frame(frame : Int32) -> String {
   let draw_list = @frontend.build_draw_list(
     dolly_scene(frame),
     dolly_render_view(frame),
@@ -432,7 +432,7 @@ fn dolly_frame(frame : Int) -> String {
 }
 
 ///|
-fn dolly_luma(frame : Int) -> @frontend.LumaBuffer {
+fn dolly_luma(frame : Int32) -> @frontend.LumaBuffer {
   let draw_list = @frontend.build_draw_list(
     dolly_scene(frame),
     dolly_render_view(frame),
@@ -498,7 +498,7 @@ fn exposure_mesh_frame_with_view(
 }
 
 ///|
-fn exposure_hitchcock_frame(frame : Int, use_flow : Bool) -> String {
+fn exposure_hitchcock_frame(frame : Int32, use_flow : Bool) -> String {
   let viewport = auto_viewport()
   let exposure = @frontend.ExposureSettings::auto(
     @frontend.ShutterSpeed::reciprocal(EXPOSURE_SHUTTER_DENOMINATOR),
@@ -527,7 +527,7 @@ fn exposure_hitchcock_frame(frame : Int, use_flow : Bool) -> String {
 }
 
 ///|
-fn exposure_dolly_frame(frame : Int, use_flow : Bool) -> String {
+fn exposure_dolly_frame(frame : Int32, use_flow : Bool) -> String {
   let viewport = auto_viewport()
   let exposure = @frontend.ExposureSettings::auto(
     @frontend.ShutterSpeed::reciprocal(EXPOSURE_SHUTTER_DENOMINATOR),
@@ -585,7 +585,7 @@ fn timeline_exposure_mesh_frame_with_view(
 ///|
 fn render_demo_frame(
   args : Array[String],
-  frame_index : Int,
+  frame_index : Int32,
   sample : @frontend.TimelineSample,
 ) -> String {
   let exposure = has_arg(args, "--long-exposure") ||
@@ -682,7 +682,7 @@ fn render_demo_image(args : Array[String]) -> @tui.TuiImage {
 }
 
 ///|
-fn frame_interval_ms_for_fps(fps : Int) -> UInt64 {
+fn frame_interval_ms_for_fps(fps : Int32) -> UInt64 {
   if fps >= 60 {
     16UL
   } else if fps >= 30 {
@@ -697,7 +697,7 @@ fn frame_interval_ms_for_fps(fps : Int) -> UInt64 {
 }
 
 ///|
-fn play_sequence(sequence : @tui.TuiSequence, frame_limit : Int?) -> Unit {
+fn play_sequence(sequence : @tui.TuiSequence, frame_limit : Int32?) -> Unit {
   let interval = frame_interval_ms_for_fps(sequence.fps)
   let mut last_tick = @env.now()
   let mut rendered = 0
@@ -725,7 +725,7 @@ fn record_sequence(args : Array[String], path : String) -> Unit {
 }
 
 ///|
-fn play_sequence_file(path : String, frame_limit : Int?) -> Unit {
+fn play_sequence_file(path : String, frame_limit : Int32?) -> Unit {
   let content = @fs.read_file_to_string(path) catch {
     _ => abort("failed to read TUI sequence: " + path)
   }
@@ -776,22 +776,22 @@ fn render_exposure_once_with_view(
 }
 
 ///|
-fn render_hitchcock_once(frame : Int) -> Unit {
+fn render_hitchcock_once(frame : Int32) -> Unit {
   println("\u{1b}[2J\u{1b}[H\{hitchcock_frame(frame)}")
 }
 
 ///|
-fn render_hitchcock_exposure_once(frame : Int, use_flow : Bool) -> Unit {
+fn render_hitchcock_exposure_once(frame : Int32, use_flow : Bool) -> Unit {
   println("\u{1b}[2J\u{1b}[H\{exposure_hitchcock_frame(frame, use_flow)}")
 }
 
 ///|
-fn render_dolly_once(frame : Int) -> Unit {
+fn render_dolly_once(frame : Int32) -> Unit {
   println("\u{1b}[2J\u{1b}[H\{dolly_frame(frame)}")
 }
 
 ///|
-fn render_dolly_exposure_once(frame : Int, use_flow : Bool) -> Unit {
+fn render_dolly_exposure_once(frame : Int32, use_flow : Bool) -> Unit {
   println("\u{1b}[2J\u{1b}[H\{exposure_dolly_frame(frame, use_flow)}")
 }
 
@@ -799,7 +799,7 @@ fn render_dolly_exposure_once(frame : Int, use_flow : Bool) -> Unit {
 fn run_animation(
   mesh : @core.Mesh,
   rotate : Bool,
-  frame_limit : Int?,
+  frame_limit : Int32?,
   exposure : Bool,
   use_flow : Bool,
   render_view : @frontend.RenderView,
@@ -836,7 +836,11 @@ fn run_animation(
 }
 
 ///|
-fn run_hitchcock(frame_limit : Int?, exposure : Bool, use_flow : Bool) -> Unit {
+fn run_hitchcock(
+  frame_limit : Int32?,
+  exposure : Bool,
+  use_flow : Bool,
+) -> Unit {
   let mut last_tick = @env.now()
   let mut rendered = 0
   while true {
@@ -859,7 +863,7 @@ fn run_hitchcock(frame_limit : Int?, exposure : Bool, use_flow : Bool) -> Unit {
 }
 
 ///|
-fn run_dolly(frame_limit : Int?, exposure : Bool, use_flow : Bool) -> Unit {
+fn run_dolly(frame_limit : Int32?, exposure : Bool, use_flow : Bool) -> Unit {
   let mut last_tick = @env.now()
   let mut rendered = 0
   while true {

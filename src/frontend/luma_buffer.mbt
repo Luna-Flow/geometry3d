@@ -1,7 +1,7 @@
 ///|
 pub struct LumaBuffer {
-  width : Int
-  height : Int
+  width : Int32
+  height : Int32
   values : Array[Double]
   depths : Array[Double]
 }
@@ -10,7 +10,7 @@ pub struct LumaBuffer {
 pub const LUMA_FAR_DEPTH : Double = 1.0e30
 
 ///|
-pub fn LumaBuffer::new(width : Int, height : Int) -> LumaBuffer {
+pub fn LumaBuffer::new(width : Int32, height : Int32) -> LumaBuffer {
   {
     width,
     height,
@@ -20,12 +20,12 @@ pub fn LumaBuffer::new(width : Int, height : Int) -> LumaBuffer {
 }
 
 ///|
-pub fn LumaBuffer::index(self : LumaBuffer, x : Int, y : Int) -> Int {
+pub fn LumaBuffer::index(self : LumaBuffer, x : Int32, y : Int32) -> Int32 {
   y * self.width + x
 }
 
 ///|
-pub fn LumaBuffer::get(self : LumaBuffer, x : Int, y : Int) -> Double {
+pub fn LumaBuffer::get(self : LumaBuffer, x : Int32, y : Int32) -> Double {
   if x < 0 || x >= self.width || y < 0 || y >= self.height {
     0.0
   } else {
@@ -36,8 +36,8 @@ pub fn LumaBuffer::get(self : LumaBuffer, x : Int, y : Int) -> Double {
 ///|
 pub fn LumaBuffer::set_if_closer(
   self : LumaBuffer,
-  x : Int,
-  y : Int,
+  x : Int32,
+  y : Int32,
   depth : Double,
   value : Double,
 ) -> Unit {
@@ -52,7 +52,7 @@ pub fn LumaBuffer::set_if_closer(
 }
 
 ///|
-pub fn LumaBuffer::depth_at(self : LumaBuffer, x : Int, y : Int) -> Double {
+pub fn LumaBuffer::depth_at(self : LumaBuffer, x : Int32, y : Int32) -> Double {
   if x < 0 || x >= self.width || y < 0 || y >= self.height {
     LUMA_FAR_DEPTH
   } else {
@@ -134,8 +134,8 @@ pub fn LumaBuffer::draw_triangle(
 ///|
 pub fn draw_list_to_luma(
   draw_list : DrawList,
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> LumaBuffer {
   let buffer = LumaBuffer::new(width, height)
   for triangle in draw_list.triangles {

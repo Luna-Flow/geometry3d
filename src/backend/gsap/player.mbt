@@ -12,7 +12,7 @@ pub struct GsapPlayer {
 extern "js" fn create_timeline(
   duration_seconds : Double,
   on_frame : (Double) -> Unit,
-  repeat : Int,
+  repeat : Int32,
 ) -> GsapTimeline =
   #| (duration, onFrame, repeat) => {
   #|   const gsap = globalThis.gsap;
@@ -70,7 +70,7 @@ extern "js" fn timeline_set_time_scale(
 ///|
 extern "js" fn timeline_set_repeat(
   timeline : GsapTimeline,
-  repeat : Int,
+  repeat : Int32,
 ) -> Unit = "(timeline, repeat) => timeline.repeat(repeat)"
 
 ///|
@@ -83,7 +83,7 @@ extern "js" fn timeline_kill(timeline : GsapTimeline) -> Unit = "timeline => tim
 pub fn GsapPlayer::new(
   duration_seconds : Double,
   on_frame : (Double) -> Unit,
-  repeat? : Int = -1,
+  repeat~ : Int32 = -1,
 ) -> GsapPlayer {
   let duration = if duration_seconds > 0.0 { duration_seconds } else { 1.0 }
   {
@@ -159,7 +159,7 @@ pub fn GsapPlayer::set_time_scale(self : GsapPlayer, scale : Double) -> Unit {
 }
 
 ///|
-pub fn GsapPlayer::set_repeat(self : GsapPlayer, repeat : Int) -> Unit {
+pub fn GsapPlayer::set_repeat(self : GsapPlayer, repeat : Int32) -> Unit {
   timeline_set_repeat(self.timeline, if repeat < -1 { -1 } else { repeat })
 }
 

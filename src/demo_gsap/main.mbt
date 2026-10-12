@@ -1,8 +1,8 @@
 ///|
-const WIDTH : Int = 640
+const WIDTH : Int32 = 640
 
 ///|
-const HEIGHT : Int = 480
+const HEIGHT : Int32 = 480
 
 ///|
 const DURATION_SECONDS : Double = 8.0

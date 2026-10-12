@@ -1,29 +1,33 @@
 ///|
 pub struct CanvasColor {
-  red : Int
-  green : Int
-  blue : Int
+  red : Int32
+  green : Int32
+  blue : Int32
 }
 
 ///|
 pub struct CanvasRenderConfig {
-  width : Int
-  height : Int
+  width : Int32
+  height : Int32
   background_color : CanvasColor
   foreground_color : CanvasColor
-  shade_levels : Int
+  shade_levels : Int32
 }
 
 ///|
 priv struct ScanlineRun {
-  x : Int
-  y : Int
-  width : Int
-  shade : Int
+  x : Int32
+  y : Int32
+  width : Int32
+  shade : Int32
 }
 
 ///|
-pub fn CanvasColor::rgb(red : Int, green : Int, blue : Int) -> CanvasColor {
+pub fn CanvasColor::rgb(
+  red : Int32,
+  green : Int32,
+  blue : Int32,
+) -> CanvasColor {
   {
     red: clamp_channel(red),
     green: clamp_channel(green),
@@ -38,8 +42,8 @@ pub fn CanvasRenderConfig::default() -> CanvasRenderConfig {
 
 ///|
 pub fn CanvasRenderConfig::sized(
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> CanvasRenderConfig {
   {
     width: if width > 0 {
@@ -59,7 +63,7 @@ pub fn CanvasRenderConfig::sized(
 }
 
 ///|
-fn clamp_channel(value : Int) -> Int {
+fn clamp_channel(value : Int32) -> Int32 {
   if value < 0 {
     0
   } else if value > 255 {
@@ -81,7 +85,7 @@ fn clamp01(value : Double) -> Double {
 }
 
 ///|
-fn normalized_shade_levels(levels : Int) -> Int {
+fn normalized_shade_levels(levels : Int32) -> Int32 {
   if levels < 2 {
     2
   } else if levels > 256 {
@@ -92,7 +96,7 @@ fn normalized_shade_levels(levels : Int) -> Int {
 }
 
 ///|
-fn quantize_luma(value : Double, levels : Int) -> Int {
+fn quantize_luma(value : Double, levels : Int32) -> Int32 {
   let count = normalized_shade_levels(levels)
   (clamp01(value) * (count - 1).to_double()).round().to_int()
 }
@@ -103,7 +107,7 @@ fn color_css(color : CanvasColor) -> String {
 }
 
 ///|
-fn shade_css(color : CanvasColor, shade : Int, levels : Int) -> String {
+fn shade_css(color : CanvasColor, shade : Int32, levels : Int32) -> String {
   let last = normalized_shade_levels(levels) - 1
   let clamped = if shade < 0 { 0 } else if shade > last { last } else { shade }
   let scale = clamped.to_double() / last.to_double()
@@ -119,7 +123,7 @@ fn shade_css(color : CanvasColor, shade : Int, levels : Int) -> String {
 ///|
 fn scanline_runs(
   buffer : @frontend.LumaBuffer,
-  shade_levels : Int,
+  shade_levels : Int32,
 ) -> Array[ScanlineRun] {
   let runs : Array[ScanlineRun] = []
   for y in 0..<buffer.height {
