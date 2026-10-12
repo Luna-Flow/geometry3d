@@ -16,7 +16,7 @@ This tutorial teaches you to build meshes, place them in the world with transfor
 Add the module and `linear-algebra`, whose vector type `core` uses:
 
 ```sh
-moon add Luna-Flow/geometry3d@0.5.1
+moon add Luna-Flow/geometry3d@0.5.2
 moon add Luna-Flow/linear-algebra@0.4.7
 ```
 

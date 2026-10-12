@@ -1,6 +1,6 @@
 # geometry3d
 
-This manual documents version `0.5.1` of `Luna-Flow/geometry3d` as it stands on `main` after its migration to MoonBit 0.10.
+This manual documents version `0.5.2` of `Luna-Flow/geometry3d` as it stands on `main` after its migration to MoonBit 0.10.
 
 ## Overview
 
@@ -16,7 +16,7 @@ This manual documents version `0.5.1` of `Luna-Flow/geometry3d` as it stands on 
 ## Install
 
 ```sh
-moon add Luna-Flow/geometry3d@0.5.1
+moon add Luna-Flow/geometry3d@0.5.2
 moon add Luna-Flow/linear-algebra@0.4.7
 ```
 
