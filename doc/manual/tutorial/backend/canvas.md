@@ -14,7 +14,7 @@ This tutorial shows you how to put a `geometry3d` scene on a web page: set up a 
 The backend needs the `js` target and the DOM bindings of `rabbita`:
 
 ```sh
-moon add Luna-Flow/geometry3d@0.5.1
+moon add Luna-Flow/geometry3d@0.5.2
 moon add Luna-Flow/linear-algebra@0.4.7
 moon add moonbit-community/rabbita@0.12.4
 ```

@@ -3217,8 +3217,8 @@ msgid "geometry3d"
 msgstr "geometry3d"
 
 #: manual/index.md:3
-msgid "This manual documents version `0.5.1` of `Luna-Flow/geometry3d` as it stands on `main` after its migration to MoonBit 0.10."
-msgstr "本手册记录 `Luna-Flow/geometry3d` 的 `0.5.1` 版本，即迁移到 MoonBit 0.10 之后 `main` 分支上的状态。"
+msgid "This manual documents version `0.5.2` of `Luna-Flow/geometry3d` as it stands on `main` after its migration to MoonBit 0.10."
+msgstr "本手册记录 `Luna-Flow/geometry3d` 的 `0.5.2` 版本，即迁移到 MoonBit 0.10 之后 `main` 分支上的状态。"
 
 #: manual/index.md:5
 msgid "Overview"

@@ -14,7 +14,7 @@ mathematics it implements.
 ## Install
 
 ```sh
-moon add Luna-Flow/geometry3d@0.5.1
+moon add Luna-Flow/geometry3d@0.5.2
 ```
 
 Add `Luna-Flow/linear-algebra@0.4.7` as well if your code names its vector
