@@ -8,13 +8,13 @@ import {
 // Values
 pub const DEPTH_EPSILON : Double = 1.0e-9
 
-pub fn cone_mesh(Double, Double, Int) -> Mesh
+pub fn cone_mesh(Double, Double, Int32) -> Mesh
 
 pub fn cross_vec(@mutable.Vector[Double], @mutable.Vector[Double]) -> @mutable.Vector[Double]
 
 pub fn cube_mesh(Double) -> Mesh
 
-pub fn cylinder_mesh(Double, Double, Int) -> Mesh
+pub fn cylinder_mesh(Double, Double, Int32) -> Mesh
 
 pub fn face_center(Array[@mutable.Vector[Double]], QuadFace) -> @mutable.Vector[Double]
 
@@ -44,11 +44,11 @@ pub fn rotation_z(Double) -> @mutable.Matrix[Double]
 
 pub fn scale_matrix(Double, Double, Double) -> @mutable.Matrix[Double]
 
-pub fn sphere_mesh(Double, Int, Int) -> Mesh
+pub fn sphere_mesh(Double, Int32, Int32) -> Mesh
 
 pub fn sub_vec(@mutable.Vector[Double], @mutable.Vector[Double]) -> @mutable.Vector[Double]
 
-pub fn torus_mesh(Double, Double, Int, Int) -> Mesh
+pub fn torus_mesh(Double, Double, Int32, Int32) -> Mesh
 
 pub fn translation_matrix(Double, Double, Double) -> @mutable.Matrix[Double]
 
@@ -71,10 +71,10 @@ pub struct Mesh {
 }
 
 pub struct QuadFace {
-  a : Int
-  b : Int
-  c : Int
-  d : Int
+  a : Int32
+  b : Int32
+  c : Int32
+  d : Int32
 }
 
 pub struct Transform3 {
@@ -93,9 +93,9 @@ pub fn Transform3::scale(Double, Double, Double) -> Self
 pub fn Transform3::translation(Double, Double, Double) -> Self
 
 pub struct TriangleFace {
-  a : Int
-  b : Int
-  c : Int
+  a : Int32
+  b : Int32
+  c : Int32
 }
 
 // Type aliases

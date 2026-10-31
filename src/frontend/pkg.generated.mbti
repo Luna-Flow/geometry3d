@@ -18,9 +18,9 @@ pub fn average_luma(LumaBuffer, LumaBuffer) -> LumaBuffer
 
 pub fn build_draw_list(Scene, RenderView) -> DrawList
 
-pub fn draw_list_to_luma(DrawList, Int, Int) -> LumaBuffer
+pub fn draw_list_to_luma(DrawList, Int32, Int32) -> LumaBuffer
 
-pub fn estimate_optical_flow(LumaBuffer, LumaBuffer, Int, Int) -> FlowField
+pub fn estimate_optical_flow(LumaBuffer, LumaBuffer, Int32, Int32) -> FlowField
 
 // Errors
 
@@ -42,26 +42,26 @@ pub fn DrawTriangle::new(@view.ProjectedVertex, @view.ProjectedVertex, @view.Pro
 pub struct ExposureSettings {
   shutter : ShutterSpeed
   frame_dt : Double
-  samples : Int
+  samples : Int32
 }
 pub fn ExposureSettings::auto(ShutterSpeed, Double) -> Self
-pub fn ExposureSettings::new(ShutterSpeed, Double, Int) -> Self
+pub fn ExposureSettings::new(ShutterSpeed, Double, Int32) -> Self
 
 pub struct FlowField {
-  width : Int
-  height : Int
+  width : Int32
+  height : Int32
   vectors : Array[FlowVector]
 }
-pub fn FlowField::get(Self, Int, Int) -> FlowVector
-pub fn FlowField::index(Self, Int, Int) -> Int
-pub fn FlowField::new(Int, Int) -> Self
-pub fn FlowField::set(Self, Int, Int, FlowVector) -> Unit
+pub fn FlowField::get(Self, Int32, Int32) -> FlowVector
+pub fn FlowField::index(Self, Int32, Int32) -> Int32
+pub fn FlowField::new(Int32, Int32) -> Self
+pub fn FlowField::set(Self, Int32, Int32, FlowVector) -> Unit
 
 pub struct FlowVector {
-  dx : Int
-  dy : Int
+  dx : Int32
+  dy : Int32
 }
-pub fn FlowVector::new(Int, Int) -> Self
+pub fn FlowVector::new(Int32, Int32) -> Self
 
 pub struct Light {
   direction : @mutable.Vector[Double]
@@ -70,18 +70,18 @@ pub fn Light::default() -> Self
 pub fn Light::directional(@mutable.Vector[Double]) -> Self
 
 pub struct LumaBuffer {
-  width : Int
-  height : Int
+  width : Int32
+  height : Int32
   values : Array[Double]
   depths : Array[Double]
 }
 pub fn LumaBuffer::add_weighted_sample(Self, Self, Double) -> Unit
-pub fn LumaBuffer::depth_at(Self, Int, Int) -> Double
+pub fn LumaBuffer::depth_at(Self, Int32, Int32) -> Double
 pub fn LumaBuffer::draw_triangle(Self, DrawTriangle) -> Unit
-pub fn LumaBuffer::get(Self, Int, Int) -> Double
-pub fn LumaBuffer::index(Self, Int, Int) -> Int
-pub fn LumaBuffer::new(Int, Int) -> Self
-pub fn LumaBuffer::set_if_closer(Self, Int, Int, Double, Double) -> Unit
+pub fn LumaBuffer::get(Self, Int32, Int32) -> Double
+pub fn LumaBuffer::index(Self, Int32, Int32) -> Int32
+pub fn LumaBuffer::new(Int32, Int32) -> Self
+pub fn LumaBuffer::set_if_closer(Self, Int32, Int32, Double, Double) -> Unit
 
 pub struct RenderView {
   camera : @view.Camera3
@@ -124,15 +124,15 @@ pub fn ShutterSpeed::seconds(Double) -> Self
 
 pub struct Timeline {
   duration_seconds : Double
-  fps : Int
+  fps : Int32
 }
-pub fn Timeline::frame_count(Self) -> Int
+pub fn Timeline::frame_count(Self) -> Int32
 pub fn Timeline::frame_dt(Self) -> Double
-pub fn Timeline::new(Double, Int) -> Self
-pub fn Timeline::sample(Self, Int) -> TimelineSample
+pub fn Timeline::new(Double, Int32) -> Self
+pub fn Timeline::sample(Self, Int32) -> TimelineSample
 
 pub struct TimelineSample {
-  frame_index : Int
+  frame_index : Int32
   time_seconds : Double
   progress : Double
 }
