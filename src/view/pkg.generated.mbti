@@ -86,10 +86,10 @@ pub fn SensorSpec::full_frame() -> Self
 pub fn SensorSpec::medium_format() -> Self
 
 pub struct Viewport {
-  width : Int
-  height : Int
+  width : Int32
+  height : Int32
 }
-pub fn Viewport::new(Int, Int) -> Self
+pub fn Viewport::new(Int32, Int32) -> Self
 
 pub struct WorldUnit {
   meters_per_unit : Double

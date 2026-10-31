@@ -4,10 +4,10 @@ version = "0.5.2"
 
 import {
   "Luna-Flow/arithmetic@0.5.1",
-  "moonbitlang/x@0.5.5",
+  "moonbitlang/x@0.5.7",
   "Luna-Flow/luna-generic@0.4.0",
-  "Luna-Flow/linear-algebra@0.5.1",
-  "moonbit-community/rabbita@0.12.4",
+  "Luna-Flow/linear-algebra@0.5.2",
+  "moonbit-community/rabbita@0.17.0",
 }
 
 readme = "README.md"

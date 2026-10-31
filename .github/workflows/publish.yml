@@ -30,7 +30,6 @@ jobs:
           moon update
       - name: moon check
         run: |
-          moon install
           moon check --target all
       - name: repository tests
         run: |
