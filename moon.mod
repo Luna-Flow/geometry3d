@@ -1,6 +1,6 @@
 name = "Luna-Flow/geometry3d"
 
-version = "0.5.2"
+version = "0.5.3"
 
 import {
   "Luna-Flow/arithmetic@0.5.1",
