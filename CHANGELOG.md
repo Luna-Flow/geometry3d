@@ -6,6 +6,12 @@ follow semantic versioning.
 
 ## Unreleased
 
+## 0.5.3 - 2026-10-31
+
+### Changed
+
+- Dependencies: Luna-Flow/linear-algebra 0.5.2, moonbitlang/x 0.5.7, moonbit-community/rabbita 0.17.0 (was 0.12.4). `publish.yml` no longer runs a bare `moon install`, which now installs binaries. Interfaces regenerated with moon 0.1.20261028.
+
 ## 0.5.2 - 2026-10-13
 
 ### Changed
