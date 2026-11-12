@@ -6,8 +6,11 @@ follow semantic versioning.
 
 ## Unreleased
 
+## 0.5.4 - 2026-11-12
+
 ### Changed
 
+- Dependencies: `Luna-Flow/arithmetic` 0.5.2 (was 0.5.1), `Luna-Flow/linear-algebra` 0.5.3 (was 0.5.2).
 - Verified with `moon 0.1.20261104` and `moonc v0.10.20`; no source change was needed.
 
 ## 0.5.3 - 2026-10-31
