@@ -3253,8 +3253,8 @@ msgid "Then import the packages you use in your `moon.pkg`:"
 msgstr "次に、使うパッケージを `moon.pkg` でインポートします。"
 
 #: manual/index.md:35
-msgid "`linear-algebra` is needed in your own module only if you name its types, for example `@la.Vector[Double]` in a signature. The browser backends also need `moonbit-community/rabbita@0.12.4`. The module requires MoonBit with `moonc` 0.10 or later. `core`, `view`, `frontend` and `backend/tui` build on every target (`wasm-gc`, `wasm`, `js`, `native`). `backend/canvas`, `backend/gsap`, `demo_canvas` and `demo_gsap` build only for `js`, and the terminal demo is meant for `native`."
-msgstr "`linear-algebra` が自分のモジュールで必要になるのは、例えばシグネチャで `@la.Vector[Double]` と書くように、その型の名前を使う場合だけです。ブラウザ用のバックエンドには `moonbit-community/rabbita@0.12.4` も必要です。このモジュールには `moonc` 0.10 以降の MoonBit が必要です。`core`、`view`、`frontend`、`backend/tui` はすべてのターゲット（`wasm-gc`、`wasm`、`js`、`native`）でビルドでき、`backend/canvas`、`backend/gsap`、`demo_canvas`、`demo_gsap` は `js` でのみビルドでき、端末のデモは `native` 向けです。"
+msgid "`linear-algebra` is needed in your own module only if you name its types, for example `@la.Vector[Double]` in a signature. The browser backends also need `moonbit-community/rabbita@0.12.4`. The module requires MoonBit with `moonc` 0.10.20 or later. `core`, `view`, `frontend` and `backend/tui` build on every target (`wasm-gc`, `wasm`, `js`, `native`). `backend/canvas`, `backend/gsap`, `demo_canvas` and `demo_gsap` build only for `js`, and the terminal demo is meant for `native`."
+msgstr "`linear-algebra` が自分のモジュールで必要になるのは、例えばシグネチャで `@la.Vector[Double]` と書くように、その型の名前を使う場合だけです。ブラウザ用のバックエンドには `moonbit-community/rabbita@0.12.4` も必要です。このモジュールには `moonc` 0.10.20 以降の MoonBit が必要です。`core`、`view`、`frontend`、`backend/tui` はすべてのターゲット（`wasm-gc`、`wasm`、`js`、`native`）でビルドでき、`backend/canvas`、`backend/gsap`、`demo_canvas`、`demo_gsap` は `js` でのみビルドでき、端末のデモは `native` 向けです。"
 
 #: manual/index.md:37
 msgid "Pages"

@@ -6,6 +6,10 @@ follow semantic versioning.
 
 ## Unreleased
 
+### Changed
+
+- Verified with `moon 0.1.20261104` and `moonc v0.10.20`; no source change was needed.
+
 ## 0.5.3 - 2026-10-31
 
 ### Changed
