@@ -86,7 +86,7 @@ just record         # write target/geometry3d-demo.tui3d
 
 ## Toolchain and tests
 
-MoonBit with `moonc` 0.10 or later is required.
+MoonBit with `moonc` 0.10.20 or later (verified with `moon 0.1.20261104` and `moonc v0.10.20`) is required.
 
 ```sh
 moon check --target all

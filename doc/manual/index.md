@@ -32,7 +32,7 @@ import {
 }
 ```
 
-`linear-algebra` is needed in your own module only if you name its types, for example `@la.Vector[Double]` in a signature. The browser backends also need `moonbit-community/rabbita@0.12.4`. The module requires MoonBit with `moonc` 0.10 or later. `core`, `view`, `frontend` and `backend/tui` build on every target (`wasm-gc`, `wasm`, `js`, `native`). `backend/canvas`, `backend/gsap`, `demo_canvas` and `demo_gsap` build only for `js`, and the terminal demo is meant for `native`.
+`linear-algebra` is needed in your own module only if you name its types, for example `@la.Vector[Double]` in a signature. The browser backends also need `moonbit-community/rabbita@0.12.4`. The module requires MoonBit with `moonc` 0.10.20 or later. `core`, `view`, `frontend` and `backend/tui` build on every target (`wasm-gc`, `wasm`, `js`, `native`). `backend/canvas`, `backend/gsap`, `demo_canvas` and `demo_gsap` build only for `js`, and the terminal demo is meant for `native`.
 
 ## Pages
 
